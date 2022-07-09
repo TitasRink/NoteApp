@@ -1,9 +1,10 @@
-﻿using NoteApp.Repository.DataDB;
+﻿using NoteApp.Bussness.Interfaces;
+using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 
 namespace NoteApp.Bussness.Services
 {
-    public class NoteService
+    public class NoteService : INoteService
     {
         private SqlDB Con { get; }
 
@@ -11,7 +12,7 @@ namespace NoteApp.Bussness.Services
         {
             Con = con;
         }
-        private void CreateNote(string name)
+        public void CreateNote(string name)
         {
             using (Con)
             {
@@ -19,14 +20,14 @@ namespace NoteApp.Bussness.Services
                 Con.SaveChanges();
             }
         }
-        private void CreateNoteAndMessasge(string name, string message)
+        public void CreateNoteAndMessasge(string name, string message)
         {
             using (Con)
             {
                 Con.Notes.Add(new NoteModel(name));
                 Con.SaveChanges();
             }
-           
+
         }
     }
 }

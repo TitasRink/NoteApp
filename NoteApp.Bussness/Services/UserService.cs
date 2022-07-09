@@ -1,9 +1,10 @@
-﻿using NoteApp.Repository.DataDB;
+﻿using NoteApp.Bussness.Interfaces;
+using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 
 namespace NoteApp.Bussness.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private SqlDB Con { get; }
 
@@ -12,7 +13,7 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        private void CreateUser(string name, string password)
+        public void CreateUser(string name, string password)
         {
             Con.Users.Add(new UserModel(name, password));
             Con.SaveChanges();
