@@ -1,13 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using NoteApp.Bussness.Interfaces;
+﻿using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 
 namespace NoteApp.Bussness.Services
 {
@@ -39,6 +33,7 @@ namespace NoteApp.Bussness.Services
                 return aaa;
             }
         }
+
         public bool LogIn(string name, string password)
         {
             using (Con)

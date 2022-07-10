@@ -1,6 +1,7 @@
 ﻿using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
+using System;
 using System.Linq;
 
 namespace NoteApp.Bussness.Services
@@ -14,10 +15,26 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        public void CreateCategory(string name)
+        public Result CreateCategory(string name)
         {
-            Con.Categories.Add(new CategoryModel(name));
-            Con.SaveChanges();
+            using (Con)
+            {
+                try
+                {
+                    var exist = Con.Categories.Find(name).Name;
+                    if (exist == name)
+                    {
+                        return new Result(false, $"{name} Allready exists");
+                    }
+                    Con.Categories.Add(new CategoryModel(name));
+                    Con.SaveChanges();
+                    return new Result(true, "Created");
+                }
+                catch (Exception e)
+                {
+                    return new Result(false, $"Error {e.Message}");
+                }
+            }
         }
 
         public void UpdateCategoryName(string oldnName, string newName)
