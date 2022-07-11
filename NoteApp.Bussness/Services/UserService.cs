@@ -1,94 +1,85 @@
-﻿using NoteApp.Bussness.Interfaces;
+﻿using Microsoft.IdentityModel.Tokens;
+using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 namespace NoteApp.Bussness.Services
 {
     public class UserService : IUserService
     {
-        private SqlDB Con { get; }
-        private string Token { get; set; }
 
-        public UserService(SqlDB con)
+        private SqlDB _context { get; }
+
+        public UserService(SqlDB context)
         {
-            Con = con;
+
+            _context = context;
+        }
+
+
+        public string Login(string userName, string password)
+        {
+            var user = _context.Users.Where(x => x.LoginName == userName && x.LoginPassword == password).FirstOrDefault();
+
+            //return null if user not found
+            if (user == null)
+            {
+                return string.Empty;
+            }
+
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("paprastasstringas");
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.LoginName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                }),
+
+                Expires = DateTime.UtcNow.AddMinutes(60),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+
+            return user.Token;
         }
 
         public string CreateUser(string name, string password)
         {
-            using (Con)
-            {
-                var aaa = Con.Users.Add(new(name, password));
-                Con.SaveChanges();
-                return aaa.ToString();
-            }
+            var result = _context.Users.Add(new(name, password));
+            _context.SaveChanges();
+            return result.ToString();
         }
 
         public UserModel GetUsers(string name)
         {
-            using (Con)
-            {
-                var aaa = Con.Users.Where(x => x.LoginName == name).FirstOrDefault();
-                return aaa;
-            }
+            var result = _context.Users.Where(x => x.LoginName == name).FirstOrDefault();
+            return result;
         }
 
-        public bool LogIn(string name, string password)
+        public bool ValidateCredentials(string name, string password)
         {
-            using (Con)
+            if (_context.Users.Any(x => x.LoginName == name && _context.Users.Any(x => x.LoginPassword == password)))
             {
-                if (Con.Users.Any(x => x.LoginName == name && Con.Users.Any(x => x.LoginPassword == password)))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                var uname = _context.Users.Where(x=>x.LoginName == name).FirstOrDefault().ToString();
+                var upass = _context.Users.Where(x => x.LoginPassword == password).FirstOrDefault().ToString();
+
+                return name.Equals(uname) && password.Equals(upass);
+            }
+            else
+            {
+                return false;
             }
         }
-
-
-
-
-        //private List<UserModel> _users = new List<UserModel>
-        //{
-        //    new UserModel { LoginName = "user", LoginPassword = "pass"},
-        //    new UserModel {  LoginName = "user2", LoginPassword = "password2"}
-        //};
-        //public string Login(string userName, string password)
-        //{
-        //var user = _users.SingleOrDefault(x => x.LoginName == userName && x.LoginPassword == password);
-        //var user = Con.Users.Where(x => x.LoginName == userName && x.LoginPassword == password).FirstOrDefault();
-        //var user = Con.Users.FirstOrDefault(x => x.LoginName == userName && x.LoginPassword == password);
-
-        // return null if user not found
-        //    if (_users == null)
-        //    {
-        //        return string.Empty;
-        //    }
-
-        //    // authentication successful so generate jwt token
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes("paprastasstringas");
-
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new ClaimsIdentity(new Claim[]
-        //        {
-        //            new Claim(ClaimTypes.Name, user.LoginName),
-        //        }),
-
-        //        Expires = DateTime.UtcNow.AddMinutes(60),
-        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        //    };
-
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
-        //    user.Token = tokenHandler.WriteToken(token);
-
-        //    this.Token = user.Token;
-        //    return user.Token;
-        //}
     }
 }

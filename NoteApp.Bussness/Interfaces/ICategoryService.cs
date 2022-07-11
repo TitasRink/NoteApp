@@ -5,7 +5,7 @@ namespace NoteApp.Bussness.Interfaces
     public interface ICategoryService
     {
         Result CreateCategory(string name);
-        void DeleteCategory(string name);
-        void UpdateCategoryName(string oldnName, string newName);
+        Result UpdateCategoryName(string oldnName, string newName);
+        Result DeleteCategory(string name);
     }
 }

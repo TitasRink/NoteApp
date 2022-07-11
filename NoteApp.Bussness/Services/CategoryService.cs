@@ -17,37 +17,60 @@ namespace NoteApp.Bussness.Services
 
         public Result CreateCategory(string name)
         {
-            using (Con)
+            try
             {
-                try
+                var exist = Con.Categories.Find(name).Name;
+                if (exist == name)
                 {
-                    var exist = Con.Categories.Find(name).Name;
-                    if (exist == name)
-                    {
-                        return new Result(false, $"{name} Allready exists");
-                    }
-                    Con.Categories.Add(new CategoryModel(name));
-                    Con.SaveChanges();
-                    return new Result(true, "Created");
+                    return new Result(false, $"{name} Allready exists");
                 }
-                catch (Exception e)
-                {
-                    return new Result(false, $"Error {e.Message}");
-                }
+                Con.Categories.Add(new CategoryModel(name));
+                Con.SaveChanges();
+                return new Result(true, "Created");
+            }
+            catch (Exception e)
+            {
+                return new Result(false, $"Error {e.Message}");
             }
         }
 
-        public void UpdateCategoryName(string oldnName, string newName)
+        public Result UpdateCategoryName(string oldnName, string newName)
         {
-            var oldName = Con.Categories.Where(x => x.Name == oldnName).FirstOrDefault();
-            oldName.Name = newName;
-            Con.SaveChanges();
+            try
+            {
+                var exist = Con.Categories.Find(oldnName).Name;
+                if (exist == null && string.IsNullOrEmpty(newName))
+                {
+                    return new Result(false, $"{oldnName} Doesnot exist or Empty");
+                }
+                var oldName = Con.Categories.Where(x => x.Name == oldnName).FirstOrDefault();
+                oldName.Name = newName;
+                Con.SaveChanges();
+                return new Result(true, "Renamed");
+            }
+            catch (Exception e)
+            {
+                return new Result(false, $"Error {e.Message}");
+            }
         }
-        public void DeleteCategory(string name)
+
+        public Result DeleteCategory(string name)
         {
-            var result = Con.Categories.Where(x => x.Name == name).FirstOrDefault();
-            Con.Remove(result);
-            Con.SaveChanges();
+            try
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return new Result(false, $"{name} Enter existing category");
+                }
+                var result = Con.Categories.Where(x => x.Name == name).FirstOrDefault();
+                Con.Remove(result);
+                Con.SaveChanges();
+                return new Result(true, "Deleted");
+            }
+            catch (Exception e)
+            {
+                return new Result(false, $"Error {e.Message}");
+            }
         }
     }
 }

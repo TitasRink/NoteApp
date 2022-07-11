@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NoteApp.Bussness.Interfaces;
 using NoteApp.Bussness.Services;
+using NoteApp.Repository.DataDB;
 using System.Text;
 
 namespace NoteAPI
@@ -18,42 +19,43 @@ namespace NoteAPI
         {
             Configuration = configuration;
         }
-        //public const string SECRET = "paprastasstringas";
+        public const string SECRET = "paprastasstringas";
 
         public IConfiguration Configuration { get; }
-  
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //    var key = Encoding.ASCII.GetBytes(SECRET);
-        //    services.AddControllers();
-        //    services.AddAuthentication(x =>
-        //    {
-        //        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    })
-        //        .AddJwtBearer(x =>
-        //        {
-        //            x.RequireHttpsMetadata = true;
-        //            x.SaveToken = true;
-        //            x.TokenValidationParameters = new TokenValidationParameters
-        //            {
-        //                ValidateIssuerSigningKey = true,
-        //                IssuerSigningKey = new SymmetricSecurityKey(key),
-        //                ValidateIssuer = false,
-        //                ValidateAudience = false
-        //            };
-        //        });
 
-           
-        //    services.AddSwaggerGen(c =>
-        //    {
-        //        c.SwaggerDoc("v1", new OpenApiInfo { Title = "NoteAPI", Version = "v1" });
-        //    });
-        //    //services.AddScoped<IUserService, UserService>();
-        //    services.AddTransient<IUserService, UserService>();
-        //}
+        //This method gets called by the runtime.Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            var key = Encoding.ASCII.GetBytes(SECRET);
+            services.AddControllers();
+            services.AddDbContext<SqlDB>();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = true;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NoteAPI", Version = "v1" });
+            });
+            services.AddScoped<IUserService, UserService>();
+            //services.AddTransient<IUserService, UserService>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,10 +68,10 @@ namespace NoteAPI
             }
 
             app.UseHttpsRedirection();
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
