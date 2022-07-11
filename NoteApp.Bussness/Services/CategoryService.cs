@@ -19,7 +19,7 @@ namespace NoteApp.Bussness.Services
         {
             try
             {
-                var exist = Con.Categories.Find(name).Name;
+                var exist = Con.Categories.Where(x=>x.Name==name).FirstOrDefault().Name;
                 if (exist == name)
                 {
                     return new Result(false, $"{name} Allready exists");

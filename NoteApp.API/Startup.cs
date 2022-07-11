@@ -17,7 +17,7 @@ namespace NoteApp.API
 {
     public class Startup
     {
-        public const string SECRET = "paprastasstringas";
+        //public const string SECRET = "paprastasstringas";
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -28,7 +28,7 @@ namespace NoteApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var key = Encoding.ASCII.GetBytes(SECRET);
+            //var key = Encoding.ASCII.GetBytes(SECRET);
             services.AddControllers();
             services.AddDbContext<SqlDB>();
             services.AddAuthentication(x =>
@@ -36,29 +36,33 @@ namespace NoteApp.API
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddJwtBearer(x =>
+                .AddJwtBearer(options =>
                 {
-                    x.RequireHttpsMetadata = true;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
+
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NoteAPI", Version = "v1" });
-                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("Barear", new OpenApiSecurityScheme
                 {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
-                    Scheme = "basic",
-                    In = ParameterLocation.Header,
-                    Description = "Basic Authorization header using the Bearer scheme."
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -68,7 +72,7 @@ namespace NoteApp.API
                                 Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "basic"
+                                    Id = "Barear"
                                 }
                             },
                             new string[] {}
@@ -76,7 +80,6 @@ namespace NoteApp.API
                 }); ;
             });
             //https://www.c-sharpcorner.com/article/basic-authentication-in-swagger-open-api-net-5/
-            services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryService>();

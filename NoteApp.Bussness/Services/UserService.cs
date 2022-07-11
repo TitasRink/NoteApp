@@ -12,7 +12,6 @@ namespace NoteApp.Bussness.Services
 {
     public class UserService : IUserService
     {
-
         private SqlDB _context { get; }
 
         public UserService(SqlDB context)
@@ -20,7 +19,6 @@ namespace NoteApp.Bussness.Services
 
             _context = context;
         }
-
 
         public string Login(string userName, string password)
         {

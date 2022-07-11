@@ -42,12 +42,12 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Log in User")]
-        public IActionResult LogInUse(string name, string password)
-        {
-            var result = _userService.LogIn(name, password);
-            return Ok(result);
-        }
+        //[HttpPost("Log in User")]
+        //public IActionResult LogInUse(string name, string password)
+        //{
+        //    var result = _userService.LogIn(name, password);
+        //    return Ok(result);
+        //}
 
         [HttpGet("Get User Info")]
         
