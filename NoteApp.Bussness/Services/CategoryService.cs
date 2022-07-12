@@ -19,14 +19,20 @@ namespace NoteApp.Bussness.Services
         {
             try
             {
-                var exist = Con.Categories.Where(x=>x.Name==name).FirstOrDefault().Name;
-                if (exist == name)
+                if (Con.Categories.Any(x => x.Name == name))
                 {
                     return new Result(false, $"{name} Allready exists");
                 }
-                Con.Categories.Add(new CategoryModel(name));
-                Con.SaveChanges();
-                return new Result(true, "Created");
+                if (string.IsNullOrEmpty(name))
+                {
+                    return new Result(false, "Fill up fields");
+                }
+                else
+                {
+                    Con.Categories.Add(new CategoryModel(name));
+                    Con.SaveChanges();
+                    return new Result(true, "Created");
+                }
             }
             catch (Exception e)
             {
@@ -34,18 +40,27 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public Result UpdateCategoryName(string oldnName, string newName)
+        public  Result UpdateCategoryName(string oldnName, string newName)
         {
             try
             {
-                var exist = Con.Categories.Find(oldnName).Name;
-                if (exist == null && string.IsNullOrEmpty(newName))
+                if (string.IsNullOrEmpty(newName) && string.IsNullOrEmpty(oldnName))
                 {
-                    return new Result(false, $"{oldnName} Doesnot exist or Empty");
+                    return new Result(false, "Fill up fields");
                 }
+                if (Con.Categories.Any(x => x.Name == newName))
+                {
+                    return new Result(false, $"Category : {newName} allready exists");
+                }
+                if (Con.Categories.Any(x => x.Name == oldnName))
+                {
+                    return new Result(false, $"Category : {oldnName} not found ");
+                }
+
                 var oldName = Con.Categories.Where(x => x.Name == oldnName).FirstOrDefault();
                 oldName.Name = newName;
                 Con.SaveChanges();
+
                 return new Result(true, "Renamed");
             }
             catch (Exception e)
@@ -60,7 +75,11 @@ namespace NoteApp.Bussness.Services
             {
                 if (string.IsNullOrEmpty(name))
                 {
-                    return new Result(false, $"{name} Enter existing category");
+                    return new Result(false, "Fill up fields");
+                }
+                if (!Con.Categories.Any(x => x.Name == name))
+                {
+                    return new Result(false, $"Category : {name} not found");
                 }
                 var result = Con.Categories.Where(x => x.Name == name).FirstOrDefault();
                 Con.Remove(result);

@@ -1,7 +1,9 @@
-﻿using NoteApp.Bussness.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NoteApp.Bussness.Services
@@ -14,27 +16,6 @@ namespace NoteApp.Bussness.Services
         {
             Con = con;
         }
-        public Result CreateNote(string name)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(name))
-                {
-                    Con.Notes.Add(new NoteModel(name));
-                    Con.SaveChanges();
-
-                    return new Result(true, "Note Created");
-                }
-                else
-                {
-                    return new Result(false, $"{name} Not created");
-                }
-            }
-            catch (Exception e)
-            {
-                return new Result(false, $"Error {e.Message}");
-            }
-        }
 
         public Result CreateNoteAndMessage(string name, string message)
         {
@@ -42,14 +23,14 @@ namespace NoteApp.Bussness.Services
             {
                 if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(message))
                 {
-                    Con.Notes.Add(new NoteModel(name, message));
-                    Con.SaveChanges();
-
-                    return new Result(true, "Note  and message Created");
+                    return new Result(false, "Fill up fields");
                 }
                 else
                 {
-                    return new Result(false, $"{name} and {message} Not created");
+                    Con.Notes.Add(new NoteModel(name, message));
+                    Con.SaveChanges();
+
+                    return new Result(true, "Note and message Created");
                 }
             }
             catch (Exception e)
@@ -67,11 +48,23 @@ namespace NoteApp.Bussness.Services
                     return new Result(false, $"{note} to {categoty} Not Moved");
                 }
                 else
+
+                if (!Con.Categories.Any(x => x.Name == categoty))
+                {
+                    Con.Categories.Add(new CategoryModel(categoty));
+                    var not = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
+                    var cate = Con.Categories.Where(x => x.Name == categoty).FirstOrDefault();
+                    cate.Notes.Add(not);
+                    Con.SaveChanges();
+
+                    return new Result(true, $"Category {categoty} was created and {note} moved to {categoty}");
+                }
+
+                else
                 {
                     var not = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
-                    var cat = Con.Categories.Where(x => x.Name == categoty).FirstOrDefault();
-                    not.Categories.Add(cat);
-                    cat.Notes.Clear();
+                    var cate = Con.Categories.Where(x => x.Name == categoty).FirstOrDefault();
+                    cate.Notes.Add(not);
                     Con.SaveChanges();
 
                     return new Result(true, "Note was moved to another category");
@@ -86,14 +79,23 @@ namespace NoteApp.Bussness.Services
         {
             try
             {
-                var exist = Con.Notes.Find(oldnNote).Name;
-                if (exist == null && string.IsNullOrEmpty(newNote))
+                if (string.IsNullOrEmpty(oldnNote) && string.IsNullOrEmpty(newNote))
                 {
-                    return new Result(false, $"{oldnNote} Doesnot exist or Empty");
+                    return new Result(false, "Fill up fields");
                 }
+                if (Con.Notes.Any(x => x.Name == newNote))
+                {
+                    return new Result(false, $"Note : {newNote} allready exists");
+                }
+                if (Con.Categories.Any(x => x.Name == oldnNote))
+                {
+                    return new Result(false, $"Note : {oldnNote} not found ");
+                }
+
                 var oldName = Con.Notes.Where(x => x.Name == oldnNote).FirstOrDefault();
                 oldName.Name = newNote;
                 Con.SaveChanges();
+
                 return new Result(true, "Renamed");
             }
             catch (Exception e)
@@ -107,16 +109,60 @@ namespace NoteApp.Bussness.Services
             {
                 if (string.IsNullOrEmpty(name))
                 {
-                    return new Result(false, $"{name} Enter existing category");
+                    return new Result(false, "Fill up fields");
+                }
+                if (Con.Notes.Any(x => x.Name == name))
+                {
+                    return new Result(false, $"Note {name} do not exists");
                 }
                 var result = Con.Notes.Where(x => x.Name == name).FirstOrDefault();
                 Con.Remove(result);
                 Con.SaveChanges();
+
                 return new Result(true, "Deleted");
             }
             catch (Exception e)
             {
                 return new Result(false, $"Error {e.Message}");
+            }
+        }
+
+        public List<NoteModel> FilterByCategory(string categoryName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(categoryName))
+                {
+                    throw new Exception();
+                }
+                //var result = Con.Categories
+                //    .Include(x => x.Notes)
+                //    .Where(x => x.Name.Any() == categoryName).ToList();
+                var result = Con.Notes.Where(x => x.Categories.Any(x => x.Name == categoryName)).ToList();
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public List<NoteModel> FilterByNote(string noteName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(noteName))
+                {
+                    throw new Exception();
+                }
+                var result = Con.Notes.Where(x => x.Name == noteName).ToList();
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

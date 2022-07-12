@@ -7,20 +7,17 @@ using System;
 
 namespace NoteApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
+
     public class UserController : Controller
     {
        
         private readonly IUserService _userService;
-        private readonly ICategoryService _categoryService;
-        private readonly INoteService _noteService;
 
-        public UserController( IUserService userService, ICategoryService categoryService, INoteService noteService)
+        public UserController( IUserService userService)
         {
             _userService = userService;
-            _categoryService = categoryService;
-            _noteService = noteService;
         }
 
         [HttpPost("Log in")]
@@ -42,27 +39,12 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("Log in User")]
-        //public IActionResult LogInUse(string name, string password)
-        //{
-        //    var result = _userService.LogIn(name, password);
-        //    return Ok(result);
-        //}
-
-        [HttpGet("Get User Info")]
+        [HttpGet("Get User Info"), Authorize]
         
-        public UserModel getusers(string name)
+        public Result getusers(string name)
         {
             var result = _userService.GetUsers(name);
             return result;
-        }
-
-        [HttpPost("Create Category"), Authorize]
-        
-        public IActionResult CreateCategory(string name)
-        {
-            var result = _categoryService.CreateCategory(name);
-            return Ok(result);
         }
     }
 }
