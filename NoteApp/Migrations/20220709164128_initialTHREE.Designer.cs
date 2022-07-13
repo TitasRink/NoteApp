@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoteApp.Repository.DataDB;
 
 namespace NoteApp.Repository.Migrations
 {
     [DbContext(typeof(SqlDB))]
-    partial class SqlDBModelSnapshot : ModelSnapshot
+    [Migration("20220709164128_initialTHREE")]
+    partial class initialTHREE
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,19 +93,23 @@ namespace NoteApp.Repository.Migrations
                     b.Property<int?>("CategorieId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LoginName")
+                    b.Property<string>("FirtName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Password")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

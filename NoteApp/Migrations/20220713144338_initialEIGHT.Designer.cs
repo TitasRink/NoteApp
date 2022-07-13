@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoteApp.Repository.DataDB;
 
 namespace NoteApp.Repository.Migrations
 {
     [DbContext(typeof(SqlDB))]
-    partial class SqlDBModelSnapshot : ModelSnapshot
+    [Migration("20220713144338_initialEIGHT")]
+    partial class initialEIGHT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,6 +94,11 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LoginPassword")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");

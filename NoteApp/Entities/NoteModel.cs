@@ -7,13 +7,17 @@ namespace NoteApp.Repository.Entities
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+
         [Required]
         public string Message { get; set; }
+
         [MaxLength(250)]
         public string ImgUrl { get; set; }
+        public int? UserModelId { get; set; }
         public List<CategoryModel> Categories{ get; set; }
 
         public NoteModel(string name, string message)
@@ -22,9 +26,12 @@ namespace NoteApp.Repository.Entities
             Message = message;
             Categories = new List<CategoryModel>();
         }
-        public NoteModel(string name)
+
+        public NoteModel(string name, string message, int userId)
         {
             Name = name;
+            Message=message;
+            UserModelId = userId;
             Categories = new List<CategoryModel>();
         }
     }

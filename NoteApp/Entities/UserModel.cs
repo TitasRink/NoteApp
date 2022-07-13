@@ -7,19 +7,30 @@ namespace NoteApp.Repository.Entities
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
-        [Required]
-        [MaxLength(50)]
-        public string Password { get; set; }
+        public string LoginName { get; set; }
+        public string Token { get; set; }
         public CategoryModel Categorie { get; set; }
         public List<NoteModel> Notes { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
 
-        public UserModel(string name, string password)
+        public  UserModel()
         {
-            Name = name;
-            Password = password;
+        }
+        public UserModel(string loginName)
+        {
+            LoginName = loginName;
+        }
+        public UserModel(string loginName, byte[] passwordHash, byte[] passwordSalt)
+        {
+            LoginName = loginName;
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
+
+            Notes = new List<NoteModel>();
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoteApp.Repository.DataDB;
 
 namespace NoteApp.Repository.Migrations
 {
     [DbContext(typeof(SqlDB))]
-    partial class SqlDBModelSnapshot : ModelSnapshot
+    [Migration("20220710115001_initialFOUR")]
+    partial class initialFOUR
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,6 +83,34 @@ namespace NoteApp.Repository.Migrations
                     b.ToTable("Notes");
                 });
 
+            modelBuilder.Entity("NoteApp.Repository.Entities.UserLogInModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("LoginPassword")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Token")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("UserModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserLogIn");
+                });
+
             modelBuilder.Entity("NoteApp.Repository.Entities.UserModel", b =>
                 {
                     b.Property<int>("Id")
@@ -91,19 +121,14 @@ namespace NoteApp.Repository.Migrations
                     b.Property<int?>("CategorieId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LoginName")
+                    b.Property<string>("FirtName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

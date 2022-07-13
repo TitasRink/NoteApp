@@ -1,8 +1,15 @@
-﻿namespace NoteApp.Bussness.Interfaces
+﻿using NoteApp.Repository.Entities;
+using System.Collections.Generic;
+
+namespace NoteApp.Bussness.Interfaces
 {
     public interface INoteService
     {
-        void CreateNote(string name);
-        void CreateNoteAndMessasge(string name, string message);
+        Result CreateNoteAndMessage(string name, string message);
+        Result MoveNoteToCategory(string categoty, string note);
+        Result UpdateNote(string oldnNote, string newNote);
+        Result DeleteNote(string name);
+        List<NoteModel> FilterByCategory(string categoryName);
+        List<NoteModel> FilterByNote(string noteName);
     }
 }

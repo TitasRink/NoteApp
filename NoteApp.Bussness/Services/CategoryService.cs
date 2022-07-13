@@ -1,6 +1,7 @@
 ﻿using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
+using System;
 using System.Linq;
 
 namespace NoteApp.Bussness.Services
@@ -14,23 +15,81 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        public void CreateCategory(string name)
+        public Result CreateCategory(string name)
         {
-            Con.Categories.Add(new CategoryModel(name));
-            Con.SaveChanges();
+            try
+            {
+                if (Con.Categories.Any(x => x.Name == name))
+                {
+                    return new Result(false, $"{name} Allready exists");
+                }
+                if (string.IsNullOrEmpty(name))
+                {
+                    return new Result(false, "Fill up fields");
+                }
+                else
+                {
+                    Con.Categories.Add(new CategoryModel(name));
+                    Con.SaveChanges();
+                    return new Result(true, "Created");
+                }
+            }
+            catch (Exception e)
+            {
+                return new Result(false, $"Error {e.Message}");
+            }
         }
 
-        public void UpdateCategoryName(string oldnName, string newName)
+        public  Result UpdateCategoryName(string oldnName, string newName)
         {
-            var oldName = Con.Categories.Where(x => x.Name == oldnName).FirstOrDefault();
-            oldName.Name = newName;
-            Con.SaveChanges();
+            try
+            {
+                if (string.IsNullOrEmpty(newName) && string.IsNullOrEmpty(oldnName))
+                {
+                    return new Result(false, "Fill up fields");
+                }
+                if (Con.Categories.Any(x => x.Name == newName))
+                {
+                    return new Result(false, $"Category : {newName} allready exists");
+                }
+                if (Con.Categories.Any(x => x.Name == oldnName))
+                {
+                    return new Result(false, $"Category : {oldnName} not found ");
+                }
+
+                var oldName = Con.Categories.Where(x => x.Name == oldnName).FirstOrDefault();
+                oldName.Name = newName;
+                Con.SaveChanges();
+
+                return new Result(true, "Renamed");
+            }
+            catch (Exception e)
+            {
+                return new Result(false, $"Error {e.Message}");
+            }
         }
-        public void DeleteCategory(string name)
+
+        public Result DeleteCategory(string name)
         {
-            var result = Con.Categories.Where(x => x.Name == name).FirstOrDefault();
-            Con.Remove(result);
-            Con.SaveChanges();
+            try
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return new Result(false, "Fill up fields");
+                }
+                if (!Con.Categories.Any(x => x.Name == name))
+                {
+                    return new Result(false, $"Category : {name} not found");
+                }
+                var result = Con.Categories.Where(x => x.Name == name).FirstOrDefault();
+                Con.Remove(result);
+                Con.SaveChanges();
+                return new Result(true, "Deleted");
+            }
+            catch (Exception e)
+            {
+                return new Result(false, $"Error {e.Message}");
+            }
         }
     }
 }
