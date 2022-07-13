@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoteApp.Bussness", "NoteApp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoteApp.API", "NoteApp.API\NoteApp.API.csproj", "{2DA6F237-904D-4E80-A3B1-8E94CDDFD897}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsNOTE", "..\..\..\..\Downloads\WinFormsNote-master\WinFormsApp1\WinFormsNOTE.csproj", "{CD38DA42-4FA8-4984-9291-7E5A5D06B8D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsApp", "WinFormsApp\WinFormsApp.csproj", "{F0A869F5-2BFC-4411-984A-781546835CE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{2DA6F237-904D-4E80-A3B1-8E94CDDFD897}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DA6F237-904D-4E80-A3B1-8E94CDDFD897}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DA6F237-904D-4E80-A3B1-8E94CDDFD897}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD38DA42-4FA8-4984-9291-7E5A5D06B8D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD38DA42-4FA8-4984-9291-7E5A5D06B8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD38DA42-4FA8-4984-9291-7E5A5D06B8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD38DA42-4FA8-4984-9291-7E5A5D06B8D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A869F5-2BFC-4411-984A-781546835CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A869F5-2BFC-4411-984A-781546835CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A869F5-2BFC-4411-984A-781546835CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A869F5-2BFC-4411-984A-781546835CE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

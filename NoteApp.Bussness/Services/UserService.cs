@@ -26,7 +26,6 @@ namespace NoteApp.Bussness.Services
 
         public string Login(string userName, string password)
         {
-            //var user = _context.Users.Where(x => x.LoginName == userName && x.LoginPassword == password).FirstOrDefault();
             var getuser = _context.Users.Where(x => x.LoginName == userName).FirstOrDefault();
 
             if (!VerifyPasswordHash(password, getuser.PasswordHash, getuser.PasswordSalt))
@@ -39,7 +38,7 @@ namespace NoteApp.Bussness.Services
                 return string.Empty;
             }
 
-            List<Claim> claims = new List<Claim>
+            List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Name, getuser.LoginName),
                 //new Claim(ClaimTypes.NameIdentifier, getuser.Id.ToString())
@@ -124,11 +123,9 @@ namespace NoteApp.Bussness.Services
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
+            using var hmac = new HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {

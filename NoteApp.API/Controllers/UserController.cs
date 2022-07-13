@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
-using NoteApp.Repository.DbConfigs;
 using NoteApp.Repository.DTO;
 using NoteApp.Repository.Entities;
 using System;
