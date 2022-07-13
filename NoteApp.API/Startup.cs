@@ -17,7 +17,6 @@ namespace NoteApp.API
 {
     public class Startup
     {
-        //public const string SECRET = "paprastasstringas";
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -25,10 +24,8 @@ namespace NoteApp.API
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var key = Encoding.ASCII.GetBytes(SECRET);
             services.AddControllers();
             services.AddDbContext<SqlDB>();
             services.AddAuthentication(x =>
@@ -79,13 +76,12 @@ namespace NoteApp.API
                     }
                 }); ;
             });
-            //https://www.c-sharpcorner.com/article/basic-authentication-in-swagger-open-api-net-5/
-
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IDbCongigurations, DbCongigurations>();
             services.AddScoped<INoteService, NoteService>();
-            services.AddSingleton<IConfiguration>(Configuration);
+            
 
         }
 

@@ -18,5 +18,9 @@ namespace NoteApp.Repository.DataDB
         {
 
         }
+        public SqlDB()
+        {
+
+        }
     }
 }

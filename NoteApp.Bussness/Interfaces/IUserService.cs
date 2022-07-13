@@ -9,7 +9,7 @@ namespace NoteApp.Bussness.Interfaces
         string Login(string userName, string password);
         Result CreateUser(string name, string password);
         Result GetUsers(string name);
-        bool ValidateCredentials(string name, string password);
+       // bool ValidateCredentials(string name, string password);
 
     }
 }

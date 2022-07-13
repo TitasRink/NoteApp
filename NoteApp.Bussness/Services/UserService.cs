@@ -26,17 +26,23 @@ namespace NoteApp.Bussness.Services
 
         public string Login(string userName, string password)
         {
-            var user = _context.Users.Where(x => x.LoginName == userName && x.LoginPassword == password).FirstOrDefault();
+            //var user = _context.Users.Where(x => x.LoginName == userName && x.LoginPassword == password).FirstOrDefault();
+            var getuser = _context.Users.Where(x => x.LoginName == userName).FirstOrDefault();
 
-            if (user == null)
+            if (!VerifyPasswordHash(password, getuser.PasswordHash, getuser.PasswordSalt))
+            {
+                return "Wrong username or/and password";
+            }
+
+            if (getuser == null)
             {
                 return string.Empty;
             }
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.LoginName),
-                //new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.Name, getuser.LoginName),
+                //new Claim(ClaimTypes.NameIdentifier, getuser.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -65,7 +71,9 @@ namespace NoteApp.Bussness.Services
                     return new Result(false, "Fill up fields");
                 }
 
-                var result = _context.Users.Add(new(name, password));
+                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                var user = new UserModel(name, passwordHash, passwordSalt);
+                _context.Users.Add(user);
                 _context.SaveChanges();
                 
                 return new Result(true, "Created");
@@ -95,36 +103,33 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public bool ValidateCredentials(string name, string password)
-        {
-            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password))
-            {
-                return false;
-            }
-            if (_context.Users.Any(x => x.LoginName == name && _context.Users.Any(x => x.LoginPassword == password)))
-            {
-                var uname = _context.Users.Where(x=>x.LoginName == name).FirstOrDefault().ToString();
-                var upass = _context.Users.Where(x => x.LoginPassword == password).FirstOrDefault().ToString();
+        //public bool ValidateCredentials(string name, string password)
+        //{
+        //    if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password))
+        //    {
+        //        return false;
+        //    }
+        //    if (_context.Users.Any(x => x.LoginName == name && _context.Users.Any(x => x.LoginPassword == password)))
+        //    {
+        //        var uname = _context.Users.Where(x=>x.LoginName == name).FirstOrDefault().ToString();
+        //        var upass = _context.Users.Where(x => x.LoginPassword == password).FirstOrDefault().ToString();
 
-                return name.Equals(uname) && password.Equals(upass);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // hasshing password methods
+        //        return name.Equals(uname) && password.Equals(upass);
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
-
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -132,35 +137,6 @@ namespace NoteApp.Bussness.Services
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             };
-        }
-
-        private bool PasswordValidation(string password)
-        {
-            //char[] specialChArray = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-".ToCharArray();
-
-            if (password.Length < 4)
-            {
-                return false;
-            }
-            //if (!password.Any(char.IsUpper))
-            //{
-            //    return false;
-            //}
-            //if (!password.Any(char.IsLower))
-            //{
-            //    return false;
-            //}
-            if (password.Contains(" "))
-            {
-                return false;
-            }
-
-            //foreach (char ch in specialChArray)
-            //{
-            //    if (password.Contains(ch))
-            //        return true;
-            //}
-            return true;
         }
     }
 }
