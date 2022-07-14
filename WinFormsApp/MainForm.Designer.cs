@@ -31,20 +31,21 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UsernameTextBox = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.WelcomeLabel = new System.Windows.Forms.Label();
             this.LogoutButton = new System.Windows.Forms.Button();
             this.LoginButton = new System.Windows.Forms.Button();
             this.PasswordInputBox = new System.Windows.Forms.TextBox();
             this.UserInputBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.PaswordLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ExitButton = new System.Windows.Forms.Button();
+            this.AddUserButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.EditButton = new System.Windows.Forms.Button();
             this.AddNoteButton = new System.Windows.Forms.Button();
             this.AddCategoryButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -69,15 +70,15 @@
             this.UsernameTextBox.TabIndex = 7;
             this.UsernameTextBox.Text = "User";
             // 
-            // label3
+            // WelcomeLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(30, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(176, 45);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "WELCOME";
+            this.WelcomeLabel.AutoSize = true;
+            this.WelcomeLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.WelcomeLabel.Location = new System.Drawing.Point(30, 16);
+            this.WelcomeLabel.Name = "WelcomeLabel";
+            this.WelcomeLabel.Size = new System.Drawing.Size(176, 45);
+            this.WelcomeLabel.TabIndex = 6;
+            this.WelcomeLabel.Text = "WELCOME";
             // 
             // LogoutButton
             // 
@@ -90,7 +91,7 @@
             // 
             // LoginButton
             // 
-            this.LoginButton.Location = new System.Drawing.Point(72, 554);
+            this.LoginButton.Location = new System.Drawing.Point(12, 561);
             this.LoginButton.Name = "LoginButton";
             this.LoginButton.Size = new System.Drawing.Size(83, 23);
             this.LoginButton.TabIndex = 4;
@@ -115,14 +116,14 @@
             this.UserInputBox.TabIndex = 2;
             this.UserInputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label2
+            // PaswordLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 498);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Password";
+            this.PaswordLabel.AutoSize = true;
+            this.PaswordLabel.Location = new System.Drawing.Point(84, 498);
+            this.PaswordLabel.Name = "PaswordLabel";
+            this.PaswordLabel.Size = new System.Drawing.Size(57, 15);
+            this.PaswordLabel.TabIndex = 1;
+            this.PaswordLabel.Text = "Password";
             // 
             // label1
             // 
@@ -148,24 +149,44 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.ExitButton);
+            this.panel1.Controls.Add(this.AddUserButton);
             this.panel1.Controls.Add(this.RemoveButton);
             this.panel1.Controls.Add(this.EditButton);
             this.panel1.Controls.Add(this.AddNoteButton);
             this.panel1.Controls.Add(this.AddCategoryButton);
             this.panel1.Controls.Add(this.UsernameTextBox);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.WelcomeLabel);
             this.panel1.Controls.Add(this.LogoutButton);
             this.panel1.Controls.Add(this.LoginButton);
             this.panel1.Controls.Add(this.PasswordInputBox);
             this.panel1.Controls.Add(this.UserInputBox);
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.PaswordLabel);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(232, 696);
             this.panel1.TabIndex = 3;
+            // 
+            // ExitButton
+            // 
+            this.ExitButton.Location = new System.Drawing.Point(55, 621);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(126, 41);
+            this.ExitButton.TabIndex = 18;
+            this.ExitButton.Text = "EXIT";
+            this.ExitButton.UseVisualStyleBackColor = true;
+            // 
+            // AddUserButton
+            // 
+            this.AddUserButton.Location = new System.Drawing.Point(123, 561);
+            this.AddUserButton.Name = "AddUserButton";
+            this.AddUserButton.Size = new System.Drawing.Size(83, 23);
+            this.AddUserButton.TabIndex = 17;
+            this.AddUserButton.Text = "Add user";
+            this.AddUserButton.UseVisualStyleBackColor = true;
+            this.AddUserButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // RemoveButton
             // 
@@ -214,16 +235,7 @@
             this.AddCategoryButton.TabIndex = 13;
             this.AddCategoryButton.Text = "Add Category";
             this.AddCategoryButton.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(72, 641);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "add user";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.AddCategoryButton.Click += new System.EventHandler(this.AddCategoryButton_Click);
             // 
             // MainForm
             // 
@@ -246,12 +258,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.Label UsernameTextBox;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label WelcomeLabel;
         private System.Windows.Forms.Button LogoutButton;
         private System.Windows.Forms.Button LoginButton;
         private System.Windows.Forms.TextBox PasswordInputBox;
         private System.Windows.Forms.TextBox UserInputBox;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label PaswordLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel1;
@@ -259,6 +271,7 @@
         private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.Button AddNoteButton;
         private System.Windows.Forms.Button AddCategoryButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button AddUserButton;
+        private System.Windows.Forms.Button ExitButton;
     }
 }

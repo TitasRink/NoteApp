@@ -48,7 +48,7 @@ namespace WinFormsApp
             }
         }
 
-        public async Task<String> Crateuser(string username, string password)
+        public async Task<string> Crateuser(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
          {

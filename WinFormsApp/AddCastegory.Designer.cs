@@ -31,14 +31,15 @@
             this.CategoryTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.CastegoryConfirmButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CategoryTextBox
             // 
-            this.CategoryTextBox.Location = new System.Drawing.Point(46, 77);
+            this.CategoryTextBox.Location = new System.Drawing.Point(46, 136);
             this.CategoryTextBox.Multiline = true;
             this.CategoryTextBox.Name = "CategoryTextBox";
-            this.CategoryTextBox.Size = new System.Drawing.Size(292, 87);
+            this.CategoryTextBox.Size = new System.Drawing.Size(292, 28);
             this.CategoryTextBox.TabIndex = 5;
             // 
             // label1
@@ -59,12 +60,24 @@
             this.CastegoryConfirmButton.TabIndex = 3;
             this.CastegoryConfirmButton.Text = "Confirm";
             this.CastegoryConfirmButton.UseVisualStyleBackColor = true;
+            this.CastegoryConfirmButton.Click += new System.EventHandler(this.CastegoryConfirmButton_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(127, 116);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(129, 17);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Enter category name";
             // 
             // AddCastegory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.CategoryTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CastegoryConfirmButton);
@@ -80,5 +93,6 @@
         private System.Windows.Forms.TextBox CategoryTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button CastegoryConfirmButton;
+        private System.Windows.Forms.Label label2;
     }
 }
