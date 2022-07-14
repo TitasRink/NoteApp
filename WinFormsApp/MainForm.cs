@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsApp
 {
     public partial class MainForm : Form
     {
-        private string _username ;
-        private string _password ;
-
-
+        private string _username, _password;
 
         public string Username { get { return _username = UserInputBox.Text; } set { _username= value; } }
-        public string Password { get { return PasswordInputBox.Text; } set { _password = value; } }
+        public string Password { get { return _password = PasswordInputBox.Text; } set { _password = value; } }
+
+        private class LoginClass
+        {
+            public string UserName, Password;
+        }
 
         public MainForm()
         {
             InitializeComponent();
+            HideLogedUserMenuButtons();
         }
 
         private void LoginButton_Click_1(object sender, EventArgs e)
@@ -28,33 +30,56 @@ namespace WinFormsApp
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 LoginClass lgn = new LoginClass { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
                 var response = client.PostAsJsonAsync("/api/user/Log in", lgn).Result;
-                var a = response.Content.ReadAsStringAsync();
-
+                response.Content.ReadAsStringAsync();
+                ShowLogedUserMenuButtons();
             }
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    APIHelper api = new APIHelper();
-        //    api.Crateuser(Username, Password);
-        //    MessageBox.Show("loged in");
-        //}
-        private void button1_Click(object sender, EventArgs e)
+        private void AddUserButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 LoginClass lgn = new LoginClass { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
                 var response = client.PostAsJsonAsync("/api/user/Create User", lgn).Result;
-                var a = response.Content.ReadAsStringAsync();
-
+                response.Content.ReadAsStringAsync();
+                HideLogedUserMenuButtons();
             }
         }
 
-        private class LoginClass
+        private void HideLogedUserMenuButtons()
         {
-            public string UserName { get; set; }
-            public string Password { get; set; }
+            AddCategoryButton.Hide();
+            AddNoteButton.Hide();
+            EditButton.Hide();
+            RemoveButton.Hide();
+            LogoutButton.Hide();
+            UsernameTextBox.Hide();
+            WelcomeLabel.Hide();
+            dataGridView1.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void ShowLogedUserMenuButtons()
+        {
+            AddCategoryButton.Show();
+            AddNoteButton.Show();
+            EditButton.Show();
+            RemoveButton.Show();
+            LogoutButton.Show();
+            UsernameTextBox.Show();
+            WelcomeLabel.Show();
+            dataGridView1.Show();
+            LoginButton.Hide();
+            AddUserButton.Hide();
+            PasswordInputBox.Hide();
+            UserInputBox.Hide();
+            UserLabel.Hide();
+            PaswordLabel.Hide();
         }
     }
 }
