@@ -31,16 +31,15 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UsernameTextBox = new System.Windows.Forms.Label();
-            this.WelcomeLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.LogoutButton = new System.Windows.Forms.Button();
             this.LoginButton = new System.Windows.Forms.Button();
             this.PasswordInputBox = new System.Windows.Forms.TextBox();
             this.UserInputBox = new System.Windows.Forms.TextBox();
-            this.PaswordLabel = new System.Windows.Forms.Label();
-            this.UserLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.AddUserButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.EditButton = new System.Windows.Forms.Button();
             this.AddNoteButton = new System.Windows.Forms.Button();
@@ -70,15 +69,15 @@
             this.UsernameTextBox.TabIndex = 7;
             this.UsernameTextBox.Text = "User";
             // 
-            // WelcomeLabel
+            // label3
             // 
-            this.WelcomeLabel.AutoSize = true;
-            this.WelcomeLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.WelcomeLabel.Location = new System.Drawing.Point(30, 16);
-            this.WelcomeLabel.Name = "WelcomeLabel";
-            this.WelcomeLabel.Size = new System.Drawing.Size(176, 45);
-            this.WelcomeLabel.TabIndex = 6;
-            this.WelcomeLabel.Text = "WELCOME";
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(30, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(176, 45);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "WELCOME";
             // 
             // LogoutButton
             // 
@@ -91,7 +90,7 @@
             // 
             // LoginButton
             // 
-            this.LoginButton.Location = new System.Drawing.Point(30, 560);
+            this.LoginButton.Location = new System.Drawing.Point(72, 554);
             this.LoginButton.Name = "LoginButton";
             this.LoginButton.Size = new System.Drawing.Size(83, 23);
             this.LoginButton.TabIndex = 4;
@@ -116,23 +115,23 @@
             this.UserInputBox.TabIndex = 2;
             this.UserInputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // PaswordLabel
+            // label2
             // 
-            this.PaswordLabel.AutoSize = true;
-            this.PaswordLabel.Location = new System.Drawing.Point(84, 498);
-            this.PaswordLabel.Name = "PaswordLabel";
-            this.PaswordLabel.Size = new System.Drawing.Size(57, 15);
-            this.PaswordLabel.TabIndex = 1;
-            this.PaswordLabel.Text = "Password";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(84, 498);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Password";
             // 
-            // UserLabel
+            // label1
             // 
-            this.UserLabel.AutoSize = true;
-            this.UserLabel.Location = new System.Drawing.Point(97, 437);
-            this.UserLabel.Name = "UserLabel";
-            this.UserLabel.Size = new System.Drawing.Size(30, 15);
-            this.UserLabel.TabIndex = 0;
-            this.UserLabel.Text = "User";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(97, 437);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 15);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "User";
             // 
             // dataGridView1
             // 
@@ -150,34 +149,23 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.AddUserButton);
             this.panel1.Controls.Add(this.RemoveButton);
             this.panel1.Controls.Add(this.EditButton);
             this.panel1.Controls.Add(this.AddNoteButton);
             this.panel1.Controls.Add(this.AddCategoryButton);
             this.panel1.Controls.Add(this.UsernameTextBox);
-            this.panel1.Controls.Add(this.WelcomeLabel);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.LogoutButton);
             this.panel1.Controls.Add(this.LoginButton);
             this.panel1.Controls.Add(this.PasswordInputBox);
             this.panel1.Controls.Add(this.UserInputBox);
-            this.panel1.Controls.Add(this.PaswordLabel);
-            this.panel1.Controls.Add(this.UserLabel);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(232, 696);
             this.panel1.TabIndex = 3;
-            // 
-            // AddUserButton
-            // 
-            this.AddUserButton.Location = new System.Drawing.Point(123, 560);
-            this.AddUserButton.Name = "AddUserButton";
-            this.AddUserButton.Size = new System.Drawing.Size(83, 23);
-            this.AddUserButton.TabIndex = 18;
-            this.AddUserButton.Text = "Add User";
-            this.AddUserButton.UseVisualStyleBackColor = true;
-            this.AddUserButton.Click += new System.EventHandler(this.AddUserButton_Click);
             // 
             // RemoveButton
             // 
@@ -229,11 +217,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(72, 637);
+            this.button1.Location = new System.Drawing.Point(72, 641);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 34);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "EXIT";
+            this.button1.Size = new System.Drawing.Size(83, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "add user";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -258,20 +246,19 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.Label UsernameTextBox;
-        private System.Windows.Forms.Label WelcomeLabel;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button LogoutButton;
         private System.Windows.Forms.Button LoginButton;
         private System.Windows.Forms.TextBox PasswordInputBox;
         private System.Windows.Forms.TextBox UserInputBox;
-        private System.Windows.Forms.Label PaswordLabel;
-        private System.Windows.Forms.Label UserLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button RemoveButton;
         private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.Button AddNoteButton;
         private System.Windows.Forms.Button AddCategoryButton;
-        private System.Windows.Forms.Button AddUserButton;
         private System.Windows.Forms.Button button1;
     }
 }
