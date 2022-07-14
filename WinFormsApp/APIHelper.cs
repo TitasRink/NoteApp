@@ -44,18 +44,18 @@ namespace WinFormsApp
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
-
             }
         }
 
         public async Task<String> Crateuser(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
-         {
+            {
                 new KeyValuePair<string,string>("grand_type", "password"),
                 new KeyValuePair<string,string>("username", username),
                 new KeyValuePair<string,string>("password", password)
             });
+
             using (HttpResponseMessage response = await apiClient.PostAsync("/api/user/Create User", data))
             {
                 if (response.IsSuccessStatusCode)
@@ -67,9 +67,7 @@ namespace WinFormsApp
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
-
             }
-
         }
     }
 }
