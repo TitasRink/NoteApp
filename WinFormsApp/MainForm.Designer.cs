@@ -186,7 +186,6 @@
             this.AddUserButton.TabIndex = 17;
             this.AddUserButton.Text = "Add user";
             this.AddUserButton.UseVisualStyleBackColor = true;
-            this.AddUserButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // RemoveButton
             // 

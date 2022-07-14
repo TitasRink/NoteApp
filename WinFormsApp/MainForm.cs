@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsApp
@@ -20,7 +20,7 @@ namespace WinFormsApp
         public MainForm()
         {
             InitializeComponent();
-            //ShowLoginOnlyMenu();
+            ShowLoginOnlyMenu();
         }
         static string ReturnToken(string token)
         {
@@ -34,24 +34,24 @@ namespace WinFormsApp
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 UserModel user = new UserModel { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
                 var response = client.PostAsJsonAsync("/api/user/Log in", user).Result;
-                token = response.Content.ReadAsStringAsync().ToString();
-
+                Task<string> result = response.Content.ReadAsStringAsync();
+                globalToken = result.Result.ToString();
 
                 ShowLogedUserMenu();
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:44317/");
-                UserModel user = new UserModel { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
-                var response = client.PostAsJsonAsync("/api/user/Create User", user).Result;
-                token = response.Content.ReadAsStringAsync().ToString();
-                ShowLogedUserMenu();
-            }
-        }
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri("https://localhost:44317/");
+        //        UserModel user = new UserModel { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
+        //        var response = client.PostAsJsonAsync("/api/user/Create User", user).Result;
+        //        token = response.Content.ReadAsStringAsync().ToString();
+        //        ShowLogedUserMenu();
+        //    }
+        //}
 
         private void AddCategoryButton_Click(object sender, EventArgs e)
         {
@@ -105,6 +105,6 @@ namespace WinFormsApp
             dataGridView1.Hide();
 
         }
-
+        public static string globalToken;
     }
 }
