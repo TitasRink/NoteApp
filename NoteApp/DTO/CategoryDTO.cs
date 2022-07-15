@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace NoteApp.Repository.DTO
 {
-    public class UserDTO
+    public class CategoryDTO
     {
-        public string IdName { get; set; }
-        public string Name { get; set; }    
-        public string Message { get; set; }
+        public string Name { get; set; }
+        public string UserNameId { get; set; }
     }
 }

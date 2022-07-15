@@ -31,7 +31,7 @@ namespace NoteApp.Repository.Entities
         {
             Name = name;
             Message=message;
-            UserModelId = UserModelId;
+            UserModelId = userModelId;
             Categories = new List<CategoryModel>();
         }
     }
