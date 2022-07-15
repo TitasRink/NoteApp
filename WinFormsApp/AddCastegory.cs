@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
+using System.Net.Http.Json;
 using System.Windows.Forms;
 
 namespace WinFormsApp
 {
     public partial class AddCastegory : Form
     {
+        HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create("https://localhost:44317/");
         public AddCastegory()
         {
             InitializeComponent();
@@ -18,23 +19,14 @@ namespace WinFormsApp
         {
             using (var client = new HttpClient())
             {
-                try
-                {
-                    client.BaseAddress = new Uri("https://localhost:44317/");
-                    CategoryModelForm cat = new CategoryModelForm { Name = CategoryTextBox.Text, IdName = MainForm.globalUserName };
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
-                    var inputJson = JsonConvert.SerializeObject(cat);
-                    HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
-                    var response = client.PostAsync("/api/Services/Create_Category", inputContent).Result;
-                    MessageBox.Show("dasd");
-                }
-                catch (Exception t)
-                {
-                    MessageBox.Show(t.Message.ToString());
-
-                }
+                CategoryModel cat = new CategoryModel { Name = CategoryTextBox.Text };
+                myHttpWebRequest.SendChunked = false;
+                client.BaseAddress = new Uri("https://localhost:44317/");
+                //client.DefaultRequestHeaders.Add("Bearer", MainForm.globalToken);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                var response = client.PostAsJsonAsync("/api/Services/Create Category", cat).Result;
+                MessageBox.Show(response.ToString());
             }
-            Close();
         }
     }
 }

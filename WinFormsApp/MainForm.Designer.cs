@@ -66,9 +66,9 @@
             this.UsernameTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.UsernameTextBox.Location = new System.Drawing.Point(84, 342);
             this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(68, 25);
+            this.UsernameTextBox.Size = new System.Drawing.Size(52, 25);
             this.UsernameTextBox.TabIndex = 7;
-            this.UsernameTextBox.Text = "empty";
+            this.UsernameTextBox.Text = "User";
             // 
             // WelcomeLabel
             // 
@@ -186,7 +186,6 @@
             this.AddUserButton.TabIndex = 17;
             this.AddUserButton.Text = "Add user";
             this.AddUserButton.UseVisualStyleBackColor = true;
-            this.AddUserButton.Click += new System.EventHandler(this.AddUserButton_Click);
             // 
             // RemoveButton
             // 

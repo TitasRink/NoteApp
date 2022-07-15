@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NoteApp.Repository.DTO
 {
-    public class UserDTO
+    public class NoteDTO
     {
         public string IdName { get; set; }
         public string Name { get; set; }    

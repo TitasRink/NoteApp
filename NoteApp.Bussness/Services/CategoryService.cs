@@ -15,7 +15,7 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        public Result CreateCategory(string name, string userNameId)
+        public Result CreateCategory(string name)
         {
             try
             {
@@ -23,14 +23,13 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, $"{name} Allready exists");
                 }
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(userNameId))
+                if (string.IsNullOrEmpty(name))
                 {
                     return new Result(false, "Fill up fields");
                 }
                 else
                 {
-                    var id = Con.Users.Where(x => x.LoginName == userNameId).FirstOrDefault().Id;
-                    Con.Notes.Where(x => x.UserModelId == id).FirstOrDefault().Categories.Add(new CategoryModel(name));
+                    Con.Categories.Add(new CategoryModel(name));
                     Con.SaveChanges();
                     return new Result(true, "Created");
                 }

@@ -52,7 +52,7 @@ namespace NoteApp.API.Controllers
 
         [HttpGet("Get User Info"), Authorize]
         
-        public Result Getusers(string name)
+        public Result getusers(string name)
         {
             var result = _userService.GetUsers(name);
             return result;
@@ -61,9 +61,11 @@ namespace NoteApp.API.Controllers
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using var hmac = new HMACSHA512();
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

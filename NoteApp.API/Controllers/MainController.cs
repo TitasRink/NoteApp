@@ -21,49 +21,50 @@ namespace NoteApp.API.Controllers
             _categoryService = categoryService;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost("Create_note_and_mesage"), Authorize]
-        public ActionResult Create([FromBody] UserDTO note)
+        public ActionResult Create([FromBody] NoteDTO note)
         {
             var result = _noteService.CreateNoteAndMessage(note.Name, note.Message, note.IdName);
             return Ok(result);
         }
 
-        [HttpPost("Move_note_to_category"), Authorize]
+        [HttpPost("Move note to category"), Authorize]
         public ActionResult MoveNote(string category, string note)
         {
             var result = _noteService.MoveNoteToCategory(category, note);
             return Ok(result);
         }
 
-        [HttpPost("Update_Note"), Authorize]
+        [HttpPost("Update Note"), Authorize]
         public ActionResult UpdateNote(string oldnote, string newnote)
         {
             var result = _noteService.UpdateNote(oldnote, newnote);
             return Ok(result);
         }
 
-        [HttpDelete("Remove_Note"), Authorize]
+        [HttpDelete("Remove Note"), Authorize]
         public ActionResult RemoveNote(string name)
         {
             var result = _noteService.DeleteNote(name);
             return Ok(result);
         }
 
-        [HttpPost("Create_Category"), Authorize]
-        public ActionResult Createcategory([FromBody] CategoryDTO category)
+        [HttpPost("Create Category"), Authorize]
+        public ActionResult Createcategory(string name)
         {
-            var result = _categoryService.CreateCategory(category.Name, category.UserNameId);
+            var result = _categoryService.CreateCategory(name);
             return Ok(result);
         }
 
-        [HttpPost("Rename_category_name"), Authorize]
+        [HttpPost("Rename category name"), Authorize]
         public ActionResult UpdateCategory(string oldname, string newname)
         {
             var result = _categoryService.UpdateCategoryName(oldname, newname);
             return Ok(result);
         }
 
-        [HttpDelete("Remove_Category"), Authorize]
+        [HttpDelete("Remove Category"), Authorize]
         public ActionResult RemoveCategory(string name)
         {
             var result = _categoryService.DeleteCategory(name);
@@ -71,14 +72,14 @@ namespace NoteApp.API.Controllers
         }
 
        
-        [HttpPost("Find_all_Notes_by_category"), Authorize]
+        [HttpPost("Find all Notes by category"), Authorize]
         public async Task<ActionResult> FindNotesByCastegory(string category)
         {
             var result = await Task.Run(() => _noteService.FilterByCategory(category));
             return Ok(result);
         }
 
-        [HttpPost("Find_all_Notes_by_name"), Authorize]
+        [HttpPost("Find all Notes by name"), Authorize]
         public async Task<ActionResult> FindNotesByName(string name)
         {
             var result = await Task.Run(() => _noteService.FilterByNote(name));

@@ -20,7 +20,10 @@ namespace NoteApp.Repository.Entities
         public  UserModel()
         {
         }
-
+        public UserModel(string loginName)
+        {
+            LoginName = loginName;
+        }
         public UserModel(string loginName, byte[] passwordHash, byte[] passwordSalt)
         {
             LoginName = loginName;

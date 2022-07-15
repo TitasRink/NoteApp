@@ -5,7 +5,7 @@ namespace NoteApp.Bussness.Interfaces
 {
     public interface INoteService
     {
-        Result CreateNoteAndMessage(string name, string message, string userNameId);
+        Result CreateNoteAndMessage(string name, string message, int userId);
         Result MoveNoteToCategory(string categoty, string note);
         Result UpdateNote(string oldnNote, string newNote);
         Result DeleteNote(string name);
