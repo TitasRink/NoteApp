@@ -22,11 +22,7 @@ namespace WinFormsApp
             InitializeComponent();
             ShowLoginOnlyMenu();
         }
-        static string ReturnToken(string token)
-        {
-            var _token = token;
-            return token;
-        }
+     
         private void LoginButton_Click_1(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
@@ -34,7 +30,7 @@ namespace WinFormsApp
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 UserModel user = new UserModel { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
                 var response = client.PostAsJsonAsync("/api/user/Log in", user).Result;
-                Task<string> result = response.Content.ReadAsStringAsync();
+                var result = response.Content.ReadAsStringAsync();
                 globalToken = result.Result.ToString();
 
                 ShowLogedUserMenu();
@@ -53,6 +49,11 @@ namespace WinFormsApp
         //    }
         //}
 
+        private void AddNoteButton_Click(object sender, EventArgs e)
+        {
+            AddNote note = new AddNote();
+            note.Show();
+        }
         private void AddCategoryButton_Click(object sender, EventArgs e)
         {
             AddCastegory addCastegory = new AddCastegory();
@@ -106,5 +107,6 @@ namespace WinFormsApp
 
         }
         public static string globalToken;
+
     }
 }

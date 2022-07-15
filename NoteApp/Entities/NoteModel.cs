@@ -27,11 +27,11 @@ namespace NoteApp.Repository.Entities
             Categories = new List<CategoryModel>();
         }
 
-        public NoteModel(string name, string message, int userId)
+        public NoteModel(string name, string message, int userModelId)
         {
             Name = name;
             Message=message;
-            UserModelId = userId;
+            UserModelId = UserModelId;
             Categories = new List<CategoryModel>();
         }
     }

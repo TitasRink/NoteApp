@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -8,6 +9,7 @@ namespace WinFormsApp
 {
     public partial class AddCastegory : Form
     {
+        HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create("https://localhost:44317/");
         public AddCastegory()
         {
             InitializeComponent();
@@ -18,7 +20,7 @@ namespace WinFormsApp
             using (var client = new HttpClient())
             {
                 CategoryModel cat = new CategoryModel { Name = CategoryTextBox.Text };
-
+                myHttpWebRequest.SendChunked = false;
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 //client.DefaultRequestHeaders.Add("Bearer", MainForm.globalToken);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);

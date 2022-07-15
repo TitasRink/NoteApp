@@ -78,6 +78,7 @@
             this.NoteConfirmButton.TabIndex = 8;
             this.NoteConfirmButton.Text = "Confirm";
             this.NoteConfirmButton.UseVisualStyleBackColor = true;
+            this.NoteConfirmButton.Click += new System.EventHandler(this.NoteConfirmButton_Click);
             // 
             // AddNote
             // 

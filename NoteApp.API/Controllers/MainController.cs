@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Bussness.Interfaces;
+using NoteApp.Repository.DTO;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace NoteApp.API.Controllers
 {
@@ -11,6 +13,7 @@ namespace NoteApp.API.Controllers
     {
         private readonly INoteService _noteService;
         private readonly ICategoryService _categoryService;
+        
 
         public MainController(INoteService noteService, ICategoryService categoryService)
         {
@@ -18,10 +21,11 @@ namespace NoteApp.API.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpPost("Create note and mesage"), Authorize]
-        public ActionResult Create(string name, string message)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost("Create_note_and_mesage"), Authorize]
+        public ActionResult Create([FromBody] NoteDTO note)
         {
-            var result = _noteService.CreateNoteAndMessage(name, message);
+            var result = _noteService.CreateNoteAndMessage(note.Name, note.Message, note.IdName);
             return Ok(result);
         }
 

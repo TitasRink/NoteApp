@@ -222,6 +222,7 @@
             this.AddNoteButton.TabIndex = 14;
             this.AddNoteButton.Text = "Add Note";
             this.AddNoteButton.UseVisualStyleBackColor = true;
+            this.AddNoteButton.Click += new System.EventHandler(this.AddNoteButton_Click);
             // 
             // AddCategoryButton
             // 

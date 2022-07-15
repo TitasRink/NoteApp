@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NoteApp.Bussness.Interfaces;
+﻿using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 using System;
@@ -17,7 +16,7 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        public Result CreateNoteAndMessage(string name, string message)
+        public Result CreateNoteAndMessage(string name, string message, int userId)
         {
             try
             {
@@ -27,9 +26,8 @@ namespace NoteApp.Bussness.Services
                 }
                 else
                 {
-                    Con.Notes.Add(new NoteModel(name, message));
+                    Con.Notes.Add(new NoteModel(name, message, userId));
                     Con.SaveChanges();
-
                     return new Result(true, "Note and message Created");
                 }
             }
