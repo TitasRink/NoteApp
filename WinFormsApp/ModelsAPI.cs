@@ -1,17 +1,17 @@
 ﻿namespace WinFormsApp
 {
-    public class UserModel
+    public class UserModelForm
     {
         public string UserName { get; set; }
         public string Password { get; set; }
     }
-    public class CategoryModel
+    public class CategoryModelForm
     {
-        public string IdName { get; set; }
         public string Name { get; set; }
+        public string IdName { get; set; }
     }
 
-    public class NoteModel
+    public class NoteModelForm
     {
         public string IdName { get; set; }
         public string Name { get; set; }

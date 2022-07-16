@@ -21,11 +21,17 @@ namespace NoteApp.API.Controllers
             _categoryService = categoryService;
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost("Create_note_and_mesage"), Authorize]
         public ActionResult Create([FromBody] NoteDTO note)
         {
             var result = _noteService.CreateNoteAndMessage(note.Name, note.Message, note.IdName);
+            return Ok(result);
+        }
+
+        [HttpPost("Create_Category"), Authorize]
+        public ActionResult Createcategory([FromBody] CategoryDTO category)
+        {
+            var result = _categoryService.CreateCategory(category.Name, category.UserNameId);
             return Ok(result);
         }
 
@@ -36,24 +42,17 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Update Note"), Authorize]
+        [HttpPost("Update_Note"), Authorize]
         public ActionResult UpdateNote(string oldnote, string newnote)
         {
             var result = _noteService.UpdateNote(oldnote, newnote);
             return Ok(result);
         }
 
-        [HttpDelete("Remove Note"), Authorize]
+        [HttpDelete("Remove_Note"), Authorize]
         public ActionResult RemoveNote(string name)
         {
             var result = _noteService.DeleteNote(name);
-            return Ok(result);
-        }
-
-        [HttpPost("Create Category"), Authorize]
-        public ActionResult Createcategory(string name)
-        {
-            var result = _categoryService.CreateCategory(name);
             return Ok(result);
         }
 

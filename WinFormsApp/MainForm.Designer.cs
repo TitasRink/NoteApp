@@ -46,6 +46,7 @@
             this.EditButton = new System.Windows.Forms.Button();
             this.AddNoteButton = new System.Windows.Forms.Button();
             this.AddCategoryButton = new System.Windows.Forms.Button();
+            this.LogedInLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -88,6 +89,7 @@
             this.LogoutButton.TabIndex = 5;
             this.LogoutButton.Text = "Log out";
             this.LogoutButton.UseVisualStyleBackColor = true;
+            this.LogoutButton.Click += new System.EventHandler(this.LogoutButton_Click);
             // 
             // LoginButton
             // 
@@ -149,6 +151,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.LogedInLabel);
             this.panel1.Controls.Add(this.ExitButton);
             this.panel1.Controls.Add(this.AddUserButton);
             this.panel1.Controls.Add(this.RemoveButton);
@@ -186,6 +189,7 @@
             this.AddUserButton.TabIndex = 17;
             this.AddUserButton.Text = "Add user";
             this.AddUserButton.UseVisualStyleBackColor = true;
+            this.AddUserButton.Click += new System.EventHandler(this.AddUserButton_Click);
             // 
             // RemoveButton
             // 
@@ -237,6 +241,16 @@
             this.AddCategoryButton.UseVisualStyleBackColor = true;
             this.AddCategoryButton.Click += new System.EventHandler(this.AddCategoryButton_Click);
             // 
+            // LogedInLabel
+            // 
+            this.LogedInLabel.AutoSize = true;
+            this.LogedInLabel.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
+            this.LogedInLabel.Location = new System.Drawing.Point(55, 321);
+            this.LogedInLabel.Name = "LogedInLabel";
+            this.LogedInLabel.Size = new System.Drawing.Size(119, 21);
+            this.LogedInLabel.TabIndex = 19;
+            this.LogedInLabel.Text = "Loged in User:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -273,5 +287,6 @@
         private System.Windows.Forms.Button AddCategoryButton;
         private System.Windows.Forms.Button AddUserButton;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Label LogedInLabel;
     }
 }

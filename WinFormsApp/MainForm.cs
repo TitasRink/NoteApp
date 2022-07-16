@@ -25,30 +25,30 @@ namespace WinFormsApp
      
         private void LoginButton_Click_1(object sender, EventArgs e)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:44317/");
-                UserModel user = new UserModel { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
-                var response = client.PostAsJsonAsync("/api/user/Log in", user).Result;
-                var result = response.Content.ReadAsStringAsync();
-                globalToken = result.Result.ToString();
-
-                ShowLogedUserMenu();
-            }
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:44317/");
+            UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
+            var response = client.PostAsJsonAsync("/api/user/Log_in", user).Result;
+            var result = response.Content.ReadAsStringAsync();
+            globalToken = result.Result.ToString();
+            globalUserName = UserInputBox.Text;
+            UsernameTextBox.Text = globalUserName;
+            ShowLogedUserMenu();
+        }
+        private void AddUserButton_Click(object sender, EventArgs e)
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:44317/");
+            UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
+            var response = client.PostAsJsonAsync("/api/user/Create_User", user).Result;
+            var result = response.Content.ReadAsStringAsync();
+            globalToken = result.Result.ToString();
+            ShowLogedUserMenu();
+            globalUserName = UserInputBox.Text;
+            UsernameTextBox.Text = globalUserName;
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.BaseAddress = new Uri("https://localhost:44317/");
-        //        UserModel user = new UserModel { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
-        //        var response = client.PostAsJsonAsync("/api/user/Create User", user).Result;
-        //        token = response.Content.ReadAsStringAsync().ToString();
-        //        ShowLogedUserMenu();
-        //    }
-        //}
-
+     
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
             AddNote note = new AddNote();
@@ -58,17 +58,15 @@ namespace WinFormsApp
         {
             AddCastegory addCastegory = new AddCastegory();
             addCastegory.Show();
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:44317/");
-            //    client.DefaultRequestHeaders.Add("Authorization", token);
-            //    CategoryModel cat = new CategoryModel { Name = }
-            //   // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            //    var response = client.PostAsJsonAsync("/api/Services/Create Category", ).Result;
-            //    MessageBox.Show(response.ToString());
-            //}
         }
-     
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            UserInputBox.Text = "";
+            PasswordInputBox.Text = "";
+            globalToken = "";
+            ShowLoginOnlyMenu();
+        }
+
         private void ShowLogedUserMenu()
         {
             UsernameTextBox.Hide();
@@ -85,6 +83,8 @@ namespace WinFormsApp
             LogoutButton.Show();
             UsernameTextBox.Show();
             dataGridView1.Show();
+            WelcomeLabel.Show();
+            LogedInLabel.Show();
             
         }
 
@@ -104,9 +104,10 @@ namespace WinFormsApp
             LogoutButton.Hide();
             UsernameTextBox.Hide();
             dataGridView1.Hide();
+            LogedInLabel.Hide();
 
         }
-        public static string globalToken;
-
+        public static string globalToken = "";
+        public static string globalUserName = "";
     }
 }

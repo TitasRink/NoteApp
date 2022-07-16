@@ -1,4 +1,5 @@
-﻿using NoteApp.Bussness.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 using System;
@@ -16,17 +17,20 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        public Result CreateNoteAndMessage(string name, string message, int userId)
+        public Result CreateNoteAndMessage(string name, string message, string userNameId)
         {
             try
             {
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(message))
+                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(message) || string.IsNullOrEmpty(userNameId))
                 {
                     return new Result(false, "Fill up fields");
                 }
                 else
                 {
-                    Con.Notes.Add(new NoteModel(name, message, userId));
+                    var id = Con.Users.Include(x=>x.Notes).Where(x => x.LoginName == userNameId).FirstOrDefault().Id;
+                    var user = Con.Users.Where(x => x.Id == id).FirstOrDefault();
+                    NoteModel note = new(name, message, id);
+                    user.Notes.Add(note);
                     Con.SaveChanges();
                     return new Result(true, "Note and message Created");
                 }

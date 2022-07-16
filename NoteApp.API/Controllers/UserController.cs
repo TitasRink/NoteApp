@@ -25,7 +25,7 @@ namespace NoteApp.API.Controllers
             _userService = userService;
         }
 
-        [HttpPost("Log in")]
+        [HttpPost("Log_in")]
         public IActionResult Login([FromBody] UserDto user)
         {
             var getuser = _context.Users.Where(x => x.LoginName == user.Username).FirstOrDefault();
@@ -43,7 +43,7 @@ namespace NoteApp.API.Controllers
             return Ok(token);
         }
         
-        [HttpPost("Create User")]
+        [HttpPost("Create_User")]
         public IActionResult CreateUser([FromBody] UserDto user)
         {
             var result = _userService.CreateUser(user.Username, user.Password);
@@ -52,7 +52,7 @@ namespace NoteApp.API.Controllers
 
         [HttpGet("Get User Info"), Authorize]
         
-        public Result getusers(string name)
+        public Result Getusers(string name)
         {
             var result = _userService.GetUsers(name);
             return result;
@@ -61,11 +61,9 @@ namespace NoteApp.API.Controllers
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
+            using var hmac = new HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
