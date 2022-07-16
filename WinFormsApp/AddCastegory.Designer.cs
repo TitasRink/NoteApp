@@ -82,6 +82,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CastegoryConfirmButton);
             this.Name = "AddCastegory";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddCastegory";
             this.ResumeLayout(false);
             this.PerformLayout();

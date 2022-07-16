@@ -77,28 +77,22 @@ namespace NoteApp.Bussness.Services
                 return new Result(false, $"Error {e.Message}");
             }
         }
-        public Result UpdateNote(string oldnNote, string newNote)
+        public Result UpdateNote(string noteName, string newMessage)
         {
             try
             {
-                if (string.IsNullOrEmpty(oldnNote) && string.IsNullOrEmpty(newNote))
+                if (string.IsNullOrEmpty(noteName) && string.IsNullOrEmpty(newMessage))
                 {
                     return new Result(false, "Fill up fields");
                 }
-                if (Con.Notes.Any(x => x.Name == newNote))
+                else
                 {
-                    return new Result(false, $"Note : {newNote} allready exists");
-                }
-                if (Con.Categories.Any(x => x.Name == oldnNote))
-                {
-                    return new Result(false, $"Note : {oldnNote} not found ");
-                }
+                    var oldName = Con.Notes.Where(x => x.Name == noteName).FirstOrDefault();
+                    oldName.Message = newMessage;
+                    Con.SaveChanges();
 
-                var oldName = Con.Notes.Where(x => x.Name == oldnNote).FirstOrDefault();
-                oldName.Name = newNote;
-                Con.SaveChanges();
-
-                return new Result(true, "Renamed");
+                    return new Result(true, "Renamed");
+                }
             }
             catch (Exception e)
             {
@@ -113,7 +107,7 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, "Fill up fields");
                 }
-                if (Con.Notes.Any(x => x.Name == name))
+                if (!Con.Notes.Any(x => x.Name == name))
                 {
                     return new Result(false, $"Note {name} do not exists");
                 }

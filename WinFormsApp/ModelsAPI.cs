@@ -8,7 +8,7 @@
     public class CategoryModelForm
     {
         public string Name { get; set; }
-        public string IdName { get; set; }
+        public string UserNameId { get; set; }
     }
 
     public class NoteModelForm

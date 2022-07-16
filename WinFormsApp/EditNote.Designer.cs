@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp
 {
-    partial class AddNote
+    partial class EditNote
     {
         /// <summary>
         /// Required designer variable.
@@ -29,70 +29,61 @@
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
-            this.NoteNameTextBox = new System.Windows.Forms.TextBox();
-            this.NoteTextBox = new System.Windows.Forms.TextBox();
+            this.EditNoteTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.NoteConfirmButton = new System.Windows.Forms.Button();
+            this.EditNoteConfirmButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(80, 61);
+            this.label2.Location = new System.Drawing.Point(149, 64);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 21);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Name";
+            this.label2.Size = new System.Drawing.Size(87, 21);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "New Note";
             // 
-            // NoteNameTextBox
+            // EditNoteTextBox
             // 
-            this.NoteNameTextBox.Location = new System.Drawing.Point(171, 59);
-            this.NoteNameTextBox.Name = "NoteNameTextBox";
-            this.NoteNameTextBox.Size = new System.Drawing.Size(167, 23);
-            this.NoteNameTextBox.TabIndex = 11;
-            // 
-            // NoteTextBox
-            // 
-            this.NoteTextBox.Location = new System.Drawing.Point(46, 88);
-            this.NoteTextBox.Multiline = true;
-            this.NoteTextBox.Name = "NoteTextBox";
-            this.NoteTextBox.Size = new System.Drawing.Size(292, 87);
-            this.NoteTextBox.TabIndex = 10;
+            this.EditNoteTextBox.Location = new System.Drawing.Point(46, 88);
+            this.EditNoteTextBox.Multiline = true;
+            this.EditNoteTextBox.Name = "EditNoteTextBox";
+            this.EditNoteTextBox.Size = new System.Drawing.Size(292, 87);
+            this.EditNoteTextBox.TabIndex = 15;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(126, 20);
+            this.label1.Location = new System.Drawing.Point(149, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 21);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Add new Note";
+            this.label1.Size = new System.Drawing.Size(82, 21);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Edit Note";
             // 
-            // NoteConfirmButton
+            // EditNoteConfirmButton
             // 
-            this.NoteConfirmButton.Location = new System.Drawing.Point(136, 201);
-            this.NoteConfirmButton.Name = "NoteConfirmButton";
-            this.NoteConfirmButton.Size = new System.Drawing.Size(100, 40);
-            this.NoteConfirmButton.TabIndex = 8;
-            this.NoteConfirmButton.Text = "Confirm";
-            this.NoteConfirmButton.UseVisualStyleBackColor = true;
-            this.NoteConfirmButton.Click += new System.EventHandler(this.NoteConfirmButton_Click);
+            this.EditNoteConfirmButton.Location = new System.Drawing.Point(136, 201);
+            this.EditNoteConfirmButton.Name = "EditNoteConfirmButton";
+            this.EditNoteConfirmButton.Size = new System.Drawing.Size(100, 40);
+            this.EditNoteConfirmButton.TabIndex = 13;
+            this.EditNoteConfirmButton.Text = "Confirm";
+            this.EditNoteConfirmButton.UseVisualStyleBackColor = true;
+            this.EditNoteConfirmButton.Click += new System.EventHandler(this.EditNoteConfirmButton_Click);
             // 
-            // AddNote
+            // EditNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.NoteNameTextBox);
-            this.Controls.Add(this.NoteTextBox);
+            this.Controls.Add(this.EditNoteTextBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.NoteConfirmButton);
-            this.Name = "AddNote";
+            this.Controls.Add(this.EditNoteConfirmButton);
+            this.Name = "EditNote";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddNote";
+            this.Text = "EditNote";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,9 +92,8 @@
         #endregion
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox NoteNameTextBox;
-        private System.Windows.Forms.TextBox NoteTextBox;
+        private System.Windows.Forms.TextBox EditNoteTextBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button NoteConfirmButton;
+        private System.Windows.Forms.Button EditNoteConfirmButton;
     }
 }

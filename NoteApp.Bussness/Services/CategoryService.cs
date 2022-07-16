@@ -55,7 +55,7 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, $"Category : {newName} allready exists");
                 }
-                if (Con.Categories.Any(x => x.Name == oldnName))
+                if (!Con.Categories.Any(x => x.Name == oldnName))
                 {
                     return new Result(false, $"Category : {oldnName} not found ");
                 }

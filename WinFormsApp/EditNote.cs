@@ -7,31 +7,33 @@ using System.Windows.Forms;
 
 namespace WinFormsApp
 {
-    public partial class AddCastegory : Form
+    public partial class EditNote : Form
     {
-        public AddCastegory()
+        public EditNote()
         {
             InitializeComponent();
         }
-
-        private void CastegoryConfirmButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// TODO hard coded note name to find, need  change to selected from mainform
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditNoteConfirmButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
             {
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    CategoryModelForm cat = new() { Name = CategoryTextBox.Text, UserNameId = MainForm.globalUserName };
+                    NoteModelForm note = new() { Name = "testas", Message = EditNoteTextBox.Text };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
-                    string inputJson = JsonConvert.SerializeObject(cat);
-                    HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
-                    var response = client.PostAsync("/api/Services/Create_Category", inputContent).Result;
-                    MessageBox.Show(response.ToString());
+                    string inputJson = JsonConvert.SerializeObject(note);
+                    var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync("/api/Services/Update_Note", inputContent).Result;
                 }
                 catch (Exception t)
                 {
                     MessageBox.Show(t.Message.ToString());
-
                 }
             }
             Close();

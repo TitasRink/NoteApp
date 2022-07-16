@@ -40,13 +40,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.RenameCategory = new System.Windows.Forms.Button();
+            this.LogedInLabel = new System.Windows.Forms.Label();
             this.ExitButton = new System.Windows.Forms.Button();
             this.AddUserButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.EditButton = new System.Windows.Forms.Button();
             this.AddNoteButton = new System.Windows.Forms.Button();
             this.AddCategoryButton = new System.Windows.Forms.Button();
-            this.LogedInLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +66,7 @@
             // 
             this.UsernameTextBox.AutoSize = true;
             this.UsernameTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.UsernameTextBox.Location = new System.Drawing.Point(84, 342);
+            this.UsernameTextBox.Location = new System.Drawing.Point(84, 368);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(52, 25);
             this.UsernameTextBox.TabIndex = 7;
@@ -83,7 +84,7 @@
             // 
             // LogoutButton
             // 
-            this.LogoutButton.Location = new System.Drawing.Point(72, 370);
+            this.LogoutButton.Location = new System.Drawing.Point(72, 396);
             this.LogoutButton.Name = "LogoutButton";
             this.LogoutButton.Size = new System.Drawing.Size(83, 23);
             this.LogoutButton.TabIndex = 5;
@@ -151,6 +152,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.RenameCategory);
             this.panel1.Controls.Add(this.LogedInLabel);
             this.panel1.Controls.Add(this.ExitButton);
             this.panel1.Controls.Add(this.AddUserButton);
@@ -171,6 +173,29 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(232, 696);
             this.panel1.TabIndex = 3;
+            // 
+            // RenameCategory
+            // 
+            this.RenameCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RenameCategory.Location = new System.Drawing.Point(103, 216);
+            this.RenameCategory.Name = "RenameCategory";
+            this.RenameCategory.Size = new System.Drawing.Size(103, 30);
+            this.RenameCategory.TabIndex = 20;
+            this.RenameCategory.Text = "RENAME";
+            this.RenameCategory.UseVisualStyleBackColor = true;
+            this.RenameCategory.Click += new System.EventHandler(this.RenameCategory_Click);
+            // 
+            // LogedInLabel
+            // 
+            this.LogedInLabel.AutoSize = true;
+            this.LogedInLabel.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
+            this.LogedInLabel.Location = new System.Drawing.Point(70, 347);
+            this.LogedInLabel.Name = "LogedInLabel";
+            this.LogedInLabel.Size = new System.Drawing.Size(85, 21);
+            this.LogedInLabel.TabIndex = 19;
+            this.LogedInLabel.Text = "Loged as :";
             // 
             // ExitButton
             // 
@@ -196,24 +221,26 @@
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RemoveButton.Location = new System.Drawing.Point(103, 268);
+            this.RemoveButton.Location = new System.Drawing.Point(103, 288);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(103, 30);
             this.RemoveButton.TabIndex = 15;
             this.RemoveButton.Text = "REMOVE";
             this.RemoveButton.UseVisualStyleBackColor = true;
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
             // EditButton
             // 
             this.EditButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditButton.Location = new System.Drawing.Point(103, 232);
+            this.EditButton.Location = new System.Drawing.Point(103, 252);
             this.EditButton.Name = "EditButton";
             this.EditButton.Size = new System.Drawing.Size(103, 30);
             this.EditButton.TabIndex = 16;
             this.EditButton.Text = "EDIT";
             this.EditButton.UseVisualStyleBackColor = true;
+            this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
             // 
             // AddNoteButton
             // 
@@ -241,16 +268,6 @@
             this.AddCategoryButton.UseVisualStyleBackColor = true;
             this.AddCategoryButton.Click += new System.EventHandler(this.AddCategoryButton_Click);
             // 
-            // LogedInLabel
-            // 
-            this.LogedInLabel.AutoSize = true;
-            this.LogedInLabel.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
-            this.LogedInLabel.Location = new System.Drawing.Point(55, 321);
-            this.LogedInLabel.Name = "LogedInLabel";
-            this.LogedInLabel.Size = new System.Drawing.Size(119, 21);
-            this.LogedInLabel.TabIndex = 19;
-            this.LogedInLabel.Text = "Loged in User:";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -259,6 +276,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -288,5 +306,6 @@
         private System.Windows.Forms.Button AddUserButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Label LogedInLabel;
+        private System.Windows.Forms.Button RenameCategory;
     }
 }

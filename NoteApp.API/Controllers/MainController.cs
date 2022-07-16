@@ -35,31 +35,31 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Move note to category"), Authorize]
-        public ActionResult MoveNote(string category, string note)
+        [HttpPost("Remove_Note"), Authorize]
+        public ActionResult RemoveNote([FromBody] NoteDTO note)
         {
-            var result = _noteService.MoveNoteToCategory(category, note);
+            var result = _noteService.DeleteNote(note.Name);
+            return Ok(result);
+        }
+        //neveikia dar su UI
+        [HttpPost("Move_note_to_category"), Authorize]
+        public ActionResult MoveNote([FromBody] CategoryDTO category)
+        {
+            var result = _noteService.MoveNoteToCategory(category.Name , category.UserNameId);
             return Ok(result);
         }
 
         [HttpPost("Update_Note"), Authorize]
-        public ActionResult UpdateNote(string oldnote, string newnote)
+        public ActionResult UpdateNote([FromBody] NoteDTO note)
         {
-            var result = _noteService.UpdateNote(oldnote, newnote);
+            var result = _noteService.UpdateNote(note.Name, note.Message);
             return Ok(result);
         }
 
-        [HttpDelete("Remove_Note"), Authorize]
-        public ActionResult RemoveNote(string name)
+        [HttpPost("Rename_category_name"), Authorize]
+        public ActionResult UpdateCategory(CategoryDTO category)
         {
-            var result = _noteService.DeleteNote(name);
-            return Ok(result);
-        }
-
-        [HttpPost("Rename category name"), Authorize]
-        public ActionResult UpdateCategory(string oldname, string newname)
-        {
-            var result = _categoryService.UpdateCategoryName(oldname, newname);
+            var result = _categoryService.UpdateCategoryName(category.Name, category.UserNameId);
             return Ok(result);
         }
 

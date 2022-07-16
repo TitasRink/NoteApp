@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using System.Windows.Forms;
 
 namespace WinFormsApp
@@ -63,7 +66,40 @@ namespace WinFormsApp
                 UsernameTextBox.Text = globalUserName;
             }
         }
-     
+        /// <summary>
+        /// hardcode parameter need  locate selected from list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    NoteModelForm note = new() { Name = "bbbb" };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                    string inputJson = JsonConvert.SerializeObject(note);
+                    HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync("/api/Services/Remove_Note", inputContent).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Note deleted");
+                    }
+                    else
+                    {
+                        MessageBox.Show("error");
+                    }
+
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
+            }
+        }
+
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
             AddNote note = new AddNote();
@@ -73,6 +109,16 @@ namespace WinFormsApp
         {
             AddCastegory addCastegory = new AddCastegory();
             addCastegory.Show();
+        }
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            EditNote editNote = new EditNote();
+            editNote.Show();
+        }
+        private void RenameCategory_Click(object sender, EventArgs e)
+        {
+            RenameCategory category = new RenameCategory();
+            category.Show();
         }
         private void LogoutButton_Click(object sender, EventArgs e)
         {
@@ -122,7 +168,15 @@ namespace WinFormsApp
             LogedInLabel.Hide();
         }
 
+        private void dataView()
+        {
+
+            dataGridView1 = new DataGridView();
+            
+        }
         public static string globalToken = "";
         public static string globalUserName = "";
+
+
     }
 }
