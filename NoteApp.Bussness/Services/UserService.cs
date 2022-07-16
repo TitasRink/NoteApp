@@ -65,17 +65,24 @@ namespace NoteApp.Bussness.Services
         {
             try
             {
+                var usercheck = _context.Users.Any(x=>x.LoginName == name);
                 if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password))
                 {
                     return new Result(false, "Fill up fields");
                 }
+                if (usercheck)
+                {
+                    return new Result(false, "User allready exists");
+                }
+                else
+                {
+                    CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                    var user = new UserModel(name, passwordHash, passwordSalt);
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
 
-                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-                var user = new UserModel(name, passwordHash, passwordSalt);
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                
-                return new Result(true, "Created");
+                    return new Result(true, "Created");
+                }
             }
             catch (Exception e)
             {

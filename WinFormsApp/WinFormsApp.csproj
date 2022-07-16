@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.29" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="WebGrease" Version="1.6.0" />
   </ItemGroup>
 
 </Project>

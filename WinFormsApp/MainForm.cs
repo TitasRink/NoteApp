@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsApp
 {
-    
-
     public partial class MainForm : Form
     {
-        private string _username ;
-        private string _password ;
-        static string token = "";
-
-        public string Username { get { return  UserInputBox.Text; } set { _username= value; } }
-        public string Password { get { return PasswordInputBox.Text; } set { _password = value; } }
-
         public MainForm()
         {
             InitializeComponent();
@@ -25,15 +15,31 @@ namespace WinFormsApp
      
         private void LoginButton_Click_1(object sender, EventArgs e)
         {
-            using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44317/");
-            UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
-            var response = client.PostAsJsonAsync("/api/user/Log_in", user).Result;
-            var result = response.Content.ReadAsStringAsync();
-            globalToken = result.Result.ToString();
-            globalUserName = UserInputBox.Text;
-            UsernameTextBox.Text = globalUserName;
-            ShowLogedUserMenu();
+            try
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:44317/");
+                UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
+                var response = client.PostAsJsonAsync("/api/user/Log_in", user).Result;
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("User name or password is incorrect");
+                    UserInputBox.Text = "";
+                    PasswordInputBox.Text = "";
+                }
+                else
+                {
+                    var result = response.Content.ReadAsStringAsync();
+                    globalToken = result.Result.ToString();
+                    globalUserName = UserInputBox.Text;
+                    UsernameTextBox.Text = globalUserName;
+                    ShowLogedUserMenu();
+                }
+            }
+            catch (Exception t)
+            {
+                MessageBox.Show(t.Message);
+            }
         }
         private void AddUserButton_Click(object sender, EventArgs e)
         {
@@ -41,13 +47,22 @@ namespace WinFormsApp
             client.BaseAddress = new Uri("https://localhost:44317/");
             UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
             var response = client.PostAsJsonAsync("/api/user/Create_User", user).Result;
-            var result = response.Content.ReadAsStringAsync();
-            globalToken = result.Result.ToString();
-            ShowLogedUserMenu();
-            globalUserName = UserInputBox.Text;
-            UsernameTextBox.Text = globalUserName;
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("User name or password allready exists");
+                UserInputBox.Text = "";
+                PasswordInputBox.Text = "";
+                ShowLoginOnlyMenu();
+            }
+            else
+            {
+                var result = response.Content.ReadAsStringAsync();
+                globalToken = result.Result.ToString();
+                ShowLogedUserMenu();
+                globalUserName = UserInputBox.Text;
+                UsernameTextBox.Text = globalUserName;
+            }
         }
-
      
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
@@ -64,6 +79,7 @@ namespace WinFormsApp
             UserInputBox.Text = "";
             PasswordInputBox.Text = "";
             globalToken = "";
+            globalUserName = "";
             ShowLoginOnlyMenu();
         }
 
@@ -85,7 +101,6 @@ namespace WinFormsApp
             dataGridView1.Show();
             WelcomeLabel.Show();
             LogedInLabel.Show();
-            
         }
 
         private void ShowLoginOnlyMenu()
@@ -105,8 +120,8 @@ namespace WinFormsApp
             UsernameTextBox.Hide();
             dataGridView1.Hide();
             LogedInLabel.Hide();
-
         }
+
         public static string globalToken = "";
         public static string globalUserName = "";
     }

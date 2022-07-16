@@ -28,26 +28,46 @@ namespace NoteApp.API.Controllers
         [HttpPost("Log_in")]
         public IActionResult Login([FromBody] UserDto user)
         {
-            var getuser = _context.Users.Where(x => x.LoginName == user.Username).FirstOrDefault();
-
-            if (!VerifyPasswordHash(user.Password, getuser.PasswordHash, getuser.PasswordSalt))
+            try
             {
-                return BadRequest("Wrong username or/and password");
+                var getuser = _context.Users.Where(x => x.LoginName == user.Username).FirstOrDefault();
+                if (getuser == null)
+                {
+                    return BadRequest("Wrong username or/and password");
+                }
+                if (!VerifyPasswordHash(user.Password, getuser.PasswordHash, getuser.PasswordSalt))
+                {
+                    return BadRequest("Wrong username or/and password");
+                }
+                else
+                {
+                    var token = _userService.Login(user.Username, user.Password);
+
+                    if (token == null || token == String.Empty)
+                        return BadRequest("User name or password is incorrect");
+
+                    return Ok(token);
+                }
             }
-
-            var token = _userService.Login(user.Username, user.Password);
-
-            if (token == null || token == String.Empty)
-                return BadRequest(new { message = "User name or password is incorrect" });
-
-            return Ok(token);
+            catch (Exception t)
+            {
+                return Ok(t);
+            }
+         
         }
         
         [HttpPost("Create_User")]
         public IActionResult CreateUser([FromBody] UserDto user)
         {
             var result = _userService.CreateUser(user.Username, user.Password);
-            return Ok(result);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+            else
+            {
+                return Ok(result);
+            }
         }
 
         [HttpGet("Get User Info"), Authorize]
