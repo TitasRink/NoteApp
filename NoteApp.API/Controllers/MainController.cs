@@ -64,18 +64,18 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("Remove Category"), Authorize]
-        public ActionResult RemoveCategory(string name)
+        [HttpPost("Remove_Category"), Authorize]
+        public ActionResult RemoveCategory(CategoryDTO category)
         {
-            var result = _categoryService.DeleteCategory(name);
+            var result = _categoryService.DeleteCategory(category.Name);
             return Ok(result);
         }
 
        
-        [HttpPost("Find all Notes by category"), Authorize]
-        public async Task<ActionResult> FindNotesByCastegory(string category)
+        [HttpPost("Find_all_Notes_by_category"), Authorize]
+        public ActionResult FindNotesByCastegory(string category)
         {
-            var result = await Task.Run(() => _noteService.FilterByCategory(category));
+            var result = _noteService.FilterByCategory(category);
             return Ok(result);
         }
 
@@ -83,6 +83,13 @@ namespace NoteApp.API.Controllers
         public ActionResult FindNotesByName()
         {
             var result = _noteService.FilterByNote();
+            return Ok(result);
+        }
+
+        [HttpGet("Find_Categories"), Authorize]
+        public ActionResult FindAllCategoreys()
+        {
+            var result = _categoryService.FilterCategory();
             return Ok(result);
         }
     }

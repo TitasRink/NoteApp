@@ -13,4 +13,8 @@
     <PackageReference Include="WebGrease" Version="1.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

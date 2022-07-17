@@ -3,6 +3,7 @@ using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NoteApp.Bussness.Services
@@ -92,6 +93,18 @@ namespace NoteApp.Bussness.Services
             catch (Exception e)
             {
                 return new Result(false, $"Error {e.Message}");
+            }
+        }
+        public List<CategoryModel> FilterCategory()
+        {
+            try
+            {
+                var result = Con.Categories.ToList();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

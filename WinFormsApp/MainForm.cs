@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -69,11 +70,7 @@ namespace WinFormsApp
                 UsernameTextBox.Text = globalUserName;
             }
         }
-        /// <summary>
-        /// hardcode parameter need  locate selected from list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+  
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
@@ -81,20 +78,15 @@ namespace WinFormsApp
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    NoteModelForm note = new() { Name = "bbbb" };
+                    NoteModelForm notes = new() { Name = categorieNameList.SelectedItem.ToString() };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
-                    string inputJson = JsonConvert.SerializeObject(note);
-                    HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
-                    var response = client.PostAsync("/api/Services/Remove_Note", inputContent).Result;
-                    if (response.IsSuccessStatusCode)
+                    string inputJsonNote = JsonConvert.SerializeObject(notes);
+                    HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+                    var responseNote = client.PostAsync("/api/Services/Remove_Category", inputContentNote).Result;
+                    if (responseNote.IsSuccessStatusCode)
                     {
-                        MessageBox.Show("Note deleted");
+                        MessageBox.Show("Category deleted");
                     }
-                    else
-                    {
-                        MessageBox.Show("error");
-                    }
-
                 }
                 catch (Exception t)
                 {
@@ -116,11 +108,13 @@ namespace WinFormsApp
         private void EditButton_Click(object sender, EventArgs e)
         {
             EditNote editNote = new EditNote();
+            noteSetectedFromList = NotelistView.SelectedItems[0].Text;
             editNote.Show();
         }
         private void RenameCategory_Click(object sender, EventArgs e)
         {
             RenameCategory category = new RenameCategory();
+            categoryRename = categorieNameList.SelectedItem.ToString();
             category.Show();
         }
         private void LogoutButton_Click(object sender, EventArgs e)
@@ -174,23 +168,102 @@ namespace WinFormsApp
             RenameCategoryButton.Hide();
         }
 
-        private void dataViewAsync()
+        private async Task dataViewAsync()
         {
             using (var client = new HttpClient())
             {
+                List<NoteModelForm> notes = null;
+                List<CategoryModelForm> categories = null;
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
                 HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
-                var httpResponseMessage = client.GetAsync("/api/Services/Find_all_Notes_by_name").GetAwaiter().GetResult();
-                
-                dataGridView1 = new DataGridView();
-                dataGridView1.colu
 
+                var resultNotes = client.GetAsync("/api/Services/Find_all_Notes_by_name").GetAwaiter().GetResult();
+                var jsonStringNotes = await resultNotes.Content.ReadAsStringAsync();
+                notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNotes);
+
+                var resultCategory = client.GetAsync("/api/Services/Find_Categories").GetAwaiter().GetResult();
+                var jsonStringcategory = await resultCategory.Content.ReadAsStringAsync();
+                categories = JsonConvert.DeserializeObject<List<CategoryModelForm>>(jsonStringcategory);
+
+
+                foreach (var item in categories)
+                {
+                    categorieNameList.Items.Add(item.Name.ToString());
+                }
+                foreach (var item in notes)
+                {
+                    ListViewItem list = new ListViewItem(item.Name.ToString());
+
+                    list.SubItems.Add(item.Message.ToString());
+                    NotelistView.Items.Add(list);
+                }
                 
+          
             }
-            
         }
         public static string globalToken = "";
         public static string globalUserName = "";
+        public static string categoryRename = "";
+        public static string noteSetectedFromList = "";
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MoveToCategory_Click(object sender, EventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    CategoryModelForm cate = new() { Name = NotelistView.SelectedItems[0].Text, UserNameId = categorieNameList.SelectedItem.ToString()};
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                    string inputJsonNote = JsonConvert.SerializeObject(cate);
+                    HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+                    var responseNote = client.PostAsync("/api/Services/Move_note_to_category", inputContentNote).Result;
+                    if (responseNote.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Note deleted");
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    NoteModelForm notes = new() { Name = NotelistView.SelectedItems[0].Text };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                    string inputJsonNote = JsonConvert.SerializeObject(notes);
+                    HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+                    var responseNote = client.PostAsync("/api/Services/Remove_Note", inputContentNote).Result;
+                    if (responseNote.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Note deleted");
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
+            }
+        }
     }
 }

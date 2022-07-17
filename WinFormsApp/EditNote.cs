@@ -13,11 +13,7 @@ namespace WinFormsApp
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// TODO hard coded note name to find, need  change to selected from mainform
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void EditNoteConfirmButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
@@ -25,7 +21,7 @@ namespace WinFormsApp
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    NoteModelForm note = new() { Name = "testas", Message = EditNoteTextBox.Text };
+                    NoteModelForm note = new() { Name = MainForm.noteSetectedFromList , Message = EditNoteTextBox.Text };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
                     string inputJson = JsonConvert.SerializeObject(note);
                     var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
