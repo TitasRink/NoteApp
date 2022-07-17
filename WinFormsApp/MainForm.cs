@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsApp
@@ -37,6 +39,7 @@ namespace WinFormsApp
                     globalUserName = UserInputBox.Text;
                     UsernameTextBox.Text = globalUserName;
                     ShowLogedUserMenu();
+                    dataViewAsync();
                 }
             }
             catch (Exception t)
@@ -144,9 +147,11 @@ namespace WinFormsApp
             RemoveButton.Show();
             LogoutButton.Show();
             UsernameTextBox.Show();
-            dataGridView1.Show();
             WelcomeLabel.Show();
             LogedInLabel.Show();
+            RemoveButton.Show();
+            RenameCategoryButton.Show();
+            
         }
 
         private void ShowLoginOnlyMenu()
@@ -164,19 +169,28 @@ namespace WinFormsApp
             RemoveButton.Hide();
             LogoutButton.Hide();
             UsernameTextBox.Hide();
-            dataGridView1.Hide();
             LogedInLabel.Hide();
+            RemoveButton.Hide();
+            RenameCategoryButton.Hide();
         }
 
-        private void dataView()
+        private void dataViewAsync()
         {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44317/");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
+                var httpResponseMessage = client.GetAsync("/api/Services/Find_all_Notes_by_name").GetAwaiter().GetResult();
+                
+                dataGridView1 = new DataGridView();
+                dataGridView1.colu
 
-            dataGridView1 = new DataGridView();
+                
+            }
             
         }
         public static string globalToken = "";
         public static string globalUserName = "";
-
-
     }
 }

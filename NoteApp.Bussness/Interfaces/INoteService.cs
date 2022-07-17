@@ -10,6 +10,6 @@ namespace NoteApp.Bussness.Interfaces
         Result UpdateNote(string oldnNote, string newNote);
         Result DeleteNote(string name);
         List<NoteModel> FilterByCategory(string categoryName);
-        List<NoteModel> FilterByNote(string noteName);
+        List<NoteModel> FilterByNote();
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 
@@ -78,10 +79,10 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Find all Notes by name"), Authorize]
-        public async Task<ActionResult> FindNotesByName(string name)
+        [HttpGet("Find_all_Notes_by_name"), Authorize]
+        public ActionResult FindNotesByName()
         {
-            var result = await Task.Run(() => _noteService.FilterByNote(name));
+            var result = _noteService.FilterByNote();
             return Ok(result);
         }
     }

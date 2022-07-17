@@ -144,15 +144,11 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public List<NoteModel> FilterByNote(string noteName)
+        public List<NoteModel> FilterByNote()
         {
             try
             {
-                if (string.IsNullOrEmpty(noteName))
-                {
-                    throw new Exception();
-                }
-                var result = Con.Notes.Where(x => x.Name == noteName).ToList();
+                var result = Con.Notes.ToList();
 
                 return result;
             }
