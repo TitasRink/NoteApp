@@ -1,6 +1,4 @@
 ﻿using NoteApp.Repository.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NoteApp.Bussness.Interfaces
 {

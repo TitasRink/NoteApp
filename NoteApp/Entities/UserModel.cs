@@ -22,7 +22,6 @@ namespace NoteApp.Repository.Entities
             LoginName = loginName;
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
-
             Notes = new List<NoteModel>();
         }
     }

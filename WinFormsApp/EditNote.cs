@@ -18,6 +18,7 @@ namespace WinFormsApp
         {
             using (var client = new HttpClient())
             {
+                MainForm form = new();
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
@@ -26,16 +27,15 @@ namespace WinFormsApp
                     string inputJson = JsonConvert.SerializeObject(note);
                     var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("/api/Services/Update_Note", inputContent).Result;
+                   
+                    form.ClearViewList();
+                    form.dataViewAsync();
                 }
                 catch (Exception t)
                 {
                     MessageBox.Show(t.Message.ToString());
                 }
             }
-            
-            MainForm form = new();
-            form.ClearViewList();
-            form.dataViewAsync();
             Close();
         }
     }

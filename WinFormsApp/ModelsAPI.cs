@@ -9,7 +9,6 @@ namespace WinFormsApp
         public List<CategoryModelForm> Categories { get; set; }
         public List<NoteModelForm> Notes { get; set; }
 
-
     }
 
     public class CategoryModelForm
@@ -22,8 +21,6 @@ namespace WinFormsApp
 
     public class NoteModelForm
     {
-        public int Id { get; set; }
-
         public string IdName { get; set; }
         public string Name { get; set; }
         public string Message { get; set; }

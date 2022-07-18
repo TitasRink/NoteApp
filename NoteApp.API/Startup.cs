@@ -81,8 +81,6 @@ namespace NoteApp.API
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IDbCongigurations, DbCongigurations>();
             services.AddScoped<INoteService, NoteService>();
-            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +92,6 @@ namespace NoteApp.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NoteAPI v1"));
             }
-
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

@@ -50,7 +50,6 @@ namespace NoteApp.Bussness.Services
                     return new Result(false, $"{note} to {categoty} Not Moved");
                 }
                 else
-
                 if (!Con.Categories.Any(x => x.Name == categoty))
                 {
                     Con.Categories.Add(new CategoryModel(categoty));
@@ -61,7 +60,6 @@ namespace NoteApp.Bussness.Services
 
                     return new Result(true, $"Category {categoty} was created and {note} moved to {categoty}");
                 }
-
                 else
                 {
                     var not = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
@@ -111,6 +109,7 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, $"Note {name} do not exists");
                 }
+                
                 var res = Con.Users.Include(x => x.Notes).Where(x => x.LoginName == userNameId).FirstOrDefault();
                 var remove = res.Notes.Where(x => x.Name == name).FirstOrDefault();
                 Con.Remove(remove);

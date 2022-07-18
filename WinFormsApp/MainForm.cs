@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -13,12 +12,17 @@ namespace WinFormsApp
 {
     public partial class MainForm : Form
     {
+        public static string globalToken = "";
+        public static string globalUserName = "";
+        public static string categoryRename = "";
+        public static string noteSetectedFromList = "";
+
         public MainForm()
         {
             InitializeComponent();
             ShowLoginOnlyMenu();
         }
-     
+
         private void LoginButton_Click_1(object sender, EventArgs e)
         {
             try
@@ -27,6 +31,7 @@ namespace WinFormsApp
                 client.BaseAddress = new Uri("https://localhost:44317/");
                 UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
                 var response = client.PostAsJsonAsync("/api/user/Log_in", user).Result;
+
                 if (!response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("User name or password is incorrect");
@@ -48,12 +53,14 @@ namespace WinFormsApp
                 MessageBox.Show(t.Message);
             }
         }
+
         private void AddUserButton_Click(object sender, EventArgs e)
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44317/");
             UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
             var response = client.PostAsJsonAsync("/api/user/Create_User", user).Result;
+
             if (!response.IsSuccessStatusCode)
             {
                 MessageBox.Show("User name or password allready exists");
@@ -79,13 +86,15 @@ namespace WinFormsApp
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    NoteModelForm notes = new() { Name = globalUserName };
+                    CategoryModelForm cate = new() { Name = categorieNameList.SelectedItem.ToString() };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
-                    string inputJsonNote = JsonConvert.SerializeObject(notes);
+                    string inputJsonNote = JsonConvert.SerializeObject(cate);
                     HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
                     var responseNote = client.PostAsync("/api/Services/Remove_Category", inputContentNote).Result;
                     if (responseNote.IsSuccessStatusCode)
                     {
+                        categorieNameList.Items.Clear();
+                        dataViewAsync();
                         MessageBox.Show("Category deleted");
                     }
                 }
@@ -117,7 +126,7 @@ namespace WinFormsApp
                 {
                     MessageBox.Show(t.Message.ToString());
                 }
-                NotelistView.Clear();
+                NotelistView.Items.Clear();
                 dataViewAsync();
             }
         }
@@ -126,7 +135,6 @@ namespace WinFormsApp
         {
             AddNote note = new AddNote();
             note.Show();
-
         }
 
         private void AddCategoryButton_Click(object sender, EventArgs e)
@@ -137,11 +145,9 @@ namespace WinFormsApp
 
         private void EditButton_Click(object sender, EventArgs e)
         {
-            
             EditNote editNote = new EditNote();
             noteSetectedFromList = NotelistView.SelectedItems[0].Text;
             editNote.Show();
-            NotelistView.Clear();
         }
 
         private void RenameCategory_Click(object sender, EventArgs e)
@@ -162,11 +168,12 @@ namespace WinFormsApp
 
         public async Task dataViewAsync()
         {
+            NotelistView.Items.Clear();
             var client = new HttpClient();
-            List<NoteModelForm> notes = null;
             client.BaseAddress = new Uri("https://localhost:44317/");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
 
+            List<NoteModelForm> notes = null;
             NoteModelForm notesID = new() { IdName = globalUserName };
             string inputJsonNote = JsonConvert.SerializeObject(notesID);
             var inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
@@ -193,11 +200,6 @@ namespace WinFormsApp
             }
         }
 
-        public static string globalToken = "";
-        public static string globalUserName = "";
-        public static string categoryRename = "";
-        public static string noteSetectedFromList = "";
-
         private void ExitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -207,7 +209,6 @@ namespace WinFormsApp
         {
             using (var client = new HttpClient())
             {
-
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
@@ -270,9 +271,8 @@ namespace WinFormsApp
         }
         public void ClearViewList()
         {
-            NotelistView.Clear();
+            NotelistView.Items.Clear();
+            categorieNameList.Items.Clear();
         }
-
-
     }
 }

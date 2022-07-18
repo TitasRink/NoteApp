@@ -12,10 +12,8 @@ namespace NoteApp.API.Controllers
 {
     [Route("api/user")]
     [ApiController]
-
     public class UserController : Controller
     {
-       
         private readonly IUserService _userService;
         private readonly SqlDB _context;
 
@@ -44,7 +42,7 @@ namespace NoteApp.API.Controllers
                     var token = _userService.Login(user.Username, user.Password);
 
                     if (token == null || token == String.Empty)
-                        return BadRequest("User name or password is incorrect");
+                    return BadRequest("User name or password is incorrect");
 
                     return Ok(token);
                 }
@@ -53,7 +51,6 @@ namespace NoteApp.API.Controllers
             {
                 return Ok(t);
             }
-         
         }
         
         [HttpPost("Create_User")]
@@ -71,19 +68,10 @@ namespace NoteApp.API.Controllers
         }
 
         [HttpGet("Get User Info"), Authorize]
-        
         public Result Getusers(string name)
         {
             var result = _userService.GetUsers(name);
             return result;
-        }
-
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using var hmac = new HMACSHA512();
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -92,36 +80,7 @@ namespace NoteApp.API.Controllers
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
-            };
-        }
-
-        private bool PasswordValidation(string password)
-        {
-            //char[] specialChArray = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-".ToCharArray();
-
-            if (password.Length < 4)
-            {
-                return false;
             }
-            //if (!password.Any(char.IsUpper))
-            //{
-            //    return false;
-            //}
-            //if (!password.Any(char.IsLower))
-            //{
-            //    return false;
-            //}
-            if (password.Contains(" "))
-            {
-                return false;
-            }
-
-            //foreach (char ch in specialChArray)
-            //{
-            //    if (password.Contains(ch))
-            //        return true;
-            //}
-            return true;
         }
     }
 }

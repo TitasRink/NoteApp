@@ -41,13 +41,10 @@ namespace NoteApp.Bussness.Services
             List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Name, getuser.LoginName),
-                //new Claim(ClaimTypes.NameIdentifier, getuser.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
@@ -55,7 +52,6 @@ namespace NoteApp.Bussness.Services
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds
                 );
-
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
@@ -98,7 +94,6 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, "Fill up fields");
                 }
-
                 var result = _context.Users.Where(x => x.LoginName == name).FirstOrDefault();
 
                 return new Result(true, "Show user");
@@ -119,9 +114,9 @@ namespace NoteApp.Bussness.Services
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
-            };
+            }
         }
     }
 }

@@ -15,7 +15,6 @@ namespace NoteApp.API.Controllers
         private readonly INoteService _noteService;
         private readonly ICategoryService _categoryService;
         
-
         public MainController(INoteService noteService, ICategoryService categoryService)
         {
             _noteService = noteService;
@@ -71,7 +70,6 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-       
         [HttpPost("Find_all_Notes_by_category"), Authorize]
         public ActionResult FindNotesByCastegory(string category)
         {

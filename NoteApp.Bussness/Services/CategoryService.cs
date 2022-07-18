@@ -32,7 +32,7 @@ namespace NoteApp.Bussness.Services
                 else
                 {
                     var userid = Con.Users.Include(x=>x.Categorie).Where(x => x.LoginName == userNameId).FirstOrDefault().Id;
-                    var userNotes = Con.Notes.Include(x => x.Categories).Where(x => x.Id == userid).FirstOrDefault();
+                    var userNotes = Con.Notes.Include(x => x.Categories).FirstOrDefault();
                     userNotes.Categories.Add(new CategoryModel(name));
                     Con.SaveChanges();
                     return new Result(true, "Created");

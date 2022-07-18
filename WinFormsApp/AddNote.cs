@@ -16,6 +16,8 @@ namespace WinFormsApp
 
         private void NoteConfirmButton_Click(object sender, EventArgs e)
         {
+            MainForm form = new();
+
             using (var client = new HttpClient())
             {
                 try
@@ -26,16 +28,17 @@ namespace WinFormsApp
                     string inputJson = JsonConvert.SerializeObject(note);
                     HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("/api/Services/Create_note_and_mesage", inputContent).Result;
+
+                    form.ClearViewList();
+                    form.dataViewAsync();
                 }
                 catch (Exception t)
                 {
                     MessageBox.Show(t.Message.ToString());
                 }
+             
+                Close();
             }
-            MainForm form = new();
-            form.ClearViewList();
-            form.dataViewAsync();
-            Close();
         }
     }
 }
