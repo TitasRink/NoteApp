@@ -18,8 +18,11 @@ namespace WinFormsApp
         {
             using (var client = new HttpClient())
             {
+                
                 try
                 {
+                    MainForm form = new MainForm();
+
                     client.BaseAddress = new Uri("https://localhost:44317/");
                     CategoryModelForm cate = new() { Name = MainForm.categoryRename , UserNameId = RenameCategoryTextBox.Text };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
@@ -28,7 +31,10 @@ namespace WinFormsApp
                     var response = client.PostAsync("/api/Services/Rename_category_name", inputContent).Result;
                     if (response.IsSuccessStatusCode)
                     {
+                        form.ClearViewList();
                         MessageBox.Show("Renamed");
+                        form.DataViewNotes();
+                        form.DataViewAsyncCategory();
                     }
                     else
                     {

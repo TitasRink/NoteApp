@@ -14,7 +14,7 @@ namespace WinFormsApp
             InitializeComponent();
         }
 
-        private void NoteConfirmButton_Click(object sender, EventArgs e)
+        private async void NoteConfirmButton_Click(object sender, EventArgs e)
         {
             MainForm form = new();
 
@@ -29,7 +29,7 @@ namespace WinFormsApp
                     HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("/api/Services/Create_note_and_mesage", inputContent).Result;
 
-                    form.DataViewNotes();
+                    await form.DataViewNotes();
                 }
                 catch (Exception t)
                 {

@@ -14,7 +14,7 @@ namespace WinFormsApp
             InitializeComponent();
         }
         
-        private void EditNoteConfirmButton_Click(object sender, EventArgs e)
+        private async void EditNoteConfirmButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
             {
@@ -27,9 +27,8 @@ namespace WinFormsApp
                     string inputJson = JsonConvert.SerializeObject(note);
                     var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("/api/Services/Update_Note", inputContent).Result;
-                   
-                    
-                    form.DataViewNotes();
+                     
+                    await form.DataViewNotes();
                 }
                 catch (Exception t)
                 {

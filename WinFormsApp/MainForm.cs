@@ -96,7 +96,7 @@ namespace WinFormsApp
             }
         }
   
-        private void RemoveButton_Click(object sender, EventArgs e)
+        private async void RemoveButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
             {
@@ -110,7 +110,7 @@ namespace WinFormsApp
                     var responseNote = client.PostAsync("/api/Services/Remove_Category", inputContentNote).Result;
                     if (responseNote.IsSuccessStatusCode)
                     {
-                        DataViewAsyncCategory();
+                        await DataViewAsyncCategory();
                         MessageBox.Show("Category deleted");
                     }
                 }
@@ -121,7 +121,7 @@ namespace WinFormsApp
             }
         }
 
-        private void RemoveNoteButton_Click(object sender, EventArgs e)
+        private async void RemoveNoteButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
             {
@@ -136,7 +136,8 @@ namespace WinFormsApp
                     if (responseNote.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Note deleted");
-                        DataViewNotes();
+                        NotelistView.Items.Clear();
+                        await DataViewNotes();
                     }
                 }
                 catch (Exception t)
@@ -166,14 +167,14 @@ namespace WinFormsApp
             }
         }
 
-        private void EditButton_Click(object sender, EventArgs e)
+        private async void EditButton_Click(object sender, EventArgs e)
         {
-            EditNote editNote = new EditNote();
-            noteSetectedFromList = NotelistView.SelectedItems[0].Text;
-            editNote.Show();
+             EditNote editNote = new EditNote();
+             noteSetectedFromList = NotelistView.SelectedItems[0].Text;
+             editNote.Show();
         }
 
-        private void RenameCategory_Click(object sender, EventArgs e)
+        private async void RenameCategory_Click(object sender, EventArgs e)
         {
             RenameCategory category = new RenameCategory();
             categoryRename = categorieNameList.SelectedItem.ToString();
@@ -283,7 +284,7 @@ namespace WinFormsApp
             MoveToCategory.Show();
             WelcomeNoteApp.Hide();
             FillterByCategoryButton.Show();
-
+            ShowAllButton.Show();
         }
         private void ShowLoginOnlyMenu()
         {
@@ -309,14 +310,20 @@ namespace WinFormsApp
             MoveToCategory.Hide();
             WelcomeNoteApp.Show();
             FillterByCategoryButton.Hide();
+            ShowAllButton.Hide();
         }
+
         public void ClearViewList()
         {
             NotelistView.Items.Clear();
             categorieNameList.Items.Clear();
         }
 
-        private async Task Fillter()
+        private void FillterByCategoryButton_Click(object sender, EventArgs e)
+        {
+            Fillter();
+        }
+        private async void Fillter()
         {
             using (var client = new HttpClient())
             {
@@ -324,9 +331,10 @@ namespace WinFormsApp
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
                     CategoryModelForm cate = new() { Name = categorieNameList.SelectedItem.ToString() };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
                     string inputJsonNote = JsonConvert.SerializeObject(cate);
-                    var inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
-                    var responseNote = client.PostAsync("/api/Services/Find_all_Notes_by_Category", inputContentNote).Result;
+                    HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+                    var responseNote = client.PostAsync("/api/Services/Find_Notes_by_Category", inputContentNote).Result;
                     var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
                     var notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
 
@@ -336,6 +344,7 @@ namespace WinFormsApp
                         ListViewItem list = new ListViewItem(item.Name.ToString());
                         list.SubItems.Add(item.Message.ToString());
                         NotelistView.Items.Add(list);
+                        await DataViewNotes();
                     }
                 }
                 catch (Exception t)
@@ -343,12 +352,13 @@ namespace WinFormsApp
                     MessageBox.Show(t.Message.ToString());
                 }
             }
-
         }
 
-        private void FillterByCategoryButton_Click(object sender, EventArgs e)
+        private void ShowAllButton_Click(object sender, EventArgs e)
         {
-            Fillter();
+            categorieNameList.Items.Clear();
+            DataViewNotes();
+            DataViewAsyncCategory();
         }
     }
 }

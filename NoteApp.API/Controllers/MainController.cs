@@ -91,7 +91,7 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Find_all_Notes_by_Category"), Authorize]
+        [HttpPost("Find_Notes_by_Category"), Authorize]
         public ActionResult FindNotesByNameCategory(CategoryDTO category)
         {
             var result = _noteService.FilterNoteByCategory(category.Name);

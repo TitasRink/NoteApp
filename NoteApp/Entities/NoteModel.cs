@@ -37,5 +37,13 @@ namespace NoteApp.Repository.Entities
             UserModelId = userModelId;
             Categories = new List<CategoryModel>();
         }
+        public NoteModel(string name)
+        {
+            Name = name;
+        }
+        public NoteModel()
+        {
+
+        }
     }
 }

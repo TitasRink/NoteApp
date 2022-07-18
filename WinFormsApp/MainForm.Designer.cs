@@ -58,6 +58,7 @@
             this.MoveToCategory = new System.Windows.Forms.Button();
             this.WelcomeNoteApp = new System.Windows.Forms.Label();
             this.FillterByCategoryButton = new System.Windows.Forms.Button();
+            this.ShowAllButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -205,7 +206,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AddCategoryButton.Location = new System.Drawing.Point(496, 130);
             this.AddCategoryButton.Name = "AddCategoryButton";
-            this.AddCategoryButton.Size = new System.Drawing.Size(104, 34);
+            this.AddCategoryButton.Size = new System.Drawing.Size(114, 34);
             this.AddCategoryButton.TabIndex = 13;
             this.AddCategoryButton.Text = "ADD CATEGORY";
             this.AddCategoryButton.UseVisualStyleBackColor = true;
@@ -244,7 +245,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EditButton.Location = new System.Drawing.Point(496, 561);
             this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(104, 34);
+            this.EditButton.Size = new System.Drawing.Size(114, 34);
             this.EditButton.TabIndex = 16;
             this.EditButton.Text = "EDIT";
             this.EditButton.UseVisualStyleBackColor = true;
@@ -347,11 +348,25 @@
             this.FillterByCategoryButton.UseVisualStyleBackColor = true;
             this.FillterByCategoryButton.Click += new System.EventHandler(this.FillterByCategoryButton_Click);
             // 
+            // ShowAllButton
+            // 
+            this.ShowAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ShowAllButton.Location = new System.Drawing.Point(616, 88);
+            this.ShowAllButton.Name = "ShowAllButton";
+            this.ShowAllButton.Size = new System.Drawing.Size(81, 23);
+            this.ShowAllButton.TabIndex = 24;
+            this.ShowAllButton.Text = "Show All";
+            this.ShowAllButton.UseVisualStyleBackColor = true;
+            this.ShowAllButton.Click += new System.EventHandler(this.ShowAllButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 700);
+            this.Controls.Add(this.ShowAllButton);
             this.Controls.Add(this.FillterByCategoryButton);
             this.Controls.Add(this.WelcomeNoteApp);
             this.Controls.Add(this.MoveToCategory);
@@ -401,5 +416,6 @@
         private System.Windows.Forms.Label WelcomeNoteApp;
         private System.Windows.Forms.ColumnHeader Img;
         private System.Windows.Forms.Button FillterByCategoryButton;
+        private System.Windows.Forms.Button ShowAllButton;
     }
 }

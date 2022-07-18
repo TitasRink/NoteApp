@@ -41,7 +41,7 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public Result MoveNoteToCategory(string categoty, string note)
+        public Result MoveNoteToCategory(string note , string categoty)
         {
             try
             {
@@ -50,21 +50,16 @@ namespace NoteApp.Bussness.Services
                     return new Result(false, $"{note} to {categoty} Not Moved");
                 }
                 else
-                if (!Con.Categories.Any(x => x.Name == categoty))
                 {
-                    Con.Categories.Add(new CategoryModel(categoty));
-                    var not = Con.Notes.Where(x => x.Name == categoty).FirstOrDefault();
-                    var cate = Con.Categories.Where(x => x.Name == note).FirstOrDefault();
-                    cate.Notes.Add(not);
-                    Con.SaveChanges();
+                    var noteResult = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
 
-                    return new Result(true, $"Category {categoty} was created and {note} moved to {categoty}");
-                }
-                else
-                {
-                    var not = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
-                    var cate = Con.Categories.Where(x => x.Name == categoty).FirstOrDefault();
-                    cate.Notes.Add(not);
+                    var cat = Con.Notes.Include(x => x.Categories)
+                            .Where(x => x.Categories.Any(x => x.Name == categoty))
+                            //.Where(x => x.Name == note)
+                            .FirstOrDefault();
+
+                    cat.Categories.ForEach(x=>x.Notes.Add(noteResult));
+
                     Con.SaveChanges();
 
                     return new Result(true, "Note was moved to another category");
@@ -169,8 +164,11 @@ namespace NoteApp.Bussness.Services
                 }
                 else
                 {
-                    var result = Con.Notes.Include(x => x.Categories.Where(x => x.Name == nameId).FirstOrDefault()).ToList();
-                    return result;
+                    var cateID = Con.Categories.Where(x => x.Name == nameId).FirstOrDefault().Id; 
+                    var notes = Con.Notes.Include(x => x.Categories).Where(x=>x.Id == cateID).ToList();
+
+                    //var result = Con.Notes.Include(x => x.Categories.Where(x => x.Name == nameId).FirstOrDefault()).ToList();
+                    return notes;
                 }
             }
             catch (Exception e)
