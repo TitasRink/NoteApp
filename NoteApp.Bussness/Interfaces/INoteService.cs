@@ -5,11 +5,11 @@ namespace NoteApp.Bussness.Interfaces
 {
     public interface INoteService
     {
-        Result CreateNoteAndMessage(string name, string message);
+        Result CreateNoteAndMessage(string name, string message, string userId);
         Result MoveNoteToCategory(string categoty, string note);
         Result UpdateNote(string oldnNote, string newNote);
-        Result DeleteNote(string name);
+        Result DeleteNote(string name, string userNameId);
         List<NoteModel> FilterByCategory(string categoryName);
-        List<NoteModel> FilterByNote(string noteName);
+        List<NoteModel> FilterByNote(string userNameId);
     }
 }

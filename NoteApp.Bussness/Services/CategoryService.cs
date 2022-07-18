@@ -1,7 +1,9 @@
-﻿using NoteApp.Bussness.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NoteApp.Bussness.Services
@@ -15,7 +17,7 @@ namespace NoteApp.Bussness.Services
             Con = con;
         }
 
-        public Result CreateCategory(string name)
+        public Result CreateCategory(string name, string userNameId)
         {
             try
             {
@@ -23,13 +25,15 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, $"{name} Allready exists");
                 }
-                if (string.IsNullOrEmpty(name))
+                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(userNameId))
                 {
                     return new Result(false, "Fill up fields");
                 }
                 else
                 {
-                    Con.Categories.Add(new CategoryModel(name));
+                    var userid = Con.Users.Include(x=>x.Categorie).Where(x => x.LoginName == userNameId).FirstOrDefault().Id;
+                    var userNotes = Con.Notes.Include(x => x.Categories).Where(x => x.Id == userid).FirstOrDefault();
+                    userNotes.Categories.Add(new CategoryModel(name));
                     Con.SaveChanges();
                     return new Result(true, "Created");
                 }
@@ -52,7 +56,7 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, $"Category : {newName} allready exists");
                 }
-                if (Con.Categories.Any(x => x.Name == oldnName))
+                if (!Con.Categories.Any(x => x.Name == oldnName))
                 {
                     return new Result(false, $"Category : {oldnName} not found ");
                 }
@@ -89,6 +93,18 @@ namespace NoteApp.Bussness.Services
             catch (Exception e)
             {
                 return new Result(false, $"Error {e.Message}");
+            }
+        }
+        public List<CategoryModel> FilterCategory()
+        {
+            try
+            {
+                var result = Con.Categories.ToList();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

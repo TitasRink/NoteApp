@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Bussness.Interfaces;
+using NoteApp.Repository.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace NoteApp.API.Controllers
 {
@@ -11,6 +14,7 @@ namespace NoteApp.API.Controllers
     {
         private readonly INoteService _noteService;
         private readonly ICategoryService _categoryService;
+        
 
         public MainController(INoteService noteService, ICategoryService categoryService)
         {
@@ -18,67 +22,74 @@ namespace NoteApp.API.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpPost("Create note and mesage"), Authorize]
-        public ActionResult Create(string name, string message)
+        [HttpPost("Create_note_and_mesage"), Authorize]
+        public ActionResult Create([FromBody] NoteDTO note)
         {
-            var result = _noteService.CreateNoteAndMessage(name, message);
+            var result = _noteService.CreateNoteAndMessage(note.Name, note.Message, note.IdName);
             return Ok(result);
         }
 
-        [HttpPost("Move note to category"), Authorize]
-        public ActionResult MoveNote(string category, string note)
+        [HttpPost("Create_Category"), Authorize]
+        public ActionResult Createcategory([FromBody] CategoryDTO category)
         {
-            var result = _noteService.MoveNoteToCategory(category, note);
+            var result = _categoryService.CreateCategory(category.Name, category.UserNameId);
             return Ok(result);
         }
 
-        [HttpPost("Update Note"), Authorize]
-        public ActionResult UpdateNote(string oldnote, string newnote)
+        [HttpPost("Remove_Note"), Authorize]
+        public ActionResult RemoveNote([FromBody] NoteDTO note)
         {
-            var result = _noteService.UpdateNote(oldnote, newnote);
+            var result = _noteService.DeleteNote(note.Name, note.IdName);
+            return Ok(result);
+        }
+        //neveikia dar su UI
+        [HttpPost("Move_note_to_category"), Authorize]
+        public ActionResult MoveNote([FromBody] CategoryDTO category)
+        {
+            var result = _noteService.MoveNoteToCategory(category.Name , category.UserNameId);
             return Ok(result);
         }
 
-        [HttpDelete("Remove Note"), Authorize]
-        public ActionResult RemoveNote(string name)
+        [HttpPost("Update_Note"), Authorize]
+        public ActionResult UpdateNote([FromBody] NoteDTO note)
         {
-            var result = _noteService.DeleteNote(name);
+            var result = _noteService.UpdateNote(note.Name, note.Message);
             return Ok(result);
         }
 
-        [HttpPost("Create Category"), Authorize]
-        public ActionResult Createcategory(string name)
+        [HttpPost("Rename_category_name"), Authorize]
+        public ActionResult UpdateCategory(CategoryDTO category)
         {
-            var result = _categoryService.CreateCategory(name);
+            var result = _categoryService.UpdateCategoryName(category.Name, category.UserNameId);
             return Ok(result);
         }
 
-        [HttpPost("Rename category name"), Authorize]
-        public ActionResult UpdateCategory(string oldname, string newname)
+        [HttpPost("Remove_Category"), Authorize]
+        public ActionResult RemoveCategory(CategoryDTO category)
         {
-            var result = _categoryService.UpdateCategoryName(oldname, newname);
-            return Ok(result);
-        }
-
-        [HttpDelete("Remove Category"), Authorize]
-        public ActionResult RemoveCategory(string name)
-        {
-            var result = _categoryService.DeleteCategory(name);
+            var result = _categoryService.DeleteCategory(category.Name);
             return Ok(result);
         }
 
        
-        [HttpPost("Find all Notes by category"), Authorize]
-        public async Task<ActionResult> FindNotesByCastegory(string category)
+        [HttpPost("Find_all_Notes_by_category"), Authorize]
+        public ActionResult FindNotesByCastegory(string category)
         {
-            var result = await Task.Run(() => _noteService.FilterByCategory(category));
+            var result = _noteService.FilterByCategory(category);
             return Ok(result);
         }
 
-        [HttpPost("Find all Notes by name"), Authorize]
-        public async Task<ActionResult> FindNotesByName(string name)
+        [HttpPost("Find_all_Notes_by_name"), Authorize]
+        public ActionResult FindNotesByName(NoteDTO note)
         {
-            var result = await Task.Run(() => _noteService.FilterByNote(name));
+            var result = _noteService.FilterByNote(note.IdName);
+            return Ok(result);
+        }
+
+        [HttpGet("Find_Categories"), Authorize]
+        public ActionResult FindAllCategoreys()
+        {
+            var result = _categoryService.FilterCategory();
             return Ok(result);
         }
     }

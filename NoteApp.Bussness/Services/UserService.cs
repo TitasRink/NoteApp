@@ -26,7 +26,6 @@ namespace NoteApp.Bussness.Services
 
         public string Login(string userName, string password)
         {
-            //var user = _context.Users.Where(x => x.LoginName == userName && x.LoginPassword == password).FirstOrDefault();
             var getuser = _context.Users.Where(x => x.LoginName == userName).FirstOrDefault();
 
             if (!VerifyPasswordHash(password, getuser.PasswordHash, getuser.PasswordSalt))
@@ -39,7 +38,7 @@ namespace NoteApp.Bussness.Services
                 return string.Empty;
             }
 
-            List<Claim> claims = new List<Claim>
+            List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Name, getuser.LoginName),
                 //new Claim(ClaimTypes.NameIdentifier, getuser.Id.ToString())
@@ -66,17 +65,24 @@ namespace NoteApp.Bussness.Services
         {
             try
             {
+                var usercheck = _context.Users.Any(x=>x.LoginName == name);
                 if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password))
                 {
                     return new Result(false, "Fill up fields");
                 }
+                if (usercheck)
+                {
+                    return new Result(false, "User allready exists");
+                }
+                else
+                {
+                    CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                    var user = new UserModel(name, passwordHash, passwordSalt);
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
 
-                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-                var user = new UserModel(name, passwordHash, passwordSalt);
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                
-                return new Result(true, "Created");
+                    return new Result(true, "Created");
+                }
             }
             catch (Exception e)
             {
@@ -103,32 +109,11 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        //public bool ValidateCredentials(string name, string password)
-        //{
-        //    if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password))
-        //    {
-        //        return false;
-        //    }
-        //    if (_context.Users.Any(x => x.LoginName == name && _context.Users.Any(x => x.LoginPassword == password)))
-        //    {
-        //        var uname = _context.Users.Where(x=>x.LoginName == name).FirstOrDefault().ToString();
-        //        var upass = _context.Users.Where(x => x.LoginPassword == password).FirstOrDefault().ToString();
-
-        //        return name.Equals(uname) && password.Equals(upass);
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
+            using var hmac = new HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {

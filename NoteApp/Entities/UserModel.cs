@@ -17,13 +17,6 @@ namespace NoteApp.Repository.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
 
-        public  UserModel()
-        {
-        }
-        public UserModel(string loginName)
-        {
-            LoginName = loginName;
-        }
         public UserModel(string loginName, byte[] passwordHash, byte[] passwordSalt)
         {
             LoginName = loginName;
