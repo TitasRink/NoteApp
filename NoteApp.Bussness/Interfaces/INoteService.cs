@@ -11,5 +11,6 @@ namespace NoteApp.Bussness.Interfaces
         Result DeleteNote(string name, string userNameId);
         List<NoteModel> FilterByCategory(string categoryName);
         List<NoteModel> FilterByNote(string userNameId);
+        List<NoteModel> FilterNoteByCategory(string nameId);
     }
 }

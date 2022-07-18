@@ -25,57 +25,74 @@ namespace WinFormsApp
 
         private void LoginButton_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri("https://localhost:44317/");
-                UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
-                var response = client.PostAsJsonAsync("/api/user/Log_in", user).Result;
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("User name or password is incorrect");
-                    UserInputBox.Text = "";
-                    PasswordInputBox.Text = "";
-                }
-                else
-                {
-                    var result = response.Content.ReadAsStringAsync();
-                    globalToken = result.Result.ToString();
-                    globalUserName = UserInputBox.Text;
-                    UsernameTextBox.Text = globalUserName;
-                    ShowLogedUserMenu();
-                    dataViewAsync();
-                }
-            }
-            catch (Exception t)
+            if (string.IsNullOrEmpty(UserInputBox.Text) || string.IsNullOrEmpty(PasswordInputBox.Text))
             {
-                MessageBox.Show(t.Message);
+                MessageBox.Show("Please fill up fields");
+                return;
+            }
+            else
+            {
+                try
+                {
+                    using var client = new HttpClient();
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
+                    var response = client.PostAsJsonAsync("/api/user/Log_in", user).Result;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("User name or password is incorrect");
+                        UserInputBox.Text = "";
+                        PasswordInputBox.Text = "";
+                    }
+                    else
+                    {
+                        var result = response.Content.ReadAsStringAsync();
+                        globalToken = result.Result.ToString();
+                        globalUserName = UserInputBox.Text;
+                        UsernameTextBox.Text = globalUserName;
+                        ShowLogedUserMenu();
+                        DataViewNotes();
+                        DataViewAsyncCategory();
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message);
+                }
             }
         }
 
         private void AddUserButton_Click(object sender, EventArgs e)
         {
-            using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44317/");
-            UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
-            var response = client.PostAsJsonAsync("/api/user/Create_User", user).Result;
-
-            if (!response.IsSuccessStatusCode)
+            if (string.IsNullOrEmpty(UserInputBox.Text) || string.IsNullOrEmpty(PasswordInputBox.Text))
             {
-                MessageBox.Show("User name or password allready exists");
-                UserInputBox.Text = "";
-                PasswordInputBox.Text = "";
-                ShowLoginOnlyMenu();
+                MessageBox.Show("Please fill up fields");
+                return ;
             }
             else
             {
-                var result = response.Content.ReadAsStringAsync();
-                globalToken = result.Result.ToString();
-                ShowLogedUserMenu();
-                globalUserName = UserInputBox.Text;
-                UsernameTextBox.Text = globalUserName;
-                dataViewAsync();
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:44317/");
+                UserModelForm user = new() { UserName = UserInputBox.Text, Password = PasswordInputBox.Text };
+                var response = client.PostAsJsonAsync("/api/user/Create_User", user).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("User name or password allready exists");
+                    UserInputBox.Text = "";
+                    PasswordInputBox.Text = "";
+                    ShowLoginOnlyMenu();
+                }
+                else
+                {
+                    var result = response.Content.ReadAsStringAsync();
+                    globalToken = result.Result.ToString();
+                    ShowLogedUserMenu();
+                    globalUserName = UserInputBox.Text;
+                    UsernameTextBox.Text = globalUserName;
+                }
             }
         }
   
@@ -93,8 +110,7 @@ namespace WinFormsApp
                     var responseNote = client.PostAsync("/api/Services/Remove_Category", inputContentNote).Result;
                     if (responseNote.IsSuccessStatusCode)
                     {
-                        categorieNameList.Items.Clear();
-                        dataViewAsync();
+                        DataViewAsyncCategory();
                         MessageBox.Show("Category deleted");
                     }
                 }
@@ -120,14 +136,13 @@ namespace WinFormsApp
                     if (responseNote.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Note deleted");
+                        DataViewNotes();
                     }
                 }
                 catch (Exception t)
                 {
                     MessageBox.Show(t.Message.ToString());
                 }
-                NotelistView.Items.Clear();
-                dataViewAsync();
             }
         }
 
@@ -139,8 +154,16 @@ namespace WinFormsApp
 
         private void AddCategoryButton_Click(object sender, EventArgs e)
         {
-            AddCastegory addCastegory = new AddCastegory();
-            addCastegory.Show();
+            if(string.IsNullOrEmpty(NotelistView.SelectedItems.ToString()))
+            {
+                MessageBox.Show("Please select any note");
+                return;
+            }
+            else
+            {
+                AddCastegory addCastegory = new AddCastegory();
+                addCastegory.Show();
+            }
         }
 
         private void EditButton_Click(object sender, EventArgs e)
@@ -164,11 +187,28 @@ namespace WinFormsApp
             globalToken = "";
             globalUserName = "";
             ShowLoginOnlyMenu();
+            ClearViewList();
         }
 
-        public async Task dataViewAsync()
+        public async Task DataViewAsyncCategory()
         {
-            NotelistView.Items.Clear();
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:44317/");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+
+            List<CategoryModelForm> categories = null;
+            HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
+            var resultCategory = client.GetAsync("/api/Services/Find_Categories").GetAwaiter().GetResult();
+            var jsonStringcategory = await resultCategory.Content.ReadAsStringAsync();
+            categories = JsonConvert.DeserializeObject<List<CategoryModelForm>>(jsonStringcategory);
+
+            foreach (var item in categories)
+            {
+                categorieNameList.Items.Add(item.Name.ToString());
+            }
+        }
+        public async Task DataViewNotes()
+        {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44317/");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
@@ -186,17 +226,6 @@ namespace WinFormsApp
                 ListViewItem list = new ListViewItem(item.Name.ToString());
                 list.SubItems.Add(item.Message.ToString());
                 NotelistView.Items.Add(list);
-            }
-
-            List<CategoryModelForm> categories = null;
-            HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
-            var resultCategory = client.GetAsync("/api/Services/Find_Categories").GetAwaiter().GetResult();
-            var jsonStringcategory = await resultCategory.Content.ReadAsStringAsync();
-            categories = JsonConvert.DeserializeObject<List<CategoryModelForm>>(jsonStringcategory);
-
-            foreach (var item in categories)
-            {
-                categorieNameList.Items.Add(item.Name.ToString());
             }
         }
 
@@ -219,7 +248,7 @@ namespace WinFormsApp
                     var responseNote = client.PostAsync("/api/Services/Move_note_to_category", inputContentNote).Result;
                     if (responseNote.IsSuccessStatusCode)
                     {
-                        MessageBox.Show("Note deleted");
+                        MessageBox.Show("Note Moved");
                     }
                 }
                 catch (Exception t)
@@ -248,6 +277,12 @@ namespace WinFormsApp
             LogedInLabel.Show();
             RemoveButton.Show();
             RenameCategoryButton.Show();
+            categorieNameList.Show();
+            RemoveNoteButton.Show();
+            NotelistView.Show();
+            MoveToCategory.Show();
+            WelcomeNoteApp.Hide();
+            FillterByCategoryButton.Show();
 
         }
         private void ShowLoginOnlyMenu()
@@ -268,11 +303,52 @@ namespace WinFormsApp
             LogedInLabel.Hide();
             RemoveButton.Hide();
             RenameCategoryButton.Hide();
+            categorieNameList.Hide();
+            RemoveNoteButton.Hide();
+            NotelistView.Hide();
+            MoveToCategory.Hide();
+            WelcomeNoteApp.Show();
+            FillterByCategoryButton.Hide();
         }
         public void ClearViewList()
         {
             NotelistView.Items.Clear();
             categorieNameList.Items.Clear();
+        }
+
+        private async Task Fillter()
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    CategoryModelForm cate = new() { Name = categorieNameList.SelectedItem.ToString() };
+                    string inputJsonNote = JsonConvert.SerializeObject(cate);
+                    var inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+                    var responseNote = client.PostAsync("/api/Services/Find_all_Notes_by_Category", inputContentNote).Result;
+                    var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
+                    var notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
+
+                    NotelistView.Items.Clear();
+                    foreach (var item in notes)
+                    {
+                        ListViewItem list = new ListViewItem(item.Name.ToString());
+                        list.SubItems.Add(item.Message.ToString());
+                        NotelistView.Items.Add(list);
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
+            }
+
+        }
+
+        private void FillterByCategoryButton_Click(object sender, EventArgs e)
+        {
+            Fillter();
         }
     }
 }

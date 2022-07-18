@@ -66,12 +66,12 @@ namespace NoteApp.API.Controllers
                 return Ok(result);
             }
         }
-
-        [HttpGet("Get User Info"), Authorize]
-        public Result Getusers(string name)
+        [AllowAnonymous]
+        [HttpGet("Get User Info")]
+        public IActionResult Getusers()
         {
-            var result = _userService.GetUsers(name);
-            return result;
+            var result = _userService.GetUsers();
+            return Ok(result);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

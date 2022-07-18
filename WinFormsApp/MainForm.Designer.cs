@@ -53,8 +53,11 @@
             this.NotelistView = new System.Windows.Forms.ListView();
             this.Name = new System.Windows.Forms.ColumnHeader();
             this.Mesage = new System.Windows.Forms.ColumnHeader();
+            this.Img = new System.Windows.Forms.ColumnHeader();
             this.RemoveNoteButton = new System.Windows.Forms.Button();
             this.MoveToCategory = new System.Windows.Forms.Button();
+            this.WelcomeNoteApp = new System.Windows.Forms.Label();
+            this.FillterByCategoryButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +65,7 @@
             // 
             this.UsernameTextBox.AutoSize = true;
             this.UsernameTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.UsernameTextBox.Location = new System.Drawing.Point(84, 368);
+            this.UsernameTextBox.Location = new System.Drawing.Point(91, 467);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(52, 25);
             this.UsernameTextBox.TabIndex = 7;
@@ -80,9 +83,9 @@
             // 
             // LogoutButton
             // 
-            this.LogoutButton.Location = new System.Drawing.Point(72, 396);
+            this.LogoutButton.Location = new System.Drawing.Point(62, 495);
             this.LogoutButton.Name = "LogoutButton";
-            this.LogoutButton.Size = new System.Drawing.Size(83, 23);
+            this.LogoutButton.Size = new System.Drawing.Size(114, 37);
             this.LogoutButton.TabIndex = 5;
             this.LogoutButton.Text = "Log out";
             this.LogoutButton.UseVisualStyleBackColor = true;
@@ -90,9 +93,9 @@
             // 
             // LoginButton
             // 
-            this.LoginButton.Location = new System.Drawing.Point(12, 561);
+            this.LoginButton.Location = new System.Drawing.Point(57, 251);
             this.LoginButton.Name = "LoginButton";
-            this.LoginButton.Size = new System.Drawing.Size(83, 23);
+            this.LoginButton.Size = new System.Drawing.Size(126, 37);
             this.LoginButton.TabIndex = 4;
             this.LoginButton.Text = "Log in";
             this.LoginButton.UseVisualStyleBackColor = true;
@@ -100,7 +103,7 @@
             // 
             // PasswordInputBox
             // 
-            this.PasswordInputBox.Location = new System.Drawing.Point(55, 516);
+            this.PasswordInputBox.Location = new System.Drawing.Point(57, 222);
             this.PasswordInputBox.Name = "PasswordInputBox";
             this.PasswordInputBox.Size = new System.Drawing.Size(126, 23);
             this.PasswordInputBox.TabIndex = 3;
@@ -109,7 +112,7 @@
             // 
             // UserInputBox
             // 
-            this.UserInputBox.Location = new System.Drawing.Point(55, 455);
+            this.UserInputBox.Location = new System.Drawing.Point(57, 178);
             this.UserInputBox.Name = "UserInputBox";
             this.UserInputBox.Size = new System.Drawing.Size(126, 23);
             this.UserInputBox.TabIndex = 2;
@@ -118,7 +121,7 @@
             // PaswordLabel
             // 
             this.PaswordLabel.AutoSize = true;
-            this.PaswordLabel.Location = new System.Drawing.Point(84, 498);
+            this.PaswordLabel.Location = new System.Drawing.Point(126, 204);
             this.PaswordLabel.Name = "PaswordLabel";
             this.PaswordLabel.Size = new System.Drawing.Size(57, 15);
             this.PaswordLabel.TabIndex = 1;
@@ -127,7 +130,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(97, 437);
+            this.label1.Location = new System.Drawing.Point(153, 160);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 15);
             this.label1.TabIndex = 0;
@@ -138,13 +141,11 @@
             this.panel1.Controls.Add(this.LogedInLabel);
             this.panel1.Controls.Add(this.ExitButton);
             this.panel1.Controls.Add(this.AddUserButton);
-            this.panel1.Controls.Add(this.AddNoteButton);
-            this.panel1.Controls.Add(this.AddCategoryButton);
-            this.panel1.Controls.Add(this.UsernameTextBox);
             this.panel1.Controls.Add(this.WelcomeLabel);
-            this.panel1.Controls.Add(this.LogoutButton);
             this.panel1.Controls.Add(this.LoginButton);
+            this.panel1.Controls.Add(this.UsernameTextBox);
             this.panel1.Controls.Add(this.PasswordInputBox);
+            this.panel1.Controls.Add(this.LogoutButton);
             this.panel1.Controls.Add(this.UserInputBox);
             this.panel1.Controls.Add(this.PaswordLabel);
             this.panel1.Controls.Add(this.label1);
@@ -158,15 +159,15 @@
             // 
             this.LogedInLabel.AutoSize = true;
             this.LogedInLabel.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
-            this.LogedInLabel.Location = new System.Drawing.Point(70, 347);
+            this.LogedInLabel.Location = new System.Drawing.Point(62, 436);
             this.LogedInLabel.Name = "LogedInLabel";
-            this.LogedInLabel.Size = new System.Drawing.Size(85, 21);
+            this.LogedInLabel.Size = new System.Drawing.Size(114, 21);
             this.LogedInLabel.TabIndex = 19;
-            this.LogedInLabel.Text = "Loged as :";
+            this.LogedInLabel.Text = "Logged in as :";
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(55, 621);
+            this.ExitButton.Location = new System.Drawing.Point(57, 647);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(126, 41);
             this.ExitButton.TabIndex = 18;
@@ -176,11 +177,11 @@
             // 
             // AddUserButton
             // 
-            this.AddUserButton.Location = new System.Drawing.Point(123, 561);
+            this.AddUserButton.Location = new System.Drawing.Point(57, 356);
             this.AddUserButton.Name = "AddUserButton";
-            this.AddUserButton.Size = new System.Drawing.Size(83, 23);
+            this.AddUserButton.Size = new System.Drawing.Size(126, 37);
             this.AddUserButton.TabIndex = 17;
-            this.AddUserButton.Text = "Add user";
+            this.AddUserButton.Text = "Create User";
             this.AddUserButton.UseVisualStyleBackColor = true;
             this.AddUserButton.Click += new System.EventHandler(this.AddUserButton_Click);
             // 
@@ -189,11 +190,11 @@
             this.AddNoteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddNoteButton.Location = new System.Drawing.Point(30, 181);
+            this.AddNoteButton.Location = new System.Drawing.Point(274, 561);
             this.AddNoteButton.Name = "AddNoteButton";
-            this.AddNoteButton.Size = new System.Drawing.Size(176, 34);
+            this.AddNoteButton.Size = new System.Drawing.Size(94, 34);
             this.AddNoteButton.TabIndex = 14;
-            this.AddNoteButton.Text = "Add Note";
+            this.AddNoteButton.Text = "ADD NOTE";
             this.AddNoteButton.UseVisualStyleBackColor = true;
             this.AddNoteButton.Click += new System.EventHandler(this.AddNoteButton_Click);
             // 
@@ -202,11 +203,11 @@
             this.AddCategoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddCategoryButton.Location = new System.Drawing.Point(30, 130);
+            this.AddCategoryButton.Location = new System.Drawing.Point(496, 130);
             this.AddCategoryButton.Name = "AddCategoryButton";
-            this.AddCategoryButton.Size = new System.Drawing.Size(176, 34);
+            this.AddCategoryButton.Size = new System.Drawing.Size(104, 34);
             this.AddCategoryButton.TabIndex = 13;
-            this.AddCategoryButton.Text = "Add Category";
+            this.AddCategoryButton.Text = "ADD CATEGORY";
             this.AddCategoryButton.UseVisualStyleBackColor = true;
             this.AddCategoryButton.Click += new System.EventHandler(this.AddCategoryButton_Click);
             // 
@@ -241,9 +242,9 @@
             this.EditButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditButton.Location = new System.Drawing.Point(383, 561);
+            this.EditButton.Location = new System.Drawing.Point(496, 561);
             this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(94, 34);
+            this.EditButton.Size = new System.Drawing.Size(104, 34);
             this.EditButton.TabIndex = 16;
             this.EditButton.Text = "EDIT";
             this.EditButton.UseVisualStyleBackColor = true;
@@ -269,14 +270,15 @@
             // 
             this.NotelistView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Name,
-            this.Mesage});
+            this.Mesage,
+            this.Img});
             this.NotelistView.FullRowSelect = true;
             this.NotelistView.HideSelection = false;
             this.NotelistView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.NotelistView.Location = new System.Drawing.Point(274, 181);
+            this.NotelistView.Location = new System.Drawing.Point(274, 178);
             this.NotelistView.Name = "NotelistView";
-            this.NotelistView.Size = new System.Drawing.Size(536, 358);
+            this.NotelistView.Size = new System.Drawing.Size(605, 358);
             this.NotelistView.TabIndex = 15;
             this.NotelistView.UseCompatibleStateImageBehavior = false;
             this.NotelistView.View = System.Windows.Forms.View.Details;
@@ -284,17 +286,24 @@
             // Name
             // 
             this.Name.Text = "Name";
+            this.Name.Width = 100;
             // 
             // Mesage
             // 
             this.Mesage.Text = "Message";
+            this.Mesage.Width = 250;
+            // 
+            // Img
+            // 
+            this.Img.Text = "Img";
+            this.Img.Width = 250;
             // 
             // RemoveNoteButton
             // 
             this.RemoveNoteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RemoveNoteButton.Location = new System.Drawing.Point(274, 561);
+            this.RemoveNoteButton.Location = new System.Drawing.Point(383, 561);
             this.RemoveNoteButton.Name = "RemoveNoteButton";
             this.RemoveNoteButton.Size = new System.Drawing.Size(94, 34);
             this.RemoveNoteButton.TabIndex = 16;
@@ -307,7 +316,7 @@
             this.MoveToCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.MoveToCategory.Location = new System.Drawing.Point(673, 561);
+            this.MoveToCategory.Location = new System.Drawing.Point(742, 561);
             this.MoveToCategory.Name = "MoveToCategory";
             this.MoveToCategory.Size = new System.Drawing.Size(137, 34);
             this.MoveToCategory.TabIndex = 22;
@@ -315,24 +324,52 @@
             this.MoveToCategory.UseVisualStyleBackColor = true;
             this.MoveToCategory.Click += new System.EventHandler(this.MoveToCategory_Click);
             // 
+            // WelcomeNoteApp
+            // 
+            this.WelcomeNoteApp.AutoSize = true;
+            this.WelcomeNoteApp.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.WelcomeNoteApp.Location = new System.Drawing.Point(398, 16);
+            this.WelcomeNoteApp.Name = "WelcomeNoteApp";
+            this.WelcomeNoteApp.Size = new System.Drawing.Size(392, 45);
+            this.WelcomeNoteApp.TabIndex = 20;
+            this.WelcomeNoteApp.Text = "WELCOME TO NOTE APP";
+            // 
+            // FillterByCategoryButton
+            // 
+            this.FillterByCategoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FillterByCategoryButton.Location = new System.Drawing.Point(496, 87);
+            this.FillterByCategoryButton.Name = "FillterByCategoryButton";
+            this.FillterByCategoryButton.Size = new System.Drawing.Size(114, 23);
+            this.FillterByCategoryButton.TabIndex = 23;
+            this.FillterByCategoryButton.Text = "Fillter by Category";
+            this.FillterByCategoryButton.UseVisualStyleBackColor = true;
+            this.FillterByCategoryButton.Click += new System.EventHandler(this.FillterByCategoryButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 700);
+            this.Controls.Add(this.FillterByCategoryButton);
+            this.Controls.Add(this.WelcomeNoteApp);
             this.Controls.Add(this.MoveToCategory);
             this.Controls.Add(this.RenameCategoryButton);
+            this.Controls.Add(this.AddNoteButton);
             this.Controls.Add(this.RemoveNoteButton);
+            this.Controls.Add(this.AddCategoryButton);
             this.Controls.Add(this.NotelistView);
             this.Controls.Add(this.categorieNameList);
             this.Controls.Add(this.EditButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.RemoveButton);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
+            this.Text = "Note APP";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -361,5 +398,8 @@
         private System.Windows.Forms.Button MoveToCategory;
         private System.Windows.Forms.ColumnHeader Name;
         private System.Windows.Forms.ColumnHeader Mesage;
+        private System.Windows.Forms.Label WelcomeNoteApp;
+        private System.Windows.Forms.ColumnHeader Img;
+        private System.Windows.Forms.Button FillterByCategoryButton;
     }
 }

@@ -28,8 +28,8 @@ namespace WinFormsApp
                     var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("/api/Services/Update_Note", inputContent).Result;
                    
-                    form.ClearViewList();
-                    form.dataViewAsync();
+                    
+                    form.DataViewNotes();
                 }
                 catch (Exception t)
                 {

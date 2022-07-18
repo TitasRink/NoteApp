@@ -30,7 +30,6 @@ namespace WinFormsApp
                     var response = client.PostAsync("/api/Services/Create_Category", inputContent).Result;
 
                     form.ClearViewList();
-                    form.dataViewAsync();
                 }
                 catch (Exception t)
                 {

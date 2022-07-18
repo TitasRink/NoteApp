@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NoteApp.Repository.Entities
 {
@@ -17,6 +18,8 @@ namespace NoteApp.Repository.Entities
 
         [MaxLength(250)]
         public string ImgUrl { get; set; }
+
+        [ForeignKey("UserModel")]
         public int? UserModelId { get; set; }
         public List<CategoryModel> Categories{ get; set; }
 

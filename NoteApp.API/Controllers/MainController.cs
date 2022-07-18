@@ -90,5 +90,12 @@ namespace NoteApp.API.Controllers
             var result = _categoryService.FilterCategory();
             return Ok(result);
         }
+
+        [HttpPost("Find_all_Notes_by_Category"), Authorize]
+        public ActionResult FindNotesByNameCategory(CategoryDTO category)
+        {
+            var result = _noteService.FilterNoteByCategory(category.Name);
+            return Ok(result);
+        }
     }
 }

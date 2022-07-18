@@ -53,8 +53,8 @@ namespace NoteApp.Bussness.Services
                 if (!Con.Categories.Any(x => x.Name == categoty))
                 {
                     Con.Categories.Add(new CategoryModel(categoty));
-                    var not = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
-                    var cate = Con.Categories.Where(x => x.Name == categoty).FirstOrDefault();
+                    var not = Con.Notes.Where(x => x.Name == categoty).FirstOrDefault();
+                    var cate = Con.Categories.Where(x => x.Name == note).FirstOrDefault();
                     cate.Notes.Add(not);
                     Con.SaveChanges();
 
@@ -152,6 +152,26 @@ namespace NoteApp.Bussness.Services
                  .Notes.ToList();
 
                 return res;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public List<NoteModel> FilterNoteByCategory(string nameId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(nameId))
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    var result = Con.Notes.Include(x => x.Categories.Where(x => x.Name == nameId).FirstOrDefault()).ToList();
+                    return result;
+                }
             }
             catch (Exception e)
             {

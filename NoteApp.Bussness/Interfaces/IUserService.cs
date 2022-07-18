@@ -1,4 +1,5 @@
 ﻿using NoteApp.Repository.Entities;
+using System.Collections.Generic;
 
 namespace NoteApp.Bussness.Interfaces
 {
@@ -6,6 +7,6 @@ namespace NoteApp.Bussness.Interfaces
     {
         string Login(string userName, string password);
         Result CreateUser(string name, string password);
-        Result GetUsers(string name);
+        List<UserModel> GetUsers();
     }
 }

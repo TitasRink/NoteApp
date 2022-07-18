@@ -86,21 +86,16 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public Result GetUsers(string name)
+        public List<UserModel>GetUsers()
         {
             try
             {
-                if (string.IsNullOrEmpty(name))
-                {
-                    return new Result(false, "Fill up fields");
-                }
-                var result = _context.Users.Where(x => x.LoginName == name).FirstOrDefault();
-
-                return new Result(true, "Show user");
+                var result = _context.Users.ToList();
+                return result;
             }
             catch (Exception e)
             {
-                return new Result(false, $"Error {e.Message}");
+                throw new(e.Message);
             }
         }
 
