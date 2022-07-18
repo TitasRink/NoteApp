@@ -13,11 +13,7 @@ namespace WinFormsApp
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// TODO hardcoded category name  need make selected from mainform
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+    
         private void RenameCastegoryConfirmButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())

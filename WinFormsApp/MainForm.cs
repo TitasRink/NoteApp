@@ -68,6 +68,7 @@ namespace WinFormsApp
                 ShowLogedUserMenu();
                 globalUserName = UserInputBox.Text;
                 UsernameTextBox.Text = globalUserName;
+                dataViewAsync();
             }
         }
   
@@ -78,7 +79,7 @@ namespace WinFormsApp
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    NoteModelForm notes = new() { Name = categorieNameList.SelectedItem.ToString() };
+                    NoteModelForm notes = new() { Name = globalUserName };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
                     string inputJsonNote = JsonConvert.SerializeObject(notes);
                     HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
@@ -95,28 +96,61 @@ namespace WinFormsApp
             }
         }
 
+        private void RemoveNoteButton_Click(object sender, EventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    NoteModelForm notes = new() { Name = NotelistView.SelectedItems[0].Text, IdName = globalUserName };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
+                    string inputJsonNote = JsonConvert.SerializeObject(notes);
+                    HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+                    var responseNote = client.PostAsync("/api/Services/Remove_Note", inputContentNote).Result;
+                    if (responseNote.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Note deleted");
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
+                NotelistView.Clear();
+                dataViewAsync();
+            }
+        }
+
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
             AddNote note = new AddNote();
             note.Show();
+
         }
+
         private void AddCategoryButton_Click(object sender, EventArgs e)
         {
             AddCastegory addCastegory = new AddCastegory();
             addCastegory.Show();
         }
+
         private void EditButton_Click(object sender, EventArgs e)
         {
+            
             EditNote editNote = new EditNote();
             noteSetectedFromList = NotelistView.SelectedItems[0].Text;
             editNote.Show();
+            NotelistView.Clear();
         }
+
         private void RenameCategory_Click(object sender, EventArgs e)
         {
             RenameCategory category = new RenameCategory();
             categoryRename = categorieNameList.SelectedItem.ToString();
             category.Show();
         }
+
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             UserInputBox.Text = "";
@@ -126,82 +160,39 @@ namespace WinFormsApp
             ShowLoginOnlyMenu();
         }
 
-        private void ShowLogedUserMenu()
+        public async Task dataViewAsync()
         {
-            UsernameTextBox.Hide();
-            UserInputBox.Hide();
-            PasswordInputBox.Hide();
-            PaswordLabel.Hide();
-            LoginButton.Hide();
-            AddUserButton.Hide();
-            label1.Hide();
-            AddCategoryButton.Show();
-            AddNoteButton.Show();
-            EditButton.Show();
-            RemoveButton.Show();
-            LogoutButton.Show();
-            UsernameTextBox.Show();
-            WelcomeLabel.Show();
-            LogedInLabel.Show();
-            RemoveButton.Show();
-            RenameCategoryButton.Show();
-            
-        }
+            var client = new HttpClient();
+            List<NoteModelForm> notes = null;
+            client.BaseAddress = new Uri("https://localhost:44317/");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
 
-        private void ShowLoginOnlyMenu()
-        {
-            UsernameTextBox.Show();
-            UserInputBox.Show();
-            PasswordInputBox.Show();
-            PaswordLabel.Show();
-            LoginButton.Show();
-            AddUserButton.Show();
-            WelcomeLabel.Hide();
-            AddCategoryButton.Hide();
-            AddNoteButton.Hide();
-            EditButton.Hide();
-            RemoveButton.Hide();
-            LogoutButton.Hide();
-            UsernameTextBox.Hide();
-            LogedInLabel.Hide();
-            RemoveButton.Hide();
-            RenameCategoryButton.Hide();
-        }
+            NoteModelForm notesID = new() { IdName = globalUserName };
+            string inputJsonNote = JsonConvert.SerializeObject(notesID);
+            var inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
+            var responseNote = client.PostAsync("/api/Services/Find_all_Notes_by_name", inputContentNote).Result;
+            var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
+            notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
 
-        private async Task dataViewAsync()
-        {
-            using (var client = new HttpClient())
+            foreach (var item in notes)
             {
-                List<NoteModelForm> notes = null;
-                List<CategoryModelForm> categories = null;
-                client.BaseAddress = new Uri("https://localhost:44317/");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
-                HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
+                ListViewItem list = new ListViewItem(item.Name.ToString());
+                list.SubItems.Add(item.Message.ToString());
+                NotelistView.Items.Add(list);
+            }
 
-                var resultNotes = client.GetAsync("/api/Services/Find_all_Notes_by_name").GetAwaiter().GetResult();
-                var jsonStringNotes = await resultNotes.Content.ReadAsStringAsync();
-                notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNotes);
+            List<CategoryModelForm> categories = null;
+            HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
+            var resultCategory = client.GetAsync("/api/Services/Find_Categories").GetAwaiter().GetResult();
+            var jsonStringcategory = await resultCategory.Content.ReadAsStringAsync();
+            categories = JsonConvert.DeserializeObject<List<CategoryModelForm>>(jsonStringcategory);
 
-                var resultCategory = client.GetAsync("/api/Services/Find_Categories").GetAwaiter().GetResult();
-                var jsonStringcategory = await resultCategory.Content.ReadAsStringAsync();
-                categories = JsonConvert.DeserializeObject<List<CategoryModelForm>>(jsonStringcategory);
-
-
-                foreach (var item in categories)
-                {
-                    categorieNameList.Items.Add(item.Name.ToString());
-                }
-                foreach (var item in notes)
-                {
-                    ListViewItem list = new ListViewItem(item.Name.ToString());
-
-                    list.SubItems.Add(item.Message.ToString());
-                    NotelistView.Items.Add(list);
-                }
-                
-          
+            foreach (var item in categories)
+            {
+                categorieNameList.Items.Add(item.Name.ToString());
             }
         }
+
         public static string globalToken = "";
         public static string globalUserName = "";
         public static string categoryRename = "";
@@ -210,11 +201,6 @@ namespace WinFormsApp
         private void ExitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void MoveToCategory_Click(object sender, EventArgs e)
@@ -242,28 +228,51 @@ namespace WinFormsApp
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ShowLogedUserMenu()
         {
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("https://localhost:44317/");
-                    NoteModelForm notes = new() { Name = NotelistView.SelectedItems[0].Text };
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
-                    string inputJsonNote = JsonConvert.SerializeObject(notes);
-                    HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
-                    var responseNote = client.PostAsync("/api/Services/Remove_Note", inputContentNote).Result;
-                    if (responseNote.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Note deleted");
-                    }
-                }
-                catch (Exception t)
-                {
-                    MessageBox.Show(t.Message.ToString());
-                }
-            }
+            UsernameTextBox.Hide();
+            UserInputBox.Hide();
+            PasswordInputBox.Hide();
+            PaswordLabel.Hide();
+            LoginButton.Hide();
+            AddUserButton.Hide();
+            label1.Hide();
+            AddCategoryButton.Show();
+            AddNoteButton.Show();
+            EditButton.Show();
+            RemoveButton.Show();
+            LogoutButton.Show();
+            UsernameTextBox.Show();
+            WelcomeLabel.Show();
+            LogedInLabel.Show();
+            RemoveButton.Show();
+            RenameCategoryButton.Show();
+
         }
+        private void ShowLoginOnlyMenu()
+        {
+            UsernameTextBox.Show();
+            UserInputBox.Show();
+            PasswordInputBox.Show();
+            PaswordLabel.Show();
+            LoginButton.Show();
+            AddUserButton.Show();
+            WelcomeLabel.Hide();
+            AddCategoryButton.Hide();
+            AddNoteButton.Hide();
+            EditButton.Hide();
+            RemoveButton.Hide();
+            LogoutButton.Hide();
+            UsernameTextBox.Hide();
+            LogedInLabel.Hide();
+            RemoveButton.Hide();
+            RenameCategoryButton.Hide();
+        }
+        public void ClearViewList()
+        {
+            NotelistView.Clear();
+        }
+
+
     }
 }

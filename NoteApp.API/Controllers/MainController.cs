@@ -39,7 +39,7 @@ namespace NoteApp.API.Controllers
         [HttpPost("Remove_Note"), Authorize]
         public ActionResult RemoveNote([FromBody] NoteDTO note)
         {
-            var result = _noteService.DeleteNote(note.Name);
+            var result = _noteService.DeleteNote(note.Name, note.IdName);
             return Ok(result);
         }
         //neveikia dar su UI
@@ -79,10 +79,10 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("Find_all_Notes_by_name"), Authorize]
-        public ActionResult FindNotesByName()
+        [HttpPost("Find_all_Notes_by_name"), Authorize]
+        public ActionResult FindNotesByName(NoteDTO note)
         {
-            var result = _noteService.FilterByNote();
+            var result = _noteService.FilterByNote(note.IdName);
             return Ok(result);
         }
 

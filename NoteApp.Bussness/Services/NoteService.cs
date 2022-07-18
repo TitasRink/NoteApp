@@ -99,7 +99,7 @@ namespace NoteApp.Bussness.Services
                 return new Result(false, $"Error {e.Message}");
             }
         }
-        public Result DeleteNote(string name)
+        public Result DeleteNote(string name, string userNameId)
         {
             try
             {
@@ -111,8 +111,9 @@ namespace NoteApp.Bussness.Services
                 {
                     return new Result(false, $"Note {name} do not exists");
                 }
-                var result = Con.Notes.Where(x => x.Name == name).FirstOrDefault();
-                Con.Remove(result);
+                var res = Con.Users.Include(x => x.Notes).Where(x => x.LoginName == userNameId).FirstOrDefault();
+                var remove = res.Notes.Where(x => x.Name == name).FirstOrDefault();
+                Con.Remove(remove);
                 Con.SaveChanges();
 
                 return new Result(true, "Deleted");
@@ -123,18 +124,16 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public List<NoteModel> FilterByCategory(string categoryName)
+        public List<NoteModel> FilterByCategory(string userName)
         {
             try
             {
-                if (string.IsNullOrEmpty(categoryName))
+                if (string.IsNullOrEmpty(userName))
                 {
                     throw new Exception();
                 }
-                //var result = Con.Categories
-                //    .Include(x => x.Notes)
-                //    .Where(x => x.Name.Any() == categoryName).ToList();
-                var result = Con.Notes.Where(x => x.Categories.Any(x => x.Name == categoryName)).ToList();
+            
+                var result = Con.Notes.Where(x => x.Categories.Any(x => x.Name == userName)).ToList();
 
                 return result;
             }
@@ -144,13 +143,16 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public List<NoteModel> FilterByNote()
+        public List<NoteModel> FilterByNote(string userNameId)
         {
             try
             {
-                var result = Con.Notes.ToList();
+                var res = Con.Users.Include(x => x.Notes)
+                 .Where(x => x.LoginName == userNameId)
+                 .FirstOrDefault()
+                 .Notes.ToList();
 
-                return result;
+                return res;
             }
             catch (Exception e)
             {

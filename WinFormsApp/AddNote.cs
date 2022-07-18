@@ -32,6 +32,9 @@ namespace WinFormsApp
                     MessageBox.Show(t.Message.ToString());
                 }
             }
+            MainForm form = new();
+            form.ClearViewList();
+            form.dataViewAsync();
             Close();
         }
     }

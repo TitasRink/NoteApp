@@ -53,7 +53,7 @@
             this.NotelistView = new System.Windows.Forms.ListView();
             this.Name = new System.Windows.Forms.ColumnHeader();
             this.Mesage = new System.Windows.Forms.ColumnHeader();
-            this.button1 = new System.Windows.Forms.Button();
+            this.RemoveNoteButton = new System.Windows.Forms.Button();
             this.MoveToCategory = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -289,18 +289,18 @@
             // 
             this.Mesage.Text = "Message";
             // 
-            // button1
+            // RemoveNoteButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.RemoveNoteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(274, 561);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(94, 34);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "REMOVE";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.RemoveNoteButton.Location = new System.Drawing.Point(274, 561);
+            this.RemoveNoteButton.Name = "RemoveNoteButton";
+            this.RemoveNoteButton.Size = new System.Drawing.Size(94, 34);
+            this.RemoveNoteButton.TabIndex = 16;
+            this.RemoveNoteButton.Text = "REMOVE";
+            this.RemoveNoteButton.UseVisualStyleBackColor = true;
+            this.RemoveNoteButton.Click += new System.EventHandler(this.RemoveNoteButton_Click);
             // 
             // MoveToCategory
             // 
@@ -322,7 +322,7 @@
             this.ClientSize = new System.Drawing.Size(1029, 700);
             this.Controls.Add(this.MoveToCategory);
             this.Controls.Add(this.RenameCategoryButton);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.RemoveNoteButton);
             this.Controls.Add(this.NotelistView);
             this.Controls.Add(this.categorieNameList);
             this.Controls.Add(this.EditButton);
@@ -357,7 +357,7 @@
         private MySql.Data.MySqlClient.MySqlCommand mySqlCommand1;
         public System.Windows.Forms.ComboBox categorieNameList;
         private System.Windows.Forms.ListView NotelistView;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button RemoveNoteButton;
         private System.Windows.Forms.Button MoveToCategory;
         private System.Windows.Forms.ColumnHeader Name;
         private System.Windows.Forms.ColumnHeader Mesage;

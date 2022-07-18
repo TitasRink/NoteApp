@@ -109,25 +109,6 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        //public bool ValidateCredentials(string name, string password)
-        //{
-        //    if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password))
-        //    {
-        //        return false;
-        //    }
-        //    if (_context.Users.Any(x => x.LoginName == name && _context.Users.Any(x => x.LoginPassword == password)))
-        //    {
-        //        var uname = _context.Users.Where(x=>x.LoginName == name).FirstOrDefault().ToString();
-        //        var upass = _context.Users.Where(x => x.LoginPassword == password).FirstOrDefault().ToString();
-
-        //        return name.Equals(uname) && password.Equals(upass);
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using var hmac = new HMACSHA512();
