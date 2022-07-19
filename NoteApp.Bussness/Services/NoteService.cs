@@ -16,6 +16,10 @@ namespace NoteApp.Bussness.Services
         {
             Con = con;
         }
+        public NoteService()
+        {
+
+        }
 
         public Result CreateNoteAndMessage(string name, string message, string userNameId)
         {
@@ -167,7 +171,6 @@ namespace NoteApp.Bussness.Services
                     var cateID = Con.Categories.Where(x => x.Name == nameId).FirstOrDefault().Id; 
                     var notes = Con.Notes.Include(x => x.Categories).Where(x=>x.Id == cateID).ToList();
 
-                    //var result = Con.Notes.Include(x => x.Categories.Where(x => x.Name == nameId).FirstOrDefault()).ToList();
                     return notes;
                 }
             }
