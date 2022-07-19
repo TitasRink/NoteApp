@@ -46,6 +46,7 @@
             // 
             // RenameCategoryTextBox
             // 
+            this.RenameCategoryTextBox.BackColor = System.Drawing.Color.Lavender;
             this.RenameCategoryTextBox.Location = new System.Drawing.Point(46, 136);
             this.RenameCategoryTextBox.Multiline = true;
             this.RenameCategoryTextBox.Name = "RenameCategoryTextBox";
@@ -64,18 +65,21 @@
             // 
             // RenameCastegoryConfirmButton
             // 
+            this.RenameCastegoryConfirmButton.BackColor = System.Drawing.Color.LightBlue;
+            this.RenameCastegoryConfirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RenameCastegoryConfirmButton.Location = new System.Drawing.Point(136, 190);
             this.RenameCastegoryConfirmButton.Name = "RenameCastegoryConfirmButton";
             this.RenameCastegoryConfirmButton.Size = new System.Drawing.Size(100, 40);
             this.RenameCastegoryConfirmButton.TabIndex = 7;
             this.RenameCastegoryConfirmButton.Text = "Confirm";
-            this.RenameCastegoryConfirmButton.UseVisualStyleBackColor = true;
+            this.RenameCastegoryConfirmButton.UseVisualStyleBackColor = false;
             this.RenameCastegoryConfirmButton.Click += new System.EventHandler(this.RenameCastegoryConfirmButton_Click);
             // 
             // RenameCategory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.RenameCategoryTextBox);

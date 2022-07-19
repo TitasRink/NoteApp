@@ -46,6 +46,7 @@
             // 
             // EditNoteTextBox
             // 
+            this.EditNoteTextBox.BackColor = System.Drawing.Color.Lavender;
             this.EditNoteTextBox.Location = new System.Drawing.Point(46, 88);
             this.EditNoteTextBox.Multiline = true;
             this.EditNoteTextBox.Name = "EditNoteTextBox";
@@ -64,18 +65,21 @@
             // 
             // EditNoteConfirmButton
             // 
+            this.EditNoteConfirmButton.BackColor = System.Drawing.Color.LightBlue;
+            this.EditNoteConfirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.EditNoteConfirmButton.Location = new System.Drawing.Point(136, 201);
             this.EditNoteConfirmButton.Name = "EditNoteConfirmButton";
             this.EditNoteConfirmButton.Size = new System.Drawing.Size(100, 40);
             this.EditNoteConfirmButton.TabIndex = 13;
             this.EditNoteConfirmButton.Text = "Confirm";
-            this.EditNoteConfirmButton.UseVisualStyleBackColor = true;
+            this.EditNoteConfirmButton.UseVisualStyleBackColor = false;
             this.EditNoteConfirmButton.Click += new System.EventHandler(this.EditNoteConfirmButton_Click);
             // 
             // EditNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.EditNoteTextBox);

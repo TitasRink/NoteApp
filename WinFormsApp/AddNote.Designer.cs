@@ -47,6 +47,7 @@
             // 
             // NoteNameTextBox
             // 
+            this.NoteNameTextBox.BackColor = System.Drawing.Color.Lavender;
             this.NoteNameTextBox.Location = new System.Drawing.Point(171, 59);
             this.NoteNameTextBox.Name = "NoteNameTextBox";
             this.NoteNameTextBox.Size = new System.Drawing.Size(167, 23);
@@ -54,6 +55,7 @@
             // 
             // NoteTextBox
             // 
+            this.NoteTextBox.BackColor = System.Drawing.Color.Lavender;
             this.NoteTextBox.Location = new System.Drawing.Point(46, 88);
             this.NoteTextBox.Multiline = true;
             this.NoteTextBox.Name = "NoteTextBox";
@@ -72,18 +74,21 @@
             // 
             // NoteConfirmButton
             // 
+            this.NoteConfirmButton.BackColor = System.Drawing.Color.LightBlue;
+            this.NoteConfirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.NoteConfirmButton.Location = new System.Drawing.Point(136, 201);
             this.NoteConfirmButton.Name = "NoteConfirmButton";
             this.NoteConfirmButton.Size = new System.Drawing.Size(100, 40);
             this.NoteConfirmButton.TabIndex = 8;
             this.NoteConfirmButton.Text = "Confirm";
-            this.NoteConfirmButton.UseVisualStyleBackColor = true;
+            this.NoteConfirmButton.UseVisualStyleBackColor = false;
             this.NoteConfirmButton.Click += new System.EventHandler(this.NoteConfirmButton_Click);
             // 
             // AddNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NoteNameTextBox);
