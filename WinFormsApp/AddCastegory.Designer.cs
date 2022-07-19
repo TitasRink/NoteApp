@@ -36,7 +36,6 @@
             // 
             // CategoryTextBox
             // 
-            this.CategoryTextBox.BackColor = System.Drawing.Color.Lavender;
             this.CategoryTextBox.Location = new System.Drawing.Point(46, 136);
             this.CategoryTextBox.Multiline = true;
             this.CategoryTextBox.Name = "CategoryTextBox";
@@ -55,14 +54,12 @@
             // 
             // CastegoryConfirmButton
             // 
-            this.CastegoryConfirmButton.BackColor = System.Drawing.Color.LightBlue;
-            this.CastegoryConfirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.CastegoryConfirmButton.Location = new System.Drawing.Point(136, 190);
             this.CastegoryConfirmButton.Name = "CastegoryConfirmButton";
             this.CastegoryConfirmButton.Size = new System.Drawing.Size(100, 40);
             this.CastegoryConfirmButton.TabIndex = 3;
             this.CastegoryConfirmButton.Text = "Confirm";
-            this.CastegoryConfirmButton.UseVisualStyleBackColor = false;
+            this.CastegoryConfirmButton.UseVisualStyleBackColor = true;
             this.CastegoryConfirmButton.Click += new System.EventHandler(this.CastegoryConfirmButton_Click);
             // 
             // label2
@@ -79,7 +76,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.CategoryTextBox);
