@@ -97,5 +97,12 @@ namespace NoteApp.API.Controllers
             var result = _noteService.FilterNoteByCategory(category.Name);
             return Ok(result);
         }
+
+        [HttpPost("AddImg"), Authorize]
+        public ActionResult ImgAdd(NoteDTO note)
+        {
+            var a = _noteService.ImgAdd(note.Name, note.ImgUrl);
+            return Ok(a);
+        }
     }
 }

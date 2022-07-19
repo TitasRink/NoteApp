@@ -379,6 +379,7 @@
             this.Controls.Add(this.EditButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.RemoveButton);
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Note APP";
             this.panel1.ResumeLayout(false);

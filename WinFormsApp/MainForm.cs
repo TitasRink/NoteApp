@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -69,7 +71,7 @@ namespace WinFormsApp
             if (string.IsNullOrEmpty(UserInputBox.Text) || string.IsNullOrEmpty(PasswordInputBox.Text))
             {
                 MessageBox.Show("Please fill up fields");
-                return ;
+                return;
             }
             else
             {
@@ -95,7 +97,7 @@ namespace WinFormsApp
                 }
             }
         }
-  
+
         private async void RemoveButton_Click(object sender, EventArgs e)
         {
             using (var client = new HttpClient())
@@ -155,7 +157,7 @@ namespace WinFormsApp
 
         private void AddCategoryButton_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(NotelistView.SelectedItems.ToString()))
+            if (string.IsNullOrEmpty(NotelistView.SelectedItems.ToString()))
             {
                 MessageBox.Show("Please select any note");
                 return;
@@ -171,7 +173,7 @@ namespace WinFormsApp
         {
             EditNote editNote = new EditNote();
             noteSetectedFromList = NotelistView.SelectedItems[0].Text;
-            if(noteSetectedFromList == null)
+            if (noteSetectedFromList == null)
             {
                 MessageBox.Show("Select Note to Edit");
             }
@@ -179,14 +181,14 @@ namespace WinFormsApp
             {
                 editNote.Show();
             }
-             
+
         }
 
         private async void RenameCategory_Click(object sender, EventArgs e)
         {
             RenameCategory category = new RenameCategory();
             categoryRename = categorieNameList.SelectedItem.ToString();
-            if(categoryRename == null)
+            if (categoryRename == null)
             {
                 MessageBox.Show("Select Category to Rename");
             }
@@ -258,7 +260,7 @@ namespace WinFormsApp
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    CategoryModelForm cate = new() { Name = NotelistView.SelectedItems[0].Text, UserNameId = categorieNameList.SelectedItem.ToString()};
+                    CategoryModelForm cate = new() { Name = NotelistView.SelectedItems[0].Text, UserNameId = categorieNameList.SelectedItem.ToString() };
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
                     string inputJsonNote = JsonConvert.SerializeObject(cate);
                     HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
@@ -349,7 +351,7 @@ namespace WinFormsApp
                     var responseNote = client.PostAsync("/api/Services/Find_Notes_by_Category", inputContentNote).Result;
                     var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
                     var notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
-                    
+
                     NotelistView.Items.Clear();
                     foreach (var item in notes)
                     {
@@ -365,12 +367,14 @@ namespace WinFormsApp
                 }
             }
         }
-       
+
         private void ShowAllButton_Click(object sender, EventArgs e)
         {
             categorieNameList.Items.Clear();
             DataViewNotes();
             DataViewAsyncCategory();
         }
+
+
     }
 }

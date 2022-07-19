@@ -179,5 +179,20 @@ namespace NoteApp.Bussness.Services
                 throw new Exception(e.Message);
             }
         }
+
+        // img adding
+
+        public  Result ImgAdd(string name, byte[] ImgUrl)
+        {
+            
+            var insideNote = Con.Notes.FirstOrDefault(x => x.Name == name);
+          
+                Con.Notes.Add(new NoteModel
+                {
+                    ImgUrl = ImgUrl 
+                });
+                Con.SaveChanges();
+            return new Result(true, "asdasd");
+        }
     }
 }

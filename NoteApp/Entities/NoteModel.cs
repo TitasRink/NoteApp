@@ -17,7 +17,7 @@ namespace NoteApp.Repository.Entities
         public string Message { get; set; }
 
         [MaxLength(250)]
-        public string ImgUrl { get; set; }
+        public byte[] ImgUrl { get; set; }
 
         [ForeignKey("UserModel")]
         public int? UserModelId { get; set; }

@@ -12,5 +12,6 @@ namespace NoteApp.Bussness.Interfaces
         List<NoteModel> FilterByCategory(string categoryName);
         List<NoteModel> FilterByNote(string userNameId);
         List<NoteModel> FilterNoteByCategory(string nameId);
+        Result ImgAdd(string name, byte[] ImgUrl);
     }
 }
