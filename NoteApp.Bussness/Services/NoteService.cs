@@ -180,8 +180,6 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        // img adding
-
         public  Result ImgAdd(string name, byte[] ImgUrl)
         {
             

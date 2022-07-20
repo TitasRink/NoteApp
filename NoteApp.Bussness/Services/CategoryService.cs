@@ -95,6 +95,7 @@ namespace NoteApp.Bussness.Services
                 return new Result(false, $"Error {e.Message}");
             }
         }
+
         public List<CategoryModel> FilterCategory()
         {
             try

@@ -27,7 +27,6 @@ namespace WinFormsApp
                 string inputJson = JsonConvert.SerializeObject(note);
                 HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                 var response = client.PostAsync("/api/Services/Create_note_and_mesage", inputContent).Result;
-
                 await form.DataViewNotes();
             }
             catch (Exception t)

@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DTO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http.Cors;
 
 namespace NoteApp.API.Controllers
 {
@@ -41,7 +38,7 @@ namespace NoteApp.API.Controllers
             var result = _noteService.DeleteNote(note.Name, note.IdName);
             return Ok(result);
         }
-        //neveikia dar su UI
+        
         [HttpPost("Move_note_to_category"), Authorize]
         public ActionResult MoveNote([FromBody] CategoryDTO category)
         {

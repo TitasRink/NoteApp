@@ -15,13 +15,11 @@ namespace NoteApp.Test
             NoteService note = new NoteService();
          
             // Act
-
             var actualEmpty = note.CreateNoteAndMessage("", "", "");
             var expected = new Result(false, "Fill up fields");
             var comparisonResult = new CompareLogic().Compare(expected, actualEmpty);
 
             // Assert
-
             Assert.IsTrue(comparisonResult.AreEqual);
         }
 
@@ -32,13 +30,11 @@ namespace NoteApp.Test
             NoteService note = new NoteService();
 
             // Act
-
             var actualEmpty = note.UpdateNote("", "");
             var expected = new Result(false, "Fill up fields");
             var comparisonResult = new CompareLogic().Compare(expected, actualEmpty);
 
             // Assert
-
             Assert.IsTrue(comparisonResult.AreEqual);
         }
 
@@ -51,13 +47,11 @@ namespace NoteApp.Test
             string categoty = "";
 
             // Act
-
             var actualEmpty = note.MoveNoteToCategory(noteEmpty, categoty);
             var expected = new Result(false, $"{noteEmpty} to {categoty} Not Moved");
             var comparisonResult = new CompareLogic().Compare(expected, actualEmpty);
 
             // Assert
-
             Assert.IsTrue(comparisonResult.AreEqual);
         }
 
@@ -68,13 +62,11 @@ namespace NoteApp.Test
             NoteService note = new NoteService();
 
             // Act
-
             var actualEmpty = note.DeleteNote("", "");
             var expected = new Result(false, "Fill up fields");
             var comparisonResult = new CompareLogic().Compare(expected, actualEmpty);
 
             // Assert
-
             Assert.IsTrue(comparisonResult.AreEqual);
         }
     }

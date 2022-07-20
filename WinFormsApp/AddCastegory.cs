@@ -27,7 +27,6 @@ namespace WinFormsApp
                 string inputJson = JsonConvert.SerializeObject(cat);
                 HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
                 var response = client.PostAsync("/api/Services/Create_Category", inputContent).Result;
-
                 form.ClearViewList();
             }
             catch (Exception t)
