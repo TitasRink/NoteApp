@@ -55,14 +55,21 @@ namespace NoteApp.Bussness.Services
                 }
                 else
                 {
-                    var noteResult = Con.Notes.Where(x => x.Name == note).FirstOrDefault();
+                    var noteResult = Con.Notes
+                        .Include(i => i.Categories)
+                        .Where(x => x.Name == note).FirstOrDefault();
 
-                    var cat = Con.Notes.Include(x => x.Categories)
-                            .Where(x => x.Categories.Any(x => x.Name == categoty))
-                            //.Where(x => x.Name == note)
-                            .FirstOrDefault();
+                    var category = Con.Categories
+                        .Include(x=>x.Notes)
+                        .Where(x => x.Name == categoty).FirstOrDefault();
 
-                    cat.Categories.ForEach(x=>x.Notes.Add(noteResult));
+                    category.Notes.Add(noteResult);
+                    noteResult.Categories.Add(category);
+
+                    //var cat = Con.Notes.Include(x => x.Categories)
+                    //        .Where(x => x.Categories.Any(x => x.Name == categoty))
+                    //        //.Where(x => x.Name == note)
+                    //        .FirstOrDefault();
 
                     Con.SaveChanges();
 
@@ -122,24 +129,25 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public List<NoteModel> FilterByCategory(string userName)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(userName))
-                {
-                    throw new Exception();
-                }
-            
-                var result = Con.Notes.Where(x => x.Categories.Any(x => x.Name == userName)).ToList();
+        //public List<NoteModel> FilterByCategory(string userName)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(userName))
+        //        {
+        //            throw new Exception();
+        //        }
 
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
+          
+        //        var result = Con.Notes.Where(x => x.Categories.Any(x => x.Name == userName)).ToList();
+
+        //        return result;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception(e.Message);
+        //    }
+        //}
 
         public List<NoteModel> FilterByNote(string userNameId)
         {
@@ -158,7 +166,7 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public List<NoteModel> FilterNoteByCategory(string nameId)
+        public List<NoteModel> FilterNoteByCategory(string nameId, string userId)
         {
             try
             {
@@ -168,10 +176,14 @@ namespace NoteApp.Bussness.Services
                 }
                 else
                 {
-                    var cateID = Con.Categories.Where(x => x.Name == nameId).FirstOrDefault().Id; 
-                    var notes = Con.Notes.Include(x => x.Categories).Where(x=>x.Id == cateID).ToList();
+                    var userID = Con.Users.Where(x => x.LoginName == userId).FirstOrDefault().Id;
 
-                    return notes;
+                    var result = Con.Notes.Where(x => x.Categories.Any(x => x.Name == nameId)).ToList();
+
+                    //var cateID = Con.Categories.Where(x => x.Name == nameId).FirstOrDefault().Id; 
+                    //var notes = Con.Notes.Include(x => x.Categories).Where(x=>x.Id == cateID).ToList();
+
+                    return result;
                 }
             }
             catch (Exception e)
@@ -180,17 +192,10 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        public  Result ImgAdd(string name, byte[] ImgUrl)
-        {
+        //public  Result ImgAdd(string name, byte[] ImgUrl)
+        //{
             
-            var insideNote = Con.Notes.FirstOrDefault(x => x.Name == name);
-          
-                Con.Notes.Add(new NoteModel
-                {
-                    ImgUrl = ImgUrl 
-                });
-                Con.SaveChanges();
-            return new Result(true, "asdasd");
-        }
+         
+        //}
     }
 }

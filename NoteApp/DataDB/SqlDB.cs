@@ -9,6 +9,7 @@ namespace NoteApp.Repository.DataDB
         public DbSet<CategoryModel> Categories { get; set; }
         public DbSet<NoteModel> Notes { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public SqlDB(IDbCongigurations options) : base(options.Options)
         {

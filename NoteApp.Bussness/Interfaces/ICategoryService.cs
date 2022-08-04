@@ -6,7 +6,7 @@ namespace NoteApp.Bussness.Interfaces
     public interface ICategoryService
     {
         List<CategoryModel> FilterCategory();
-        Result CreateCategory(string name, string userNameId);
+        Result CreateCategory(string name, string userId);
         Result UpdateCategoryName(string oldnName, string newName);
         Result DeleteCategory(string name);
     }

@@ -8,19 +8,15 @@ namespace NoteApp.Repository.Entities
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
         [Required]
         public string Message { get; set; }
-
         [MaxLength(250)]
-        public byte[] ImgUrl { get; set; }
-
         [ForeignKey("UserModel")]
         public int? UserModelId { get; set; }
+        public List<Image> Images { get; set; }
         public List<CategoryModel> Categories{ get; set; }
 
         public NoteModel(string name, string message)
@@ -36,14 +32,6 @@ namespace NoteApp.Repository.Entities
             Message=message;
             UserModelId = userModelId;
             Categories = new List<CategoryModel>();
-        }
-        public NoteModel(string name)
-        {
-            Name = name;
-        }
-        public NoteModel()
-        {
-
         }
     }
 }

@@ -14,8 +14,8 @@ namespace WinFormsApp
     {
         public static string globalToken = "";
         public static string globalUserName = "";
-        public static string categoryRename = "";
-        public static string noteSetectedFromList = "";
+        //public static string categoryRename = "";
+        //public static string noteSetectedFromList = "";
 
         public MainForm()
         {
@@ -41,7 +41,7 @@ namespace WinFormsApp
 
                     if (!response.IsSuccessStatusCode)
                     {
-                        MessageBox.Show("User name or password is incorrect");
+                        MessageBox.Show("No user found");
                         UserInputBox.Text = "";
                         PasswordInputBox.Text = "";
                     }
@@ -91,6 +91,7 @@ namespace WinFormsApp
                     ShowLogedUserMenu();
                     globalUserName = UserInputBox.Text;
                     UsernameTextBox.Text = globalUserName;
+                    DataViewAsyncCategory();
                 }
             }
         }
@@ -102,14 +103,15 @@ namespace WinFormsApp
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
-                    CategoryModelForm cate = new() { Name = categorieNameList.SelectedItem.ToString() };
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                    CategoryModelForm cate = new() { Name = CategoryListView.SelectedItems[0].Text };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
                     string inputJsonNote = JsonConvert.SerializeObject(cate);
                     HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
                     var responseNote = client.PostAsync("/api/Services/Remove_Category", inputContentNote).Result;
 
                     if (responseNote.IsSuccessStatusCode)
                     {
+                        CategoryListView.Items.Clear();
                         await DataViewAsyncCategory();
                         MessageBox.Show("Category deleted");
                     }
@@ -123,8 +125,13 @@ namespace WinFormsApp
 
         private async void RemoveNoteButton_Click(object sender, EventArgs e)
         {
-            using (var client = new HttpClient())
+            if (string.IsNullOrEmpty(NotelistView.SelectedItems[0].Text))
             {
+                MessageBox.Show("Select message to remove");
+            }
+            else
+            {
+                using var client = new HttpClient();
                 try
                 {
                     client.BaseAddress = new Uri("https://localhost:44317/");
@@ -137,7 +144,7 @@ namespace WinFormsApp
                     if (responseNote.IsSuccessStatusCode)
                     {
                         NotelistView.Items.Clear();
-                        await DataViewNotes();
+                        DataViewNotes();
                         MessageBox.Show("Note deleted");
                     }
                 }
@@ -150,53 +157,152 @@ namespace WinFormsApp
 
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
-            AddNote note = new AddNote();
-            note.Show();
+            using var client = new HttpClient();
+            try
+            {
+                client.BaseAddress = new Uri("https://localhost:44317/");
+                NoteModelForm note = new() { Name = NoteNameTextBox.Text, Message = NoteMessageTextBox.Text, IdName = globalUserName };
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
+                string inputJson = JsonConvert.SerializeObject(note);
+                HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                var response = client.PostAsync("/api/Services/Create_note_and_mesage", inputContent).Result;
+                DataViewNotes();
+                NoteNameTextBox.Text = "";
+                NoteMessageTextBox.Text = "";
+            }
+            catch (Exception t)
+            {
+                MessageBox.Show(t.Message.ToString());
+            }
         }
 
         private void AddCategoryButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(NotelistView.SelectedItems.ToString()))
+            if (string.IsNullOrEmpty(CategoryTextBoxAddRemove.Text))
             {
-                MessageBox.Show("Please select any note");
-                return;
+                MessageBox.Show("Fill up empty field");
             }
             else
             {
-                AddCastegory addCastegory = new AddCastegory();
-                addCastegory.Show();
+                CategoryListView.Items.Clear();
+                using var client = new HttpClient();
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    CategoryModelForm cat = new() { Name = CategoryTextBoxAddRemove.Text, UserNameId = globalUserName };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
+                    string inputJson = JsonConvert.SerializeObject(cat);
+                    HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync("/api/Services/Create_Category", inputContent).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        DataViewAsyncCategory();
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
+                CategoryTextBoxAddRemove.Text = "";
             }
+
+            //if (string.IsNullOrEmpty(NotelistView.SelectedItems.ToString()))
+            //{
+            //    MessageBox.Show("Please select any note");
+            //    return;
+            //}
+            //else
+            //{
+            //    AddCastegory addCastegory = new AddCastegory();
+            //    addCastegory.Show();
+            //}
         }
 
         private async void EditButton_Click(object sender, EventArgs e)
         {
-            EditNote editNote = new EditNote();
-            noteSetectedFromList = NotelistView.SelectedItems[0].Text;
-            if (noteSetectedFromList == null)
+            if (string.IsNullOrEmpty(NoteMessageTextBox.Text))
             {
-                MessageBox.Show("Select Note to Edit");
-                return;
+                MessageBox.Show("Fill up message");
             }
             else
             {
-                editNote.Show();
+                using var client = new HttpClient();
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    NoteModelForm note = new() { Name = NotelistView.SelectedItems[0].Text, Message = NoteMessageTextBox.Text };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                    string inputJson = JsonConvert.SerializeObject(note);
+                    var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync("/api/Services/Update_Note", inputContent).Result;
+                    NotelistView.Items.Clear();
+                    DataViewNotes();
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
             }
+
+            //EditNote editNote = new EditNote();
+            //noteSetectedFromList = NotelistView.SelectedItems[0].Text;
+            //if (noteSetectedFromList == null)
+            //{
+            //    MessageBox.Show("Select Note to Edit");
+            //    return;
+            //}
+            //else
+            //{
+            //    editNote.Show();
+            //}
 
         }
 
         private async void RenameCategory_Click(object sender, EventArgs e)
         {
-            RenameCategory category = new RenameCategory();
-            categoryRename = categorieNameList.SelectedItem.ToString();
-            if (categoryRename == null)
+            if(CategoryListView.SelectedItems[0].Text == null || string.IsNullOrEmpty(CategoryTextBoxAddRemove.Text))
             {
-                MessageBox.Show("Select Category to Rename");
-                return ;
+                MessageBox.Show("Fill up empty field");
             }
             else
             {
-                category.Show();
+                using var client = new HttpClient();
+                try
+                {
+                    client.BaseAddress = new Uri("https://localhost:44317/");
+                    CategoryModelForm cate = new() { Name = CategoryListView.SelectedItems[0].Text, UserNameId = CategoryTextBoxAddRemove.Text };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                    string inputJson = JsonConvert.SerializeObject(cate);
+                    var inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync("/api/Services/Rename_category_name", inputContent).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        ClearViewList();
+                        MessageBox.Show("Renamed");
+                        DataViewNotes();
+                        DataViewAsyncCategory();
+                    }
+                    else
+                    {
+                        MessageBox.Show(response.StatusCode.ToString());
+                    }
+                }
+                catch (Exception t)
+                {
+                    MessageBox.Show(t.Message.ToString());
+                }
             }
+            //RenameCategory category = new RenameCategory();
+            //categoryRename = categorieNameList.SelectedItem.ToString();
+            //if (categoryRename == null)
+            //{
+            //    MessageBox.Show("Select Category to Rename");
+            //    return ;
+            //}
+            //else
+            //{
+            //    category.Show();
+            //}
         }
 
         private void LogoutButton_Click(object sender, EventArgs e)
@@ -213,17 +319,18 @@ namespace WinFormsApp
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44317/");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
 
             List<CategoryModelForm> categories = null;
             HttpContent inputContent = new StringContent("application/json", Encoding.UTF8);
             var resultCategory = client.GetAsync("/api/Services/Find_Categories").GetAwaiter().GetResult();
             var jsonStringcategory = await resultCategory.Content.ReadAsStringAsync();
             categories = JsonConvert.DeserializeObject<List<CategoryModelForm>>(jsonStringcategory);
+         
 
             foreach (var item in categories)
             {
-                categorieNameList.Items.Add(item.Name.ToString());
+                CategoryListView.Items.Add(item.Name.ToString());
             }
         }
 
@@ -231,7 +338,7 @@ namespace WinFormsApp
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44317/");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
 
             List<NoteModelForm> notes = null;
             NoteModelForm notesID = new() { IdName = globalUserName };
@@ -240,6 +347,11 @@ namespace WinFormsApp
             var responseNote = client.PostAsync("/api/Services/Find_all_Notes_by_name", inputContentNote).Result;
             var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
             notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
+            if (notes == null)
+            {
+                MessageBox.Show("no categories to show");
+                return;
+            }
 
             foreach (var item in notes)
             {
@@ -257,12 +369,11 @@ namespace WinFormsApp
         private void MoveToCategory_Click(object sender, EventArgs e)
         {
             using var client = new HttpClient();
-
             try
             {
                 client.BaseAddress = new Uri("https://localhost:44317/");
-                CategoryModelForm cate = new() { Name = NotelistView.SelectedItems[0].Text, UserNameId = categorieNameList.SelectedItem.ToString() };
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                CategoryModelForm cate = new() { Name = NotelistView.SelectedItems[0].Text, UserNameId = CategoryListView.SelectedItems[0].Text };
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
                 string inputJsonNote = JsonConvert.SerializeObject(cate);
                 HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
                 var responseNote = client.PostAsync("/api/Services/Move_note_to_category", inputContentNote).Result;
@@ -335,7 +446,7 @@ namespace WinFormsApp
         public void ClearViewList()
         {
             NotelistView.Items.Clear();
-            categorieNameList.Items.Clear();
+            CategoryListView.Items.Clear();
         }
 
         private async void FillterByCategoryButton_Click(object sender, EventArgs e)
@@ -344,22 +455,20 @@ namespace WinFormsApp
             try
             {
                 client.BaseAddress = new Uri("https://localhost:44317/");
-                CategoryModelForm cate = new() { Name = categorieNameList.SelectedItem.ToString() };
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MainForm.globalToken);
+                CategoryModelForm cate = new() { Name = CategoryListView.SelectedItems[0].Text, UserNameId = globalUserName };
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
                 string inputJsonNote = JsonConvert.SerializeObject(cate);
                 HttpContent inputContentNote = new StringContent(inputJsonNote, Encoding.UTF8, "application/json");
                 var responseNote = client.PostAsync("/api/Services/Find_Notes_by_Category", inputContentNote).Result;
                 var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
                 var notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
-                NotelistView.Items.Clear();
 
+                NotelistView.Items.Clear();
                 foreach (var item in notes)
                 {
-                    NotelistView.Items.Clear();
                     ListViewItem list = new ListViewItem(item.Name.ToString());
                     list.SubItems.Add(item.Message.ToString());
                     NotelistView.Items.Add(list);
-                    await DataViewNotes();
                 }
             }
             catch (Exception t)
@@ -370,7 +479,7 @@ namespace WinFormsApp
 
         private void ShowAllButton_Click(object sender, EventArgs e)
         {
-            categorieNameList.Items.Clear();
+            CategoryListView.Items.Clear();
             NotelistView.Items.Clear();
             DataViewNotes();
             DataViewAsyncCategory();
