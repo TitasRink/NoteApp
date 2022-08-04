@@ -10,7 +10,7 @@ using NoteApp.Repository.DataDB;
 namespace NoteApp.Repository.Migrations
 {
     [DbContext(typeof(SqlDB))]
-    [Migration("20220715061507_one")]
+    [Migration("20220722113359_one")]
     partial class one
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,9 @@ namespace NoteApp.Repository.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("NoteModelId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -60,9 +63,11 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImgUrl")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImgUrl")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -90,9 +95,6 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategorieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LoginName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -108,8 +110,6 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategorieId");
 
                     b.ToTable("Users");
                 });
@@ -134,15 +134,6 @@ namespace NoteApp.Repository.Migrations
                     b.HasOne("NoteApp.Repository.Entities.UserModel", null)
                         .WithMany("Notes")
                         .HasForeignKey("UserModelId");
-                });
-
-            modelBuilder.Entity("NoteApp.Repository.Entities.UserModel", b =>
-                {
-                    b.HasOne("NoteApp.Repository.Entities.CategoryModel", "Categorie")
-                        .WithMany()
-                        .HasForeignKey("CategorieId");
-
-                    b.Navigation("Categorie");
                 });
 
             modelBuilder.Entity("NoteApp.Repository.Entities.UserModel", b =>

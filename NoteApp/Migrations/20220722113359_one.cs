@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NoteApp.Repository.Migrations
 {
-    public partial class initialONE : Migration
+    public partial class one : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,8 @@ namespace NoteApp.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NoteModelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,19 +27,14 @@ namespace NoteApp.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CategorieId = table.Column<int>(type: "int", nullable: true)
+                    LoginName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Categories_CategorieId",
-                        column: x => x.CategorieId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,6 +45,8 @@ namespace NoteApp.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgUrl = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserModelId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -94,11 +93,6 @@ namespace NoteApp.Repository.Migrations
                 name: "IX_Notes_UserModelId",
                 table: "Notes",
                 column: "UserModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_CategorieId",
-                table: "Users",
-                column: "CategorieId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -107,13 +101,13 @@ namespace NoteApp.Repository.Migrations
                 name: "CategoryModelNoteModel");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "Notes");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
         }
     }
 }

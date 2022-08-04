@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using NoteApp.Bussness.Interfaces;
 using NoteApp.Repository.DataDB;
 using NoteApp.Repository.Entities;
@@ -16,9 +17,22 @@ namespace NoteApp.Bussness.Services
         {
             Con = con;
         }
+
         public NoteService()
         {
+        }
 
+        public void Img(string name, string imgPath)
+        {
+            var insideNote = Con.Notes.FirstOrDefault(x => x.Name == name).Id;
+
+            var nott = Con.Notes.FirstOrDefault(x => x.Id == insideNote);
+
+            nott.ImgPath = imgPath;
+         
+            Con.Categories.Include(x => x.Notes).ToList().ForEach(x =>
+                Con.SaveChanges());
+            
         }
 
         public Result CreateNoteAndMessage(string name, string message, string userNameId)

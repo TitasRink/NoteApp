@@ -59,7 +59,12 @@
             this.WelcomeNoteApp = new System.Windows.Forms.Label();
             this.FillterByCategoryButton = new System.Windows.Forms.Button();
             this.ShowAllButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // UsernameTextBox
@@ -158,7 +163,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(232, 700);
+            this.panel1.Size = new System.Drawing.Size(232, 855);
             this.panel1.TabIndex = 3;
             // 
             // LogedInLabel
@@ -197,14 +202,11 @@
             // 
             // AddNoteButton
             // 
-            this.AddNoteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.AddNoteButton.BackColor = System.Drawing.Color.LightBlue;
             this.AddNoteButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.AddNoteButton.Location = new System.Drawing.Point(274, 561);
             this.AddNoteButton.Name = "AddNoteButton";
-            this.AddNoteButton.Size = new System.Drawing.Size(94, 34);
+            this.AddNoteButton.Size = new System.Drawing.Size(94, 38);
             this.AddNoteButton.TabIndex = 14;
             this.AddNoteButton.Text = "ADD NOTE";
             this.AddNoteButton.UseVisualStyleBackColor = false;
@@ -212,14 +214,11 @@
             // 
             // AddCategoryButton
             // 
-            this.AddCategoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.AddCategoryButton.BackColor = System.Drawing.Color.LightBlue;
             this.AddCategoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.AddCategoryButton.Location = new System.Drawing.Point(496, 130);
             this.AddCategoryButton.Name = "AddCategoryButton";
-            this.AddCategoryButton.Size = new System.Drawing.Size(114, 34);
+            this.AddCategoryButton.Size = new System.Drawing.Size(114, 38);
             this.AddCategoryButton.TabIndex = 13;
             this.AddCategoryButton.Text = "ADD CATEGORY";
             this.AddCategoryButton.UseVisualStyleBackColor = false;
@@ -227,14 +226,11 @@
             // 
             // RenameCategoryButton
             // 
-            this.RenameCategoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.RenameCategoryButton.BackColor = System.Drawing.Color.LightBlue;
             this.RenameCategoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RenameCategoryButton.Location = new System.Drawing.Point(383, 130);
             this.RenameCategoryButton.Name = "RenameCategoryButton";
-            this.RenameCategoryButton.Size = new System.Drawing.Size(94, 34);
+            this.RenameCategoryButton.Size = new System.Drawing.Size(94, 38);
             this.RenameCategoryButton.TabIndex = 20;
             this.RenameCategoryButton.Text = "RENAME";
             this.RenameCategoryButton.UseVisualStyleBackColor = false;
@@ -242,14 +238,11 @@
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.RemoveButton.BackColor = System.Drawing.Color.LightBlue;
             this.RemoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RemoveButton.Location = new System.Drawing.Point(274, 130);
             this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(94, 34);
+            this.RemoveButton.Size = new System.Drawing.Size(94, 38);
             this.RemoveButton.TabIndex = 15;
             this.RemoveButton.Text = "REMOVE";
             this.RemoveButton.UseVisualStyleBackColor = false;
@@ -257,14 +250,13 @@
             // 
             // EditButton
             // 
-            this.EditButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditButton.AllowDrop = true;
+            this.EditButton.AutoEllipsis = true;
             this.EditButton.BackColor = System.Drawing.Color.LightBlue;
             this.EditButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.EditButton.Location = new System.Drawing.Point(496, 561);
             this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(114, 34);
+            this.EditButton.Size = new System.Drawing.Size(114, 38);
             this.EditButton.TabIndex = 16;
             this.EditButton.Text = "EDIT";
             this.EditButton.UseVisualStyleBackColor = false;
@@ -320,14 +312,11 @@
             // 
             // RemoveNoteButton
             // 
-            this.RemoveNoteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.RemoveNoteButton.BackColor = System.Drawing.Color.LightBlue;
             this.RemoveNoteButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RemoveNoteButton.Location = new System.Drawing.Point(383, 561);
             this.RemoveNoteButton.Name = "RemoveNoteButton";
-            this.RemoveNoteButton.Size = new System.Drawing.Size(94, 34);
+            this.RemoveNoteButton.Size = new System.Drawing.Size(94, 38);
             this.RemoveNoteButton.TabIndex = 16;
             this.RemoveNoteButton.Text = "REMOVE";
             this.RemoveNoteButton.UseVisualStyleBackColor = false;
@@ -335,14 +324,11 @@
             // 
             // MoveToCategory
             // 
-            this.MoveToCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.MoveToCategory.BackColor = System.Drawing.Color.LightBlue;
             this.MoveToCategory.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveToCategory.Location = new System.Drawing.Point(742, 561);
             this.MoveToCategory.Name = "MoveToCategory";
-            this.MoveToCategory.Size = new System.Drawing.Size(137, 34);
+            this.MoveToCategory.Size = new System.Drawing.Size(137, 38);
             this.MoveToCategory.TabIndex = 22;
             this.MoveToCategory.Text = "MOVE TO CATEGORY";
             this.MoveToCategory.UseVisualStyleBackColor = false;
@@ -360,14 +346,11 @@
             // 
             // FillterByCategoryButton
             // 
-            this.FillterByCategoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.FillterByCategoryButton.BackColor = System.Drawing.Color.LightBlue;
             this.FillterByCategoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.FillterByCategoryButton.Location = new System.Drawing.Point(496, 87);
             this.FillterByCategoryButton.Name = "FillterByCategoryButton";
-            this.FillterByCategoryButton.Size = new System.Drawing.Size(114, 23);
+            this.FillterByCategoryButton.Size = new System.Drawing.Size(114, 27);
             this.FillterByCategoryButton.TabIndex = 23;
             this.FillterByCategoryButton.Text = "Fillter by Category";
             this.FillterByCategoryButton.UseVisualStyleBackColor = false;
@@ -375,25 +358,62 @@
             // 
             // ShowAllButton
             // 
-            this.ShowAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.ShowAllButton.BackColor = System.Drawing.Color.LightBlue;
             this.ShowAllButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ShowAllButton.Location = new System.Drawing.Point(616, 88);
             this.ShowAllButton.Name = "ShowAllButton";
-            this.ShowAllButton.Size = new System.Drawing.Size(81, 23);
+            this.ShowAllButton.Size = new System.Drawing.Size(81, 27);
             this.ShowAllButton.TabIndex = 24;
             this.ShowAllButton.Text = "Show All";
             this.ShowAllButton.UseVisualStyleBackColor = false;
             this.ShowAllButton.Click += new System.EventHandler(this.ShowAllButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(274, 639);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(94, 24);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Find Photo";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(383, 639);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(496, 23);
+            this.textBox1.TabIndex = 26;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(274, 683);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(212, 160);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(496, 805);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(114, 38);
+            this.button2.TabIndex = 28;
+            this.button2.Text = "Add Photo to Note";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightCyan;
-            this.ClientSize = new System.Drawing.Size(1029, 700);
+            this.ClientSize = new System.Drawing.Size(1029, 855);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.ShowAllButton);
             this.Controls.Add(this.FillterByCategoryButton);
             this.Controls.Add(this.WelcomeNoteApp);
@@ -411,6 +431,7 @@
             this.Text = "Note APP";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -445,5 +466,9 @@
         private System.Windows.Forms.ColumnHeader Img;
         private System.Windows.Forms.Button FillterByCategoryButton;
         private System.Windows.Forms.Button ShowAllButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button2;
     }
 }

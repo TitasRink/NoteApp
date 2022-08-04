@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
+using NoteApp.Bussness.Interfaces;
+using NoteApp.Bussness.Services;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -374,6 +377,33 @@ namespace WinFormsApp
             NotelistView.Items.Clear();
             DataViewNotes();
             DataViewAsyncCategory();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Image Files (*.jpg;*.jepg;.*.gif;) |*.jpg;*.jepg;.*.gif";
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var fileName = openFile.FileName;
+                pictureBox1.Image = new Bitmap(fileName);
+                textBox1.Text = fileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            INoteService noteService = new NoteService();
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("add  photo first");
+            }
+            else
+            {
+                noteService.Img(globalUserName, textBox1.Text);
+                MessageBox.Show("image added");
+            }
+
         }
     }
 }

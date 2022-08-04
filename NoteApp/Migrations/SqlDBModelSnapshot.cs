@@ -58,9 +58,14 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImgUrl")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<int>("CategoryModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImgUrl")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Message")
                         .IsRequired()

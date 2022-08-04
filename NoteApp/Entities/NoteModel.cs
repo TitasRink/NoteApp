@@ -16,8 +16,10 @@ namespace NoteApp.Repository.Entities
         [Required]
         public string Message { get; set; }
 
-        [MaxLength(250)]
+        public string ImgPath{ get; set; }
         public byte[] ImgUrl { get; set; }
+        [ForeignKey("CategoryModel")]
+        public int CategoryModelId { get; set; }
 
         [ForeignKey("UserModel")]
         public int? UserModelId { get; set; }

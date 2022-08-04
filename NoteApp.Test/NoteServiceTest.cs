@@ -12,7 +12,7 @@ namespace NoteApp.Test
         public void CreateNewNoteWithMessage_EnteredValueEmpty_ReturnsFalse()
         {
             // Arrange
-            NoteService note = new NoteService();
+            NoteService note = new();
          
             // Act
             var actualEmpty = note.CreateNoteAndMessage("", "", "");

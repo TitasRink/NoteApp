@@ -10,8 +10,8 @@ using NoteApp.Repository.DataDB;
 namespace NoteApp.Repository.Migrations
 {
     [DbContext(typeof(SqlDB))]
-    [Migration("20220708130511_initialONE")]
-    partial class initialONE
+    [Migration("20220722114401_5454")]
+    partial class _5454
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,6 +60,15 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CategoryModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImgUrl")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -86,22 +95,21 @@ namespace NoteApp.Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategorieId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("LoginName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategorieId");
 
                     b.ToTable("Users");
                 });
@@ -126,15 +134,6 @@ namespace NoteApp.Repository.Migrations
                     b.HasOne("NoteApp.Repository.Entities.UserModel", null)
                         .WithMany("Notes")
                         .HasForeignKey("UserModelId");
-                });
-
-            modelBuilder.Entity("NoteApp.Repository.Entities.UserModel", b =>
-                {
-                    b.HasOne("NoteApp.Repository.Entities.CategoryModel", "Categorie")
-                        .WithMany()
-                        .HasForeignKey("CategorieId");
-
-                    b.Navigation("Categorie");
                 });
 
             modelBuilder.Entity("NoteApp.Repository.Entities.UserModel", b =>
