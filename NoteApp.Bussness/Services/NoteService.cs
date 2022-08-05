@@ -153,6 +153,14 @@ namespace NoteApp.Bussness.Services
         {
             try
             {
+                //var userId= Con.Users.Where(x => x.LoginName == userNameId).FirstOrDefault().Id;
+                //var res = Con.Notes
+                //.Include(i => i.Categories)
+                //.Include(i => i.Images)
+                //.Where(i => i.UserModelId == userId)
+                //.ToList();
+
+
                 var res = Con.Users.Include(x => x.Notes)
                  .Where(x => x.LoginName == userNameId)
                  .FirstOrDefault()
@@ -192,10 +200,17 @@ namespace NoteApp.Bussness.Services
             }
         }
 
-        //public  Result ImgAdd(string name, byte[] ImgUrl)
-        //{
+        public void ImgAdd(string name, byte[] ImgUrl)
+        {
+            var id = Con.Notes.Where(x => x.Name == name).FirstOrDefault().Id;
+            Con.Images.Add(new Image(ImgUrl, id));
+            Con.SaveChanges();
+        }
+        public void ImgAdd(byte[] ImgUrl)
+        {
             
-         
-        //}
+            Con.Images.Add(new Image(ImgUrl, 1));
+            Con.SaveChanges();
+        }
     }
 }

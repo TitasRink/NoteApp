@@ -24,7 +24,7 @@ namespace WinFormsApp
         public string IdName { get; set; }
         public string Name { get; set; }
         public string Message { get; set; }
-        public string ImgUrl { get; set; }
+        public byte[] ImgData { get; set; }
         public int? UserModelId { get; set; }
         public List<CategoryModelForm> Categories { get; set; }
     }

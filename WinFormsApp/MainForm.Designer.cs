@@ -52,7 +52,6 @@
             this.RemoveButton = new System.Windows.Forms.Button();
             this.EditButton = new System.Windows.Forms.Button();
             this.mySqlCommand1 = new MySql.Data.MySqlClient.MySqlCommand();
-            this.categorieNameList = new System.Windows.Forms.ComboBox();
             this.NotelistView = new System.Windows.Forms.ListView();
             this.Name = new System.Windows.Forms.ColumnHeader();
             this.Mesage = new System.Windows.Forms.ColumnHeader();
@@ -68,7 +67,11 @@
             this.NoteMessageTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.AddImageButton = new System.Windows.Forms.Button();
+            this.LoadImageButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // UsernameTextBox
@@ -271,15 +274,6 @@
             this.mySqlCommand1.EnableCaching = false;
             this.mySqlCommand1.Transaction = null;
             // 
-            // categorieNameList
-            // 
-            this.categorieNameList.Location = new System.Drawing.Point(918, 16);
-            this.categorieNameList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.categorieNameList.Name = "categorieNameList";
-            this.categorieNameList.Size = new System.Drawing.Size(212, 23);
-            this.categorieNameList.TabIndex = 14;
-            this.categorieNameList.Text = "Select categorie";
-            // 
             // NotelistView
             // 
             this.NotelistView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -426,12 +420,47 @@
             this.label3.TabIndex = 28;
             this.label3.Text = "Message";
             // 
+            // pictureBox
+            // 
+            this.pictureBox.Location = new System.Drawing.Point(606, 80);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(270, 239);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox.TabIndex = 37;
+            this.pictureBox.TabStop = false;
+            // 
+            // AddImageButton
+            // 
+            this.AddImageButton.BackColor = System.Drawing.Color.LightBlue;
+            this.AddImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.AddImageButton.Location = new System.Drawing.Point(552, 362);
+            this.AddImageButton.Name = "AddImageButton";
+            this.AddImageButton.Size = new System.Drawing.Size(99, 25);
+            this.AddImageButton.TabIndex = 38;
+            this.AddImageButton.Text = "Add Image";
+            this.AddImageButton.UseVisualStyleBackColor = false;
+            this.AddImageButton.Click += new System.EventHandler(this.AddImageButton_Click);
+            // 
+            // LoadImageButton
+            // 
+            this.LoadImageButton.BackColor = System.Drawing.Color.LightBlue;
+            this.LoadImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.LoadImageButton.Location = new System.Drawing.Point(670, 362);
+            this.LoadImageButton.Name = "LoadImageButton";
+            this.LoadImageButton.Size = new System.Drawing.Size(94, 25);
+            this.LoadImageButton.TabIndex = 39;
+            this.LoadImageButton.Text = "Load Image";
+            this.LoadImageButton.UseVisualStyleBackColor = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightCyan;
-            this.ClientSize = new System.Drawing.Size(1164, 713);
+            this.ClientSize = new System.Drawing.Size(904, 713);
+            this.Controls.Add(this.LoadImageButton);
+            this.Controls.Add(this.AddImageButton);
+            this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NoteMessageTextBox);
@@ -447,7 +476,6 @@
             this.Controls.Add(this.RemoveNoteButton);
             this.Controls.Add(this.AddCategoryButton);
             this.Controls.Add(this.NotelistView);
-            this.Controls.Add(this.categorieNameList);
             this.Controls.Add(this.EditButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.RemoveButton);
@@ -455,6 +483,7 @@
             this.Text = "Note APP";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -479,7 +508,6 @@
         private System.Windows.Forms.Label LogedInLabel;
         private System.Windows.Forms.Button RenameCategoryButton;
         private MySql.Data.MySqlClient.MySqlCommand mySqlCommand1;
-        public System.Windows.Forms.ComboBox categorieNameList;
         private System.Windows.Forms.ListView NotelistView;
         private System.Windows.Forms.Button RemoveNoteButton;
         private System.Windows.Forms.Button MoveToCategory;
@@ -495,5 +523,8 @@
         private System.Windows.Forms.TextBox NoteMessageTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Button AddImageButton;
+        private System.Windows.Forms.Button LoadImageButton;
     }
 }

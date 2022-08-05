@@ -67,13 +67,6 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("Find_all_Notes_by_category"), Authorize]
-        //public ActionResult FindNotesByCastegory(string category)
-        //{
-        //    var result = _noteService.FilterByCategory(category);
-        //    return Ok(result);
-        //}
-
         [HttpPost("Find_all_Notes_by_name"), Authorize]
         public ActionResult FindNotesByName(NoteDTO note)
         {
@@ -95,11 +88,10 @@ namespace NoteApp.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("AddImg"), Authorize]
-        //public ActionResult ImgAdd(NoteDTO note)
-        //{
-        //    var a = _noteService.ImgAdd(note.Name);
-        //    return Ok(a);
-        //}
+        [HttpPost("AddImg"), Authorize]
+        public void ImgAdd(NoteDTO note)
+        {
+            _noteService.ImgAdd(note.Name, note.Data);
+        }
     }
 }

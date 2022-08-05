@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -347,11 +349,7 @@ namespace WinFormsApp
             var responseNote = client.PostAsync("/api/Services/Find_all_Notes_by_name", inputContentNote).Result;
             var jsonStringNote = await responseNote.Content.ReadAsStringAsync();
             notes = JsonConvert.DeserializeObject<List<NoteModelForm>>(jsonStringNote);
-            if (notes == null)
-            {
-                MessageBox.Show("no categories to show");
-                return;
-            }
+         
 
             foreach (var item in notes)
             {
@@ -408,7 +406,6 @@ namespace WinFormsApp
             LogedInLabel.Show();
             RemoveButton.Show();
             RenameCategoryButton.Show();
-            categorieNameList.Show();
             RemoveNoteButton.Show();
             NotelistView.Show();
             MoveToCategory.Show();
@@ -434,7 +431,6 @@ namespace WinFormsApp
             LogedInLabel.Hide();
             RemoveButton.Hide();
             RenameCategoryButton.Hide();
-            categorieNameList.Hide();
             RemoveNoteButton.Hide();
             NotelistView.Hide();
             MoveToCategory.Hide();
@@ -483,6 +479,74 @@ namespace WinFormsApp
             NotelistView.Items.Clear();
             DataViewNotes();
             DataViewAsyncCategory();
+        }
+
+        private async void AddImageButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Image Files (*.jpg;*.jepg;.*.gif;) |*.jpg;*.jepg;.*.gif";
+
+            MemoryStream ms = new MemoryStream();
+            var fileName = openFile.FileName;
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                //pictureBox.Load(openFile.FileName);
+                fileName = openFile.FileName;
+            }
+
+            byte[] imgdata = File.ReadAllBytes(fileName);
+
+
+            //var imageContent = new ByteArrayContent(imgdata);
+            //imageContent.Headers.Add("Bearer", globalToken);
+            //imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
+
+            //using var client = new HttpClient();
+            //client.BaseAddress = new Uri("https://localhost:44317/");
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
+
+
+            //try
+            //{
+
+            //    HttpResponseMessage response = await client.PostAsJsonAsync("/api/Services/AddImg", imageContent);
+
+            //    string responseContent = await response.Content.ReadAsStringAsync();
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
+
+
+
+            using var client = new HttpClient();
+            //client.BaseAddress = new Uri("https://localhost:44317/");
+            //NoteModelForm imageData = new() { ImgData = imgdata, Name = NotelistView.SelectedItems[0].Text };
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
+
+            //var response = client.PostAsJsonAsync("/api/Services/AddImg", imageData).Result;
+
+            client.BaseAddress = new Uri("https://localhost:44317/");
+            NoteModelForm imageModel = new() { Name = NotelistView.SelectedItems[0].Text, ImgData = imgdata };
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", globalToken);
+            string inputJson = JsonConvert.SerializeObject(imageModel);
+            HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+            var response = client.PostAsync("/api/Services/AddImg", inputContent).Result;
+            
+            
+            Console.WriteLine("daasdas");
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    MessageBox.Show("Image Added to Note");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("error");
+            //}
         }
     }
 }
